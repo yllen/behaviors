@@ -39,5 +39,5 @@ if (isset($_POST["update"])) {
 
    glpi_header($_SERVER['HTTP_REFERER']);
 }
-displayErrorAndDie('Lost');
+glpi_header($CFG_GLPI["root_doc"]."/front/config.form.php?forcetab=behaviors_1");
 ?>

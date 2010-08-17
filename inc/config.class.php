@@ -164,7 +164,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
       echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
       echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
-      echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
 
       echo "<td>".$LANG['common'][26]."&nbsp;:</td><td>";
       echo convDateTime($config->fields["date_mod"]);

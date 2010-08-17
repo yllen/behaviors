@@ -32,9 +32,11 @@
 function plugin_init_behaviors() {
    global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
 
-   if (haveRight("config","w") || haveRight("profile","w")) {
+   if (haveRight("config","w")) {
       $PLUGIN_HOOKS['headings']['behaviors']        = array('PluginBehaviorsConfig', 'getHeadings');
       $PLUGIN_HOOKS['headings_action']['behaviors'] = array('PluginBehaviorsConfig', 'showHeadings');
+
+      $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
    }
    $PLUGIN_HOOKS['pre_item_add']['behaviors']    = array('Ticket' => array('PluginBehaviorsTicket','beforeAdd'));
 }
