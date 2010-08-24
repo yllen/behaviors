@@ -38,7 +38,11 @@ function plugin_init_behaviors() {
 
       $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
    }
-   $PLUGIN_HOOKS['pre_item_add']['behaviors']    = array('Ticket' => array('PluginBehaviorsTicket','beforeAdd'));
+   $PLUGIN_HOOKS['pre_item_add']['behaviors']
+      = array('Ticket' => array('PluginBehaviorsTicket','beforeAdd'));
+
+   $PLUGIN_HOOKS['pre_item_update']['behaviors']
+      = array('Ticket' => array('PluginBehaviorsTicket','beforeUpdate'));
 }
 
 function plugin_version_behaviors() {

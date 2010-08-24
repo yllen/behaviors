@@ -74,6 +74,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `id` int(11) NOT NULL,
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
+                     `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
@@ -128,9 +130,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
 
-      echo "<td rowspan='8'>".$LANG['common'][25]."&nbsp;:</td>";
-      echo "<td rowspan='8' class='middle'>";
+      echo "<td rowspan='9' class='top'>".$LANG['common'][25]."&nbsp;:</td>";
+      echo "<td rowspan='9' class='top'>";
       echo "<textarea cols='45' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<br>".$LANG['common'][26]."&nbsp;: ";
+      echo convDateTime($config->fields["date_mod"]);
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
@@ -142,33 +146,38 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_requester_user_group", $config->fields['use_requester_user_group']);
-      echo "</td>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_user_group_filter' value='".
            htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES)."' size='30'>";
-      echo "</td>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_assign_user_group", $config->fields['use_assign_user_group']);
-      echo "</td>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_tech_group_filter' value='".
            htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES)."' size='30'>";
-      echo "</td>";
+      echo "</td></tr>";
 
-      echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
-      echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
-      echo "</tr><tr class='tab_bg_1'><td colspan='2'>&nbsp;</td>";
+      echo "<tr class='tab_bg_1'>"; // Ticket - Update
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][38].' - '.$LANG['buttons'][14];
+      echo "</td></tr>";
 
-      echo "<td>".$LANG['common'][26]."&nbsp;:</td><td>";
-      echo convDateTime($config->fields["date_mod"]);
-      echo "</td>";
-      echo "</tr>";
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][7]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("is_ticketrealtime_mandatory", $config->fields['is_ticketrealtime_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][8]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("is_ticketsolutiontype_mandatory", $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
 

@@ -29,42 +29,9 @@
 
 class PluginBehaviorsTicket {
 
-   static function getUserGroup ($entity, $userid, $filter='') {
-      global $DB;
-
-      $config = PluginBehaviorsConfig::getInstance();
-
-      $query = "SELECT glpi_groups.id
-                FROM glpi_groups_users
-                INNER JOIN glpi_groups ON (glpi_groups.id = glpi_groups_users.groups_id)
-                WHERE glpi_groups_users.users_id='$userid'".
-                getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
-
-      $crit = ($filter ? $config->getField($filter) : '');
-      if ($crit) {
-         $query .= "AND ($crit)";
-      }
-      foreach ($DB->request($query) as $data) {
-         //logDebug("getUserGroup($entity,$userid,$filter):", $data['id']);
-         return ($data['id']);
-      }
-      //logDebug("getUserGroup($entity,$userid,$filter): Not found");
-      return 0;
-   }
-
-   static function getRequesterGroup ($entity, $userid) {
-
-      return self::getUserGroup($entity, $userid, 'sql_user_group_filter');
-   }
-
-   static function getTechnicianGroup ($entity, $userid) {
-
-      return self::getUserGroup($entity, $userid, 'sql_tech_group_filter');
-   }
-
    static function beforeAdd(Ticket $ticket) {
-      // logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
 
+      // logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('use_requester_item_group')
@@ -85,18 +52,61 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['users_id'])
           && $ticket->input['users_id']>0
           && (!isset($ticket->input['groups_id']) || $ticket->input['groups_id']<=0)) {
-        $ticket->input['groups_id'] = self::getRequesterGroup($ticket->input['entities_id'],
-                                                              $ticket->input['users_id']);
+         $ticket->input['groups_id']
+            = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
+                                                     $ticket->input['users_id']);
       }
 
       if ($config->getField('use_assign_user_group')
           && isset($ticket->input['users_id_assign'])
           && $ticket->input['users_id_assign']>0
           && (!isset($ticket->input['groups_id_assign']) || $ticket->input['groups_id_assign']<=0)) {
-        $ticket->input['groups_id_assign'] = self::getTechnicianGroup($ticket->input['entities_id'],
-                                                                      $ticket->input['users_id_assign']);
+         $ticket->input['groups_id_assign']
+            = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
+                                                      $ticket->input['users_id_assign']);
       }
       // logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
+   }
+   static function beforeUpdate(Ticket $ticket) {
+      global $LANG;
+
+      //logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
+      $config = PluginBehaviorsConfig::getInstance();
+
+      // Check is the connected user is a tech
+      if (!is_numeric(getLoginUserID(false)) || !haveRight('own_ticket',1)) {
+         return false; // No check
+      }
+
+      $sol = (isset($ticket->input['ticketsolutiontypes_id'])
+                    ? $ticket->input['ticketsolutiontypes_id']
+                    : $ticket->fields['ticketsolutiontypes_id']);
+      $dur = (isset($ticket->input['realtime'])
+                    ? $ticket->input['realtime']
+                    : $ticket->fields['realtime']);
+
+      // Wand to solve/close the ticket
+      if ((isset($ticket->input['ticketsolutiontypes_id'])
+             &&  $ticket->input['ticketsolutiontypes_id'])
+          || (isset($ticket->input['status'])
+             && in_array($ticket->input['status'], array('solved','closed')))) {
+
+         if ($config->getField('is_ticketrealtime_mandatory')) {
+            if (!$dur) {
+               unset($ticket->input['status']);
+               unset($ticket->input['ticketsolutiontypes_id']);
+               addMessageAfterRedirect($LANG['plugin_behaviors'][101], true, ERROR);
+            }
+         }
+         if ($config->getField('is_ticketsolutiontype_mandatory')) {
+            if (!$sol) {
+               unset($ticket->input['status']);
+               addMessageAfterRedirect($LANG['plugin_behaviors'][100], true, ERROR);
+            }
+         }
+      }
+
+      //logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
    }
 }
 ?>
