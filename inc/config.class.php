@@ -151,7 +151,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_user_group_filter' value='".
-           htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES)."' size='30'>";
+           htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='30'>";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -162,7 +162,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_tech_group_filter' value='".
-           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES)."' size='30'>";
+           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='30'>";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
