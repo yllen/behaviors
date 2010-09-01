@@ -27,23 +27,20 @@
  ------------------------------------------------------------------------
 */
 
-class PluginBehaviorsInfocom {
+class PluginBehaviorsPeripheral extends PluginBehaviorsCommon {
 
-   static function setUseDate (CommonDBTM $item) {
+   static function afterAdd(Peripheral $periph) {
 
-      $type = $item->getType();
-      $infocom = new Infocom();
+      // logDebug("PluginBehaviorsPeripheral::afterAdd(), Peripheral=", $periph);
 
-      if ($infocom->getFromDBforDevice($type, $item->fields['id'])) {
-         if (is_null($infocom->fields['use_date'])) {
-            $infocom->update(array('id'       => $infocom->fields['id'],
-                                   'use_date' => $_SESSION['glpi_currenttime']));
-         }
-      } else {
-         $infocom->add(array('itemtype' => $type,
-                             'items_id' => $item->fields['id'],
-                             'use_date' => $_SESSION['glpi_currenttime']));
-      }
+      parent::setUseDateOnStateAfterAdd($periph);
+   }
+
+   static function afterUpdate(Peripheral $periph) {
+
+      // logDebug("PluginBehaviorsPeripheral::afterUpdate(), Peripheral=", $periph);
+
+      parent::setUseDateOnStateAfterUpdate($periph);
    }
 }
 ?>

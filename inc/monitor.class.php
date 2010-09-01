@@ -27,23 +27,20 @@
  ------------------------------------------------------------------------
 */
 
-class PluginBehaviorsInfocom {
+class PluginBehaviorsMonitor extends PluginBehaviorsCommon {
 
-   static function setUseDate (CommonDBTM $item) {
+   static function afterAdd(Monitor $monitor) {
 
-      $type = $item->getType();
-      $infocom = new Infocom();
+      // logDebug("PluginBehaviorsMonitor::afterAdd(), Monitor=", $monitor);
 
-      if ($infocom->getFromDBforDevice($type, $item->fields['id'])) {
-         if (is_null($infocom->fields['use_date'])) {
-            $infocom->update(array('id'       => $infocom->fields['id'],
-                                   'use_date' => $_SESSION['glpi_currenttime']));
-         }
-      } else {
-         $infocom->add(array('itemtype' => $type,
-                             'items_id' => $item->fields['id'],
-                             'use_date' => $_SESSION['glpi_currenttime']));
-      }
+      parent::setUseDateOnStateAfterAdd($monitor);
+   }
+
+   static function afterUpdate(Monitor $monitor) {
+
+      // logDebug("PluginBehaviorsMonitor::afterUpdate(), Monitor=", $monitor);
+
+      parent::setUseDateOnStateAfterUpdate($monitor);
    }
 }
 ?>

@@ -38,17 +38,31 @@ function plugin_init_behaviors() {
 
       $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
    }
-   $PLUGIN_HOOKS['item_add']['behaviors']
-      = array('Computer' => array('PluginBehaviorsComputer','afterAdd'));
+   $PLUGIN_HOOKS['item_add']['behaviors'] = array(
+      'Computer'           => array('PluginBehaviorsComputer',          'afterAdd'),
+      'Monitor'            => array('PluginBehaviorsMonitor',           'afterAdd'),
+      'NetworkEquipment'   => array('PluginBehaviorsNetworkEquipment',  'afterAdd'),
+      'Peripheral'         => array('PluginBehaviorsPeripheral',        'afterAdd'),
+      'Phone'              => array('PluginBehaviorsPhone',             'afterAdd'),
+      'Printer'            => array('PluginBehaviorsPrinter',           'afterAdd'),
+   );
 
-   $PLUGIN_HOOKS['item_update']['behaviors']
-      = array('Computer' => array('PluginBehaviorsComputer','afterUpdate'));
+   $PLUGIN_HOOKS['item_update']['behaviors'] = array(
+      'Computer'           => array('PluginBehaviorsComputer',          'afterUpdate'),
+      'Monitor'            => array('PluginBehaviorsMonitor',           'afterUpdate'),
+      'NetworkEquipment'   => array('PluginBehaviorsNetworkEquipment',  'afterUpdate'),
+      'Peripheral'         => array('PluginBehaviorsPeripheral',        'afterUpdate'),
+      'Phone'              => array('PluginBehaviorsPhone',             'afterUpdate'),
+      'Printer'            => array('PluginBehaviorsPrinter',           'afterUpdate'),
+   );
 
-   $PLUGIN_HOOKS['pre_item_add']['behaviors']
-      = array('Ticket' => array('PluginBehaviorsTicket','beforeAdd'));
+   $PLUGIN_HOOKS['pre_item_add']['behaviors'] = array(
+      'Ticket'    => array('PluginBehaviorsTicket',   'beforeAdd')
+   );
 
-   $PLUGIN_HOOKS['pre_item_update']['behaviors']
-      = array('Ticket' => array('PluginBehaviorsTicket','beforeUpdate'));
+   $PLUGIN_HOOKS['pre_item_update']['behaviors'] = array(
+      'Ticket'    => array('PluginBehaviorsTicket',   'beforeUpdate')
+   );
 }
 
 function plugin_version_behaviors() {

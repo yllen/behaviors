@@ -27,29 +27,20 @@
  ------------------------------------------------------------------------
 */
 
-class PluginBehaviorsComputer {
+class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
    static function afterAdd(Computer $comp) {
 
-      logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
-      $config = PluginBehaviorsConfig::getInstance();
+      // logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
 
-      if ($config->getField('set_use_date_on_state')>0
-          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
-         PluginBehaviorsInfocom::setUseDate($comp);
-      }
+      parent::setUseDateOnStateAfterAdd($comp);
    }
 
    static function afterUpdate(Computer $comp) {
 
-      logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
-      $config = PluginBehaviorsConfig::getInstance();
+      // logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
 
-      if ($config->getField('set_use_date_on_state')>0
-          && in_array('states_id', $comp->updates)
-          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
-         PluginBehaviorsInfocom::setUseDate($comp);
-      }
+      parent::setUseDateOnStateAfterUpdate($comp);
    }
 }
 ?>

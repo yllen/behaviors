@@ -27,22 +27,26 @@
  ------------------------------------------------------------------------
 */
 
-class PluginBehaviorsInfocom {
+class PluginBehaviorsCommon {
 
-   static function setUseDate (CommonDBTM $item) {
+   static protected function setUseDateOnStateAfterAdd(CommonDBTM $comp) {
 
-      $type = $item->getType();
-      $infocom = new Infocom();
+      $config = PluginBehaviorsConfig::getInstance();
 
-      if ($infocom->getFromDBforDevice($type, $item->fields['id'])) {
-         if (is_null($infocom->fields['use_date'])) {
-            $infocom->update(array('id'       => $infocom->fields['id'],
-                                   'use_date' => $_SESSION['glpi_currenttime']));
-         }
-      } else {
-         $infocom->add(array('itemtype' => $type,
-                             'items_id' => $item->fields['id'],
-                             'use_date' => $_SESSION['glpi_currenttime']));
+      if ($config->getField('set_use_date_on_state')>0
+          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
+         PluginBehaviorsInfocom::setUseDate($comp);
+      }
+   }
+
+   static protected function setUseDateOnStateAfterUpdate(CommonDBTM $comp) {
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('set_use_date_on_state')>0
+          && in_array('states_id', $comp->updates)
+          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
+         PluginBehaviorsInfocom::setUseDate($comp);
       }
    }
 }

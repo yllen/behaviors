@@ -27,23 +27,20 @@
  ------------------------------------------------------------------------
 */
 
-class PluginBehaviorsInfocom {
+class PluginBehaviorsNetworkEquipment extends PluginBehaviorsCommon {
 
-   static function setUseDate (CommonDBTM $item) {
+   static function afterAdd(NetworkEquipment $network) {
 
-      $type = $item->getType();
-      $infocom = new Infocom();
+      // logDebug("PluginBehaviorsNetworkEquipment::afterAdd(), NetworkEquipment=", $network);
 
-      if ($infocom->getFromDBforDevice($type, $item->fields['id'])) {
-         if (is_null($infocom->fields['use_date'])) {
-            $infocom->update(array('id'       => $infocom->fields['id'],
-                                   'use_date' => $_SESSION['glpi_currenttime']));
-         }
-      } else {
-         $infocom->add(array('itemtype' => $type,
-                             'items_id' => $item->fields['id'],
-                             'use_date' => $_SESSION['glpi_currenttime']));
-      }
+      parent::setUseDateOnStateAfterAdd($network);
+   }
+
+   static function afterUpdate(NetworkEquipment $network) {
+
+      // logDebug("PluginBehaviorsNetworkEquipment::afterUpdate(), NetworkEquipment=", $network);
+
+      parent::setUseDateOnStateAfterUpdate($network);
    }
 }
 ?>

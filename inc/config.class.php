@@ -143,8 +143,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][34]."</td>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['help'][25]."</td>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][34]."</td>";   // User
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['Menu'][38]."</td>";     // Inventory
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
