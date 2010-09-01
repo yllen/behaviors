@@ -66,27 +66,42 @@ class PluginBehaviorsConfig extends CommonDBTM {
    }
 
    static function install() {
-      global $DB;
+      global $DB, $LANG;
 
-      if (!TableExists('glpi_plugin_behaviors_configs')) { //not installed
+      $table = 'glpi_plugin_behaviors_configs';
+      if (!TableExists($table)) { //not installed
 
-         $query = "CREATE TABLE `glpi_plugin_behaviors_configs` (
+         $query = "CREATE TABLE `$table` (
                      `id` int(11) NOT NULL,
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
+                     `set_use_date_on_state` int(11) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
-                   ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ";
-         $DB->query($query) or die($DB->error());
+                   ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+         $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
 
-         $query = "INSERT INTO `glpi_plugin_behaviors_configs` (id, date_mod) VALUES (1, NOW())";
-         $DB->query($query) or die($DB->error());
+         $query = "INSERT INTO `$table` (id, date_mod) VALUES (1, NOW())";
+         $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
+      } else {
+         // Upgrade
+
+         $changes = array();
+
+         if (!FieldExists($table,'set_use_date_on_state')) {
+            $changes[] = "ADD `set_use_date_on_status` int(11) NOT NULL default '0'";
+         }
+
+         if (count($changes)>0) {
+            $query="ALTER TABLE `$table` ".implode($changes, ",\n");
+            $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
+         }
       }
 
       return true;
@@ -128,14 +143,32 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][34]."</td>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['help'][25]."</td>";
+      echo "</tr>";
 
-      echo "<td rowspan='9' class='top'>".$LANG['common'][25]."&nbsp;:</td>";
-      echo "<td rowspan='9' class='top'>";
-      echo "<textarea cols='45' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
+      echo "<input type='text' name='sql_user_group_filter' value='".
+           htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
+      echo "</td><td>".$LANG['plugin_behaviors'][9]."&nbsp;:</td><td>";;
+      Dropdown::show('State', array('name'  => 'set_use_date_on_state',
+                                    'value' => $config->fields['set_use_date_on_state']));
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
+      echo "<input type='text' name='sql_tech_group_filter' value='".
+           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
+      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo convDateTime($config->fields["date_mod"]);
       echo "</td></tr>\n";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
@@ -149,20 +182,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
-      echo "<input type='text' name='sql_user_group_filter' value='".
-           htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='30'>";
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_assign_user_group", $config->fields['use_assign_user_group']);
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
-      echo "<input type='text' name='sql_tech_group_filter' value='".
-           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='30'>";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
@@ -172,7 +193,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][7]."&nbsp;:</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory", $config->fields['is_ticketrealtime_mandatory']);
-      echo "</td></tr>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][8]."&nbsp;:</td><td>";

@@ -38,6 +38,12 @@ function plugin_init_behaviors() {
 
       $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
    }
+   $PLUGIN_HOOKS['item_add']['behaviors']
+      = array('Computer' => array('PluginBehaviorsComputer','afterAdd'));
+
+   $PLUGIN_HOOKS['item_update']['behaviors']
+      = array('Computer' => array('PluginBehaviorsComputer','afterUpdate'));
+
    $PLUGIN_HOOKS['pre_item_add']['behaviors']
       = array('Ticket' => array('PluginBehaviorsTicket','beforeAdd'));
 
@@ -49,7 +55,7 @@ function plugin_version_behaviors() {
    global $LANG;
 
    return array('name'           => $LANG['plugin_behaviors'][0],
-                'version'        => '0.1.0',
+                'version'        => '0.1.1',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
                 'minGlpiVersion' => '0.78');// For compatibility / no install in version < 0.72

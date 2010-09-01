@@ -39,6 +39,7 @@ $LANG['plugin_behaviors'][5] = "Filtre SQL invalide";
 $LANG['plugin_behaviors'][6] = "Prendre le groupe du technicien";
 $LANG['plugin_behaviors'][7] = "Durée obligatoire pour résoudre/fermer un ticket";
 $LANG['plugin_behaviors'][8] = "Type de solution obligatoire pour résoudre/fermer un ticket";
+$LANG['plugin_behaviors'][9] = "Renseigner la date de mise en service lors du passage au statut";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";

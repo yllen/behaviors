@@ -39,6 +39,7 @@ $LANG['plugin_behaviors'][5] = "Invalid SQL filter";
 $LANG['plugin_behaviors'][6] = "Use the technician's group";
 $LANG['plugin_behaviors'][7] = "Duration is mandatory before ticket is solved/closed";
 $LANG['plugin_behaviors'][8] = "Type of solution is mandatory before ticket is solved/closed";
+$LANG['plugin_behaviors'][9] = "Set the financial startup date when new status is";
 
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";
