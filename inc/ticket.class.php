@@ -48,6 +48,15 @@ class PluginBehaviorsTicket {
         }
       }
 
+      // No Auto set Import for external source -> Duplicate from Ticket->prepareInputForAdd()
+      if (!isset($ticket->input['_auto_import'])) {
+         if (!isset($ticket->input['users_id'])) {
+            if ($uid=getLoginUserID()) {
+               $ticket->input['users_id'] = $uid;
+            }
+         }
+      }
+
       if ($config->getField('use_requester_user_group')
           && isset($ticket->input['users_id'])
           && $ticket->input['users_id']>0
