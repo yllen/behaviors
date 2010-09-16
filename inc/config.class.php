@@ -81,6 +81,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `set_use_date_on_state` int(11) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
+                     `tickets_id_format` VARCHAR(15) NULL,
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -96,6 +97,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          if (!FieldExists($table,'set_use_date_on_state')) {
             $changes[] = "ADD `set_use_date_on_status` int(11) NOT NULL default '0'";
+         }
+         if (!FieldExists($table,'tickets_id_format')) {
+            $changes[] = "ADD `tickets_id_format` VARCHAR( 15 ) NULL";
          }
 
          if (count($changes)>0) {
@@ -160,7 +164,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_tech_group_filter' value='".
            htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
-      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<td rowspan='9' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
       echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo convDateTime($config->fields["date_mod"]);
@@ -171,10 +175,18 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][10]."&nbsp;:</td><td>";
+      $tab = array('NULL' => '-----');
+      foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
+         $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
+      }
+      Dropdown::showFromArray("tickets_id_format", $tab, array('value' => $config->fields['tickets_id_format']));
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
-      echo "</td>";
-      echo "</tr>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";

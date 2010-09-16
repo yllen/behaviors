@@ -30,9 +30,23 @@
 class PluginBehaviorsTicket {
 
    static function beforeAdd(Ticket $ticket) {
+      global $DB;
 
       // logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('tickets_id_format')) {
+         $max = 0;
+         $sql = 'SELECT MAX( id ) AS max
+                 FROM `glpi_tickets`';
+         foreach ($DB->request($sql) as $data) {
+            $max = $data['max'];
+         }
+         $want = date($config->getField('tickets_id_format'));
+         if ($max < $want) {
+            $DB->query("ALTER TABLE `glpi_tickets` AUTO_INCREMENT=$want");
+         }
+      }
 
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['itemtype'])
