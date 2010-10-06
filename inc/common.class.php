@@ -33,7 +33,8 @@ class PluginBehaviorsCommon {
 
       $config = PluginBehaviorsConfig::getInstance();
 
-      if ($config->getField('set_use_date_on_state')>0
+      if (isset($comp->fields['states_id'])
+          && $config->getField('set_use_date_on_state')>0
           && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
          PluginBehaviorsInfocom::setUseDate($comp);
       }
