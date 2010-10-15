@@ -86,9 +86,10 @@ if ($state && $entity && $ent->getFromDB($entity)) {
                   FROM glpi_logs
                   WHERE itemtype = '".$row['itemtype']."'
                     AND items_id = '".$row['items_id']."'
-                    AND linked_action = 0
-                    AND id_search_option = 31
-                    AND new_value = '$state'
+                    AND (linked_action = '".HISTORY_OCS_IMPORT."'
+                         OR (linked_action = 0
+                             AND id_search_option = 31
+                             AND new_value = '$state'))
                   ORDER BY id";
       foreach ($DB->request($sqldat) as $event) {
          $usedate = substr($event['date_mod'],0,10);
