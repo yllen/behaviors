@@ -42,5 +42,17 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
       parent::setUseDateOnStateAfterUpdate($comp);
    }
+
+   static function beforePurge(Computer $comp) {
+
+      // logDebug("PluginBehaviorsComputer::beforePurge(), Computer=", $comp);
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('remove_from_ocs')>0
+          && class_exists('PluginUninstallUninstall')) {
+         PluginUninstallUninstall::deleteComputerInOCSByGlpiID($comp->fields['id']);
+      }
+   }
 }
 ?>

@@ -38,6 +38,7 @@ function plugin_init_behaviors() {
 
       $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
    }
+
    $PLUGIN_HOOKS['item_add']['behaviors'] = array(
       'Computer'           => array('PluginBehaviorsComputer',          'afterAdd'),
       'Monitor'            => array('PluginBehaviorsMonitor',           'afterAdd'),
@@ -63,13 +64,17 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] = array(
       'Ticket'    => array('PluginBehaviorsTicket',   'beforeUpdate')
    );
+
+   $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
+      'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
+   );
 }
 
 function plugin_version_behaviors() {
    global $LANG;
 
    return array('name'           => $LANG['plugin_behaviors'][0],
-                'version'        => '0.1.2',
+                'version'        => '0.1.3',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
                 'minGlpiVersion' => '0.78');// For compatibility / no install in version < 0.72
@@ -79,11 +84,11 @@ function plugin_version_behaviors() {
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_behaviors_check_prerequisites() {
 
-   if (GLPI_VERSION >= 0.78) {
-      return true;
-   } else {
-      echo "GLPI version not compatible need 0.78";
+   if (version_compare(GLPI_VERSION,'0.78.3','lt') || version_compare(GLPI_VERSION,'0.80','ge')) {
+      echo "This plugin requires GLPI >= 0.78.3 and GLPI < 0.80";
+      return false;
    }
+   return true;
 }
 
 

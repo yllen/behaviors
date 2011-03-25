@@ -82,6 +82,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
                      `tickets_id_format` VARCHAR(15) NULL,
+                     `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -101,9 +102,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
          if (!FieldExists($table,'tickets_id_format')) {
             $changes[] = "ADD `tickets_id_format` VARCHAR( 15 ) NULL";
          }
+         if (!FieldExists($table,'remove_from_ocs')) {
+            $changes[] = "ADD `remove_from_ocs` tinyint(1) NOT NULL default '0'";
+         }
 
          if (count($changes)>0) {
-            $query="ALTER TABLE `$table` ".implode($changes, ",\n");
+            $query="ALTER TABLE `$table` ".implode(",\n", $changes);
             $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
          }
       }
@@ -163,16 +167,23 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_tech_group_filter' value='".
-           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
-      echo "<td rowspan='9' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
-      echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
-      echo "<br>".$LANG['common'][26]."&nbsp;: ";
-      echo convDateTime($config->fields["date_mod"]);
+           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'></td>";
+      echo "<td>".$LANG['plugin_behaviors'][11]."&nbsp;:</td><td>";
+      $plugin = new Plugin();
+      if ($plugin->isActivated('uninstall')) {
+         Dropdown::showYesNo('remove_from_ocs', $config->fields['remove_from_ocs']);
+      } else {
+         echo $LANG['plugin_behaviors'][12];
+      }
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
-      echo "</tr>";
+      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<br>".$LANG['common'][26]."&nbsp;: ";
+      echo convDateTime($config->fields["date_mod"]);
+      echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][10]."&nbsp;:</td><td>";
