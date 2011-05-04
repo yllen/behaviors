@@ -77,6 +77,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
                      `set_use_date_on_state` int(11) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
@@ -104,6 +105,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
          }
          if (!FieldExists($table,'remove_from_ocs')) {
             $changes[] = "ADD `remove_from_ocs` tinyint(1) NOT NULL default '0'";
+         }
+         if (!FieldExists($table,'is_requester_mandatory')) {
+            $changes[] = "ADD `is_requester_mandatory` tinyint(1) NOT NULL default '0'";
          }
 
          if (count($changes)>0) {
@@ -179,7 +183,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
-      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<td rowspan='9' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
       echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo convDateTime($config->fields["date_mod"]);
@@ -207,6 +211,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_assign_user_group", $config->fields['use_assign_user_group']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][13]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update

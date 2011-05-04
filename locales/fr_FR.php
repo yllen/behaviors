@@ -43,6 +43,7 @@ $LANG['plugin_behaviors'][9] = "Renseigner la date de mise en service lors du pa
 $LANG['plugin_behaviors'][10] = "Format de numérotation des tickets";
 $LANG['plugin_behaviors'][11] = "Supprimer la machine dans OCS lors de la purge dans GLPI";
 $LANG['plugin_behaviors'][12] = "Le plugin \"Désinstallation d'un matériel\" n'est pas installé";
+$LANG['plugin_behaviors'][13] = "Demandeur obligatoire";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";

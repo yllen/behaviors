@@ -30,10 +30,16 @@
 class PluginBehaviorsTicket {
 
    static function beforeAdd(Ticket $ticket) {
-      global $DB;
+      global $DB, $LANG;
 
       // logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('is_requester_mandatory') && !$ticket->input['users_id']) {
+         addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
+         $ticket->input = array();
+         return true;
+      }
 
       if ($config->getField('tickets_id_format')) {
          $max = 0;

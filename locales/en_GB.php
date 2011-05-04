@@ -43,6 +43,7 @@ $LANG['plugin_behaviors'][9] = "Set the financial startup date when new status i
 $LANG['plugin_behaviors'][10] = "Ticket's number format";
 $LANG['plugin_behaviors'][11] = "Delete computer in OCS when purged from GLPI";
 $LANG['plugin_behaviors'][12] = "Plugin \"Item's uninstallation\" not installed";
+$LANG['plugin_behaviors'][13] = "Requester is mandatory";
 
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";
