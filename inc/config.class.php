@@ -78,6 +78,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
@@ -104,6 +105,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          }
          if (!FieldExists($table,'is_requester_mandatory')) {
             $changes[] = "ADD `is_requester_mandatory` tinyint(1) NOT NULL default '0'";
+         }
+         // version 0.1.5 - feature #2801 Forbid change of ticket's creation date
+         if (!FieldExists($table,'is_ticketdate_locked')) {
+            $changes[] = "ADD `is_ticketdate_locked` tinyint(1) NOT NULL default '0'";
          }
          // Version 0.2.0 - set_use_date_on_state now handle in GLPI
          if (FieldExists($table,'set_use_date_on_state')) {
@@ -181,8 +186,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
-      echo "<td rowspan='9' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
-      echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<td rowspan='10' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo convDateTime($config->fields["date_mod"]);
       echo "</td></tr>\n";
@@ -228,6 +233,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][8]."&nbsp;:</td><td>";
       Dropdown::showYesNo("is_ticketsolutiontype_mandatory", $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][14]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));

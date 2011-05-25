@@ -107,6 +107,12 @@ class PluginBehaviorsTicket {
          return false; // No check
       }
 
+      if (isset($ticket->input['date'])) {
+         if ($config->getField('is_ticketdate_locked')) {
+            unset($ticket->input['date']);
+         }
+      }
+
       $sol = (isset($ticket->input['ticketsolutiontypes_id'])
                     ? $ticket->input['ticketsolutiontypes_id']
                     : $ticket->fields['ticketsolutiontypes_id']);
