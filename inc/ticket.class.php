@@ -110,9 +110,9 @@ class PluginBehaviorsTicket {
       $sol = (isset($ticket->input['ticketsolutiontypes_id'])
                     ? $ticket->input['ticketsolutiontypes_id']
                     : $ticket->fields['ticketsolutiontypes_id']);
-      $dur = (isset($ticket->input['realtime'])
-                    ? $ticket->input['realtime']
-                    : $ticket->fields['realtime']);
+      $dur = (isset($ticket->input['actiontime'])
+                    ? $ticket->input['actiontime']
+                    : $ticket->fields['actiontime']);
 
       // Wand to solve/close the ticket
       if ((isset($ticket->input['ticketsolutiontypes_id'])
