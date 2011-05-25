@@ -32,15 +32,11 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
    static function afterAdd(Computer $comp) {
 
       // logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
-
-      parent::setUseDateOnStateAfterAdd($comp);
    }
 
    static function afterUpdate(Computer $comp) {
 
       // logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
-
-      parent::setUseDateOnStateAfterUpdate($comp);
    }
 
    static function beforePurge(Computer $comp) {

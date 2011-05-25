@@ -32,15 +32,11 @@ class PluginBehaviorsPhone extends PluginBehaviorsCommon {
    static function afterAdd(Phone $phone) {
 
       // logDebug("PluginBehaviorsPhone::afterAdd(), Phone=", $phone);
-
-      parent::setUseDateOnStateAfterAdd($phone);
    }
 
    static function afterUpdate(Phone $phone) {
 
       // logDebug("PluginBehaviorsPhone::afterUpdate(), Phone=", $phone);
-
-      parent::setUseDateOnStateAfterUpdate($phone);
    }
 }
 ?>

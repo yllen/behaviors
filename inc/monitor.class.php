@@ -32,15 +32,11 @@ class PluginBehaviorsMonitor extends PluginBehaviorsCommon {
    static function afterAdd(Monitor $monitor) {
 
       // logDebug("PluginBehaviorsMonitor::afterAdd(), Monitor=", $monitor);
-
-      parent::setUseDateOnStateAfterAdd($monitor);
    }
 
    static function afterUpdate(Monitor $monitor) {
 
       // logDebug("PluginBehaviorsMonitor::afterUpdate(), Monitor=", $monitor);
-
-      parent::setUseDateOnStateAfterUpdate($monitor);
    }
 }
 ?>

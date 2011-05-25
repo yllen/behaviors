@@ -79,7 +79,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
-                     `set_use_date_on_state` int(11) NOT NULL default '0',
                      `sql_user_group_filter` varchar(255) default NULL,
                      `sql_tech_group_filter` varchar(255) default NULL,
                      `tickets_id_format` VARCHAR(15) NULL,
@@ -97,9 +96,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          $changes = array();
 
-         if (!FieldExists($table,'set_use_date_on_state')) {
-            $changes[] = "ADD `set_use_date_on_status` int(11) NOT NULL default '0'";
-         }
          if (!FieldExists($table,'tickets_id_format')) {
             $changes[] = "ADD `tickets_id_format` VARCHAR( 15 ) NULL";
          }
@@ -108,6 +104,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          }
          if (!FieldExists($table,'is_requester_mandatory')) {
             $changes[] = "ADD `is_requester_mandatory` tinyint(1) NOT NULL default '0'";
+         }
+         // Version 0.2.0 - set_use_date_on_state now handle in GLPI
+         if (FieldExists($table,'set_use_date_on_state')) {
+            $changes[] = "DROP `set_use_date_on_status`";
          }
 
          if (count($changes)>0) {
@@ -163,9 +163,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_user_group_filter' value='".
            htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
-      echo "</td><td>".$LANG['plugin_behaviors'][9]."&nbsp;:</td><td>";;
-      Dropdown::show('State', array('name'  => 'set_use_date_on_state',
-                                    'value' => $config->fields['set_use_date_on_state']));
+      echo "</td><td colspam='2'>&nbsp;";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

@@ -29,26 +29,5 @@
 
 class PluginBehaviorsCommon {
 
-   static protected function setUseDateOnStateAfterAdd(CommonDBTM $comp) {
-
-      $config = PluginBehaviorsConfig::getInstance();
-
-      if (isset($comp->fields['states_id'])
-          && $config->getField('set_use_date_on_state')>0
-          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
-         PluginBehaviorsInfocom::setUseDate($comp);
-      }
-   }
-
-   static protected function setUseDateOnStateAfterUpdate(CommonDBTM $comp) {
-
-      $config = PluginBehaviorsConfig::getInstance();
-
-      if ($config->getField('set_use_date_on_state')>0
-          && in_array('states_id', $comp->updates)
-          && $config->getField('set_use_date_on_state')==$comp->fields['states_id']) {
-         PluginBehaviorsInfocom::setUseDate($comp);
-      }
-   }
 }
 ?>

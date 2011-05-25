@@ -74,18 +74,18 @@ function plugin_version_behaviors() {
    global $LANG;
 
    return array('name'           => $LANG['plugin_behaviors'][0],
-                'version'        => '0.1.4',
+                'version'        => '0.2.0',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
-                'minGlpiVersion' => '0.78');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '0.80');// For compatibility / no install in version < 0.72
 }
 
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_behaviors_check_prerequisites() {
 
-   if (version_compare(GLPI_VERSION,'0.78.3','lt') || version_compare(GLPI_VERSION,'0.80','ge')) {
-      echo "This plugin requires GLPI >= 0.78.3 and GLPI < 0.80";
+   if (version_compare(GLPI_VERSION,'0.80','lt')) {
+      echo "This plugin requires GLPI >= 0.80";
       return false;
    }
    return true;
