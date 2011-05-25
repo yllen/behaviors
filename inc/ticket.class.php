@@ -32,7 +32,7 @@ class PluginBehaviorsTicket {
    static function beforeAdd(Ticket $ticket) {
       global $DB, $LANG;
 
-      // logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
+      //logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('is_requester_mandatory') && !$ticket->input['users_id']) {
@@ -70,32 +70,34 @@ class PluginBehaviorsTicket {
 
       // No Auto set Import for external source -> Duplicate from Ticket->prepareInputForAdd()
       if (!isset($ticket->input['_auto_import'])) {
-         if (!isset($ticket->input['users_id'])) {
-            if ($uid=getLoginUserID()) {
-               $ticket->input['users_id'] = $uid;
+         if (!isset($ticket->input['_users_id_requester'])) {
+            if ($uid = getLoginUserID()) {
+               $ticket->input['_users_id_requester'] = $uid;
             }
          }
       }
 
       if ($config->getField('use_requester_user_group')
-          && isset($ticket->input['users_id'])
-          && $ticket->input['users_id']>0
-          && (!isset($ticket->input['groups_id']) || $ticket->input['groups_id']<=0)) {
-         $ticket->input['groups_id']
+          && isset($ticket->input['_users_id_requester'])
+          && $ticket->input['_users_id_requester']>0
+          && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
+         $ticket->input['_groups_id_requester']
             = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
-                                                     $ticket->input['users_id']);
+                                                     $ticket->input['_users_id_requester']);
       }
 
       if ($config->getField('use_assign_user_group')
-          && isset($ticket->input['users_id_assign'])
-          && $ticket->input['users_id_assign']>0
-          && (!isset($ticket->input['groups_id_assign']) || $ticket->input['groups_id_assign']<=0)) {
-         $ticket->input['groups_id_assign']
+          && isset($ticket->input['_users_id_assign'])
+          && $ticket->input['_users_id_assign']>0
+          && (!isset($ticket->input['_groups_id_assign']) || $ticket->input['_groups_id_assign']<=0)) {
+         $ticket->input['_groups_id_assign']
             = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
-                                                      $ticket->input['users_id_assign']);
+                                                      $ticket->input['_users_id_assign']);
       }
       // logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
    }
+
+
    static function beforeUpdate(Ticket $ticket) {
       global $LANG;
 
