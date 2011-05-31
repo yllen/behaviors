@@ -46,7 +46,7 @@ $LANG['plugin_behaviors'][10] = "Ticketnummer formaat";
 $LANG['plugin_behaviors'][11] = "Verwijder computers in OCS als ze uit GLPI verwijderd worden";
 $LANG['plugin_behaviors'][12] = "Plugin \"Item's uninstallation\" niet ge�nstalleerd";
 $LANG['plugin_behaviors'][13] = "Aanvrager is verplicht";
-$LANG['plugin_behaviors'][14] = "Deny change of ticket's creation date";
+$LANG['plugin_behaviors'][14] = "Weiger het veranderen van de aanmaakdatum van het ticket";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";
