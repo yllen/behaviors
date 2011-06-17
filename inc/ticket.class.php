@@ -33,6 +33,11 @@ class PluginBehaviorsTicket {
    static function beforeAdd(Ticket $ticket) {
       global $DB, $LANG;
 
+      if (!is_array($ticket->input) || !count($ticket->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
       //logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
@@ -101,6 +106,11 @@ class PluginBehaviorsTicket {
 
    static function beforeUpdate(Ticket $ticket) {
       global $LANG;
+
+      if (!is_array($ticket->input) || !count($ticket->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
 
       //logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
