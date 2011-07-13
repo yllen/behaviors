@@ -169,7 +169,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
       echo "<input type='text' name='sql_user_group_filter' value='".
            htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
-      echo "</td><td colspam='2'>&nbsp;";
+      echo "</td><td colspan='2'>&nbsp;";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
