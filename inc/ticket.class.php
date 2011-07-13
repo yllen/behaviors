@@ -40,11 +40,14 @@ class PluginBehaviorsTicket {
 
       //logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
+      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+         if ($config->getField('is_requester_mandatory') && !$ticket->input['_users_id_requester']) {
+            addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
+            $ticket->input = array();
+            return true;
 
-      if ($config->getField('is_requester_mandatory') && !$ticket->input['users_id']) {
-         addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
-         $ticket->input = array();
-         return true;
+         }
+
       }
 
       if ($config->getField('tickets_id_format')) {
