@@ -38,17 +38,9 @@ class PluginBehaviorsTicket {
          return false;
       }
 
+
       //logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         if ($config->getField('is_requester_mandatory') && !$ticket->input['_users_id_requester']) {
-            addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
-            $ticket->input = array();
-            return true;
-
-         }
-
-      }
 
       if ($config->getField('tickets_id_format')) {
          $max = 0;
@@ -60,6 +52,16 @@ class PluginBehaviorsTicket {
          $want = date($config->getField('tickets_id_format'));
          if ($max < $want) {
             $DB->query("ALTER TABLE `glpi_tickets` AUTO_INCREMENT=$want");
+         }
+      }
+
+      if (!isset($ticket->input['_auto_import'])
+          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+         if ($config->getField('is_requester_mandatory') && !$ticket->input['_users_id_requester']) {
+            addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
+            $ticket->input = array();
+            return true;
+
          }
       }
 
