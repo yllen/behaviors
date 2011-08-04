@@ -100,5 +100,3 @@ function plugin_behaviors_check_config($verbose=false) {
 
    return true;
 }
-
-?>

@@ -162,4 +162,3 @@ class PluginBehaviorsTicket {
       //logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
    }
 }
-?>

@@ -52,4 +52,3 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
       }
    }
 }
-?>

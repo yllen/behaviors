@@ -40,4 +40,3 @@ class PluginBehaviorsPhone extends PluginBehaviorsCommon {
       // logDebug("PluginBehaviorsPhone::afterUpdate(), Phone=", $phone);
    }
 }
-?>

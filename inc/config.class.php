@@ -81,8 +81,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
-                     `sql_user_group_filter` varchar(255) default NULL,
-                     `sql_tech_group_filter` varchar(255) default NULL,
                      `tickets_id_format` VARCHAR(15) NULL,
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
@@ -107,13 +105,20 @@ class PluginBehaviorsConfig extends CommonDBTM {
          if (!FieldExists($table,'is_requester_mandatory')) {
             $changes[] = "ADD `is_requester_mandatory` tinyint(1) NOT NULL default '0'";
          }
-         // version 0.1.5 - feature #2801 Forbid change of ticket's creation date
+         // version 0.78.0 - feature #2801 Forbid change of ticket's creation date
          if (!FieldExists($table,'is_ticketdate_locked')) {
             $changes[] = "ADD `is_ticketdate_locked` tinyint(1) NOT NULL default '0'";
          }
-         // Version 0.2.0 - set_use_date_on_state now handle in GLPI
+         // Version 0.80.0 - set_use_date_on_state now handle in GLPI
          if (FieldExists($table,'set_use_date_on_state')) {
             $changes[] = "DROP `set_use_date_on_status`";
+         }
+         // Version 0.83.0 - groups now have is_requester and is_assign attribute
+         if (FieldExists($table,'sql_user_group_filter')) {
+            $changes[] = "DROP `sql_user_group_filter`";
+         }
+         if (FieldExists($table,'sql_tech_group_filter')) {
+            $changes[] = "DROP `sql_tech_group_filter`";
          }
 
          if (count($changes)>0) {
@@ -161,21 +166,17 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][34]."</td>";   // User
+      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";      // New ticket
       echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['Menu'][38]."</td>";     // Inventory
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][3]."&nbsp;:</td><td>";
-      echo "<input type='text' name='sql_user_group_filter' value='".
-           htmlentities($config->fields['sql_user_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'>";
-      echo "</td><td colspan='2'>&nbsp;";
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][4]."&nbsp;:</td><td>";
-      echo "<input type='text' name='sql_tech_group_filter' value='".
-           htmlentities($config->fields['sql_tech_group_filter'],ENT_QUOTES, 'UTF-8')."' size='25'></td>";
+      echo "<td>".$LANG['plugin_behaviors'][10]."&nbsp;:</td><td>";
+      $tab = array('NULL' => '-----');
+      foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
+         $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
+      }
+      Dropdown::showFromArray("tickets_id_format", $tab, array('value' => $config->fields['tickets_id_format']));
       echo "<td>".$LANG['plugin_behaviors'][11]."&nbsp;:</td><td>";
       $plugin = new Plugin();
       if ($plugin->isActivated('uninstall')) {
@@ -186,26 +187,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";
-      echo "<td rowspan='10' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
+      echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
+      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
       echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo convDateTime($config->fields["date_mod"]);
       echo "</td></tr>\n";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][10]."&nbsp;:</td><td>";
-      $tab = array('NULL' => '-----');
-      foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
-         $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
-      }
-      Dropdown::showFromArray("tickets_id_format", $tab, array('value' => $config->fields['tickets_id_format']));
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
-      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";
@@ -245,46 +233,4 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       return false;
    }
-
-   function prepareInputForAdd($input) {
-      global $LANG, $DB;
-
-      if (isset($input['sql_user_group_filter']) && !empty($input['sql_user_group_filter'])) {
-         $sql = "SELECT id
-                 FROM `glpi_groups`
-                 WHERE (".stripslashes($input['sql_user_group_filter']).")";
-         $res = $DB->query($sql);
-         if ($res) {
-            $DB->free_result($res);
-         } else {
-            addMessageAfterRedirect($LANG['plugin_behaviors'][5] .
-                                       " (".stripslashes($input['sql_user_group_filter']).")",
-                                    false, ERROR);
-            addMessageAfterRedirect($DB->error());
-            unset($input['sql_user_group_filter']);
-         }
-      }
-      if (isset($input['sql_tech_group_filter']) && !empty($input['sql_tech_group_filter'])) {
-         $sql = "SELECT id
-                 FROM `glpi_groups`
-                 WHERE (".stripslashes($input['sql_tech_group_filter']).")";
-         $res = $DB->query($sql);
-         if ($res) {
-            $DB->free_result($res);
-         } else {
-            addMessageAfterRedirect($LANG['plugin_behaviors'][5] .
-                                       " (".stripslashes($input['sql_tech_group_filter']).")",
-                                    false, ERROR);
-            addMessageAfterRedirect($DB->error());
-            unset($input['sql_tech_group_filter']);
-         }
-      }
-      return $input;
-   }
-
-   function prepareInputForUpdate($input) {
-      return $this->prepareInputForAdd($input);
-   }
 }
-
-?>

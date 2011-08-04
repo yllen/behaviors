@@ -40,4 +40,3 @@ class PluginBehaviorsPeripheral extends PluginBehaviorsCommon {
       // logDebug("PluginBehaviorsPeripheral::afterUpdate(), Peripheral=", $periph);
    }
 }
-?>

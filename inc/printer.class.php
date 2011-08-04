@@ -40,4 +40,3 @@ class PluginBehaviorsPrinter extends PluginBehaviorsCommon {
       // logDebug("PluginBehaviorsPrinter::afterUpdate(), Printer=", $printer);
    }
 }
-?>

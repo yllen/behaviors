@@ -35,9 +35,6 @@ $LANG['plugin_behaviors'][0] = "Behaviours";
 // Config
 $LANG['plugin_behaviors'][1] = "Gebruik de aan een item toegewezen groep";
 $LANG['plugin_behaviors'][2] = "Gebruik de aanvragersgroep";
-$LANG['plugin_behaviors'][3] = "SQL filter voor aanvragersgroep";
-$LANG['plugin_behaviors'][4] = "SQL filter voor helpdeskmedewerkersgroep";
-$LANG['plugin_behaviors'][5] = "Verkeerde SQL filter";
 $LANG['plugin_behaviors'][6] = "Gebruik de helpdeskmedewerkersgroep";
 $LANG['plugin_behaviors'][7] = "Tijdsduur is verplciht voor een ticket is opgelost/gesloten";
 $LANG['plugin_behaviors'][8] = "Type oplossing is verplicht voor een ticket is opgelost/gesloten";
@@ -51,4 +48,3 @@ $LANG['plugin_behaviors'][14] = "Weiger het veranderen van de aanmaakdatum van h
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";
 $LANG['plugin_behaviors'][101] = "Kan ticket niet sluiten zonder opgegeven tijdsduur.";
-?>

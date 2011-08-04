@@ -41,27 +41,23 @@ class PluginBehaviorsUser {
                 WHERE glpi_groups_users.users_id='$userid'".
                 getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
 
-      $crit = ($filter ? $config->getField($filter) : '');
-      if ($crit) {
-         $query .= "AND ($crit)";
+      if ($filter) {
+         $query .= "AND ($filter)";
       }
       foreach ($DB->request($query) as $data) {
-         //logDebug("getUserGroup($entity,$userid,$filter):", $data['id']);
          return ($data['id']);
       }
-      //logDebug("getUserGroup($entity,$userid,$filter): Not found");
       return 0;
    }
 
    static function getRequesterGroup ($entity, $userid) {
 
-      return self::getUserGroup($entity, $userid, 'sql_user_group_filter');
+      return self::getUserGroup($entity, $userid, '`is_requester`');
    }
 
    static function getTechnicianGroup ($entity, $userid) {
 
-      return self::getUserGroup($entity, $userid, 'sql_tech_group_filter');
+      return self::getUserGroup($entity, $userid, '`is_assign`');
    }
 
 }
-?>

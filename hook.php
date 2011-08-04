@@ -45,4 +45,3 @@ function plugin_behaviors_uninstall() {
 
    return PluginBehaviorsConfig::uninstall();
 }
-?>

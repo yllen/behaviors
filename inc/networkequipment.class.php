@@ -40,4 +40,3 @@ class PluginBehaviorsNetworkEquipment extends PluginBehaviorsCommon {
       // logDebug("PluginBehaviorsNetworkEquipment::afterUpdate(), NetworkEquipment=", $network);
    }
 }
-?>

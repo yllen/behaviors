@@ -40,4 +40,3 @@ class PluginBehaviorsMonitor extends PluginBehaviorsCommon {
       // logDebug("PluginBehaviorsMonitor::afterUpdate(), Monitor=", $monitor);
    }
 }
-?>

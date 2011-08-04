@@ -33,9 +33,6 @@ $LANG['plugin_behaviors'][0] = "Behaviours";
 // Config
 $LANG['plugin_behaviors'][1] = "Use the associated item's group";
 $LANG['plugin_behaviors'][2] = "Use the requester's group";
-$LANG['plugin_behaviors'][3] = "SQL filter for requester's group";
-$LANG['plugin_behaviors'][4] = "SQL filter for technician's group";
-$LANG['plugin_behaviors'][5] = "Invalid SQL filter";
 $LANG['plugin_behaviors'][6] = "Use the technician's group";
 $LANG['plugin_behaviors'][7] = "Duration is mandatory before ticket is solved/closed";
 $LANG['plugin_behaviors'][8] = "Type of solution is mandatory before ticket is solved/closed";
@@ -49,4 +46,3 @@ $LANG['plugin_behaviors'][14] = "Deny change of ticket's creation date";
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";
 $LANG['plugin_behaviors'][101] = "You cannot close a ticket without duration";
-?>
