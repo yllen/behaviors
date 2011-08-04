@@ -74,7 +74,7 @@ function plugin_version_behaviors() {
    global $LANG;
 
    return array('name'           => $LANG['plugin_behaviors'][0],
-                'version'        => '0.2.0',
+                'version'        => '0.80.0',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
                 'minGlpiVersion' => '0.80');// For compatibility / no install in version < 0.72
