@@ -32,11 +32,11 @@ class PluginBehaviorsPeripheral extends PluginBehaviorsCommon {
 
    static function afterAdd(Peripheral $periph) {
 
-      // logDebug("PluginBehaviorsPeripheral::afterAdd(), Peripheral=", $periph);
+      // Toolbox::logDebug("PluginBehaviorsPeripheral::afterAdd(), Peripheral=", $periph);
    }
 
    static function afterUpdate(Peripheral $periph) {
 
-      // logDebug("PluginBehaviorsPeripheral::afterUpdate(), Peripheral=", $periph);
+      // Toolbox::logDebug("PluginBehaviorsPeripheral::afterUpdate(), Peripheral=", $periph);
    }
 }

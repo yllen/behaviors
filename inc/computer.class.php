@@ -32,17 +32,17 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
    static function afterAdd(Computer $comp) {
 
-      // logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
+      // Toolbox::logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
    }
 
    static function afterUpdate(Computer $comp) {
 
-      // logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
+      // Toolbox::logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
    }
 
    static function beforePurge(Computer $comp) {
 
-      // logDebug("PluginBehaviorsComputer::beforePurge(), Computer=", $comp);
+      // Toolbox::logDebug("PluginBehaviorsComputer::beforePurge(), Computer=", $comp);
 
       $config = PluginBehaviorsConfig::getInstance();
 

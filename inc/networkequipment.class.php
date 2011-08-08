@@ -32,11 +32,11 @@ class PluginBehaviorsNetworkEquipment extends PluginBehaviorsCommon {
 
    static function afterAdd(NetworkEquipment $network) {
 
-      // logDebug("PluginBehaviorsNetworkEquipment::afterAdd(), NetworkEquipment=", $network);
+      // Toolbox::logDebug("PluginBehaviorsNetworkEquipment::afterAdd(), NetworkEquipment=", $network);
    }
 
    static function afterUpdate(NetworkEquipment $network) {
 
-      // logDebug("PluginBehaviorsNetworkEquipment::afterUpdate(), NetworkEquipment=", $network);
+      // Toolbox::logDebug("PluginBehaviorsNetworkEquipment::afterUpdate(), NetworkEquipment=", $network);
    }
 }

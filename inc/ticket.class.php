@@ -39,7 +39,7 @@ class PluginBehaviorsTicket {
       }
 
 
-      //logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
+      //Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('tickets_id_format')) {
@@ -105,7 +105,7 @@ class PluginBehaviorsTicket {
             = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
                                                       $ticket->input['_users_id_assign']);
       }
-      // logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
+      // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
    }
 
 
@@ -117,7 +117,7 @@ class PluginBehaviorsTicket {
          return false;
       }
 
-      //logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
+      //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
@@ -159,6 +159,6 @@ class PluginBehaviorsTicket {
          }
       }
 
-      //logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
+      //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
    }
 }

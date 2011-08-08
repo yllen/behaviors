@@ -192,7 +192,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
       echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
-      echo convDateTime($config->fields["date_mod"]);
+      echo Toolbox::convDateTime($config->fields["date_mod"]);
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";

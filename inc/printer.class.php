@@ -32,11 +32,11 @@ class PluginBehaviorsPrinter extends PluginBehaviorsCommon {
 
    static function afterAdd(Printer $printer) {
 
-      // logDebug("PluginBehaviorsPrinter::afterAdd(), Printer=", $printer);
+      // Toolbox::logDebug("PluginBehaviorsPrinter::afterAdd(), Printer=", $printer);
    }
 
    static function afterUpdate(Printer $printer) {
 
-      // logDebug("PluginBehaviorsPrinter::afterUpdate(), Printer=", $printer);
+      // Toolbox::logDebug("PluginBehaviorsPrinter::afterUpdate(), Printer=", $printer);
    }
 }
