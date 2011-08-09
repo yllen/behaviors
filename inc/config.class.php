@@ -141,24 +141,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return true;
    }
 
-   static function getHeadings($item, $withtemplate) {
-      global $LANG;
-
-      if (get_class($item)=='Config') {
-            return array(1 => $LANG['plugin_behaviors'][0]);
-      }
-      return false;
-   }
-
-   static function showHeadings($item) {
-
-      if (get_class($item)=='Config') {
-            return array(1 => array('PluginBehaviorsConfig', 'showConfigForm'));
-      }
-      return false;
-   }
-
-   static function showConfigForm($item, $withtemplate) {
+   static function showConfigForm($item) {
       global $LANG;
 
       $config = self::getInstance();
@@ -232,5 +215,24 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormButtons(array('candel'=>false));
 
       return false;
+   }
+
+
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+      global $LANG;
+
+      if ($item->getType()=='Config') {
+            return $LANG['plugin_behaviors'][0];
+      }
+      return '';
+   }
+
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+      if ($item->getType()=='Config') {
+         self::showConfigForm($item);
+      }
+      return true;
    }
 }

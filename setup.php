@@ -32,12 +32,8 @@
 function plugin_init_behaviors() {
    global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
 
-   if (haveRight("config","w")) {
-      $PLUGIN_HOOKS['headings']['behaviors']        = array('PluginBehaviorsConfig', 'getHeadings');
-      $PLUGIN_HOOKS['headings_action']['behaviors'] = array('PluginBehaviorsConfig', 'showHeadings');
-
-      $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
-   }
+   Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => array('Config')));
+   $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
 
    $PLUGIN_HOOKS['item_add']['behaviors'] = array(
       'Computer'           => array('PluginBehaviorsComputer',          'afterAdd'),
