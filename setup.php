@@ -32,7 +32,7 @@
 function plugin_init_behaviors() {
    global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
 
-   Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => array('Config')));
+   Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => 'Config'));
    $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
 
    $PLUGIN_HOOKS['item_add']['behaviors'] = array(
