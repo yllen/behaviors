@@ -40,7 +40,7 @@ if (isset($_POST["update"])) {
 
    $config->update($_POST);
 
-   glpi_header($_SERVER['HTTP_REFERER']);
+   Html::header();
 }
-glpi_header($CFG_GLPI["root_doc"]."/front/config.form.php?forcetab=".
-            urlencode('PluginBehaviorsConfig####1'));
+Html::header($CFG_GLPI["root_doc"]."/front/config.form.php?forcetab=".
+             urlencode('PluginBehaviorsConfig####1'));
