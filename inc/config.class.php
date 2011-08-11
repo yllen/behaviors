@@ -33,11 +33,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static private $_instance = NULL;
 
    function canCreate() {
-      return haveRight('config', 'w');
+      return Session::haveRight('config', 'w');
    }
 
    function canView() {
-      return haveRight('config', 'r');
+      return Session::haveRight('config', 'r');
    }
 
    static function getTypeName() {

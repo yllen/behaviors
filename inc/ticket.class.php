@@ -82,7 +82,7 @@ class PluginBehaviorsTicket {
       // No Auto set Import for external source -> Duplicate from Ticket->prepareInputForAdd()
       if (!isset($ticket->input['_auto_import'])) {
          if (!isset($ticket->input['_users_id_requester'])) {
-            if ($uid = getLoginUserID()) {
+            if ($uid = Session::getLoginUserID()) {
                $ticket->input['_users_id_requester'] = $uid;
             }
          }
@@ -121,7 +121,7 @@ class PluginBehaviorsTicket {
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
-      if (!is_numeric(getLoginUserID(false)) || !haveRight('own_ticket',1)) {
+      if (!is_numeric(Session::getLoginUserID(false)) || !haveRight('own_ticket',1)) {
          return false; // No check
       }
 
