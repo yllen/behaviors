@@ -121,7 +121,7 @@ class PluginBehaviorsTicket {
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
-      if (!is_numeric(Session::getLoginUserID(false)) || !haveRight('own_ticket',1)) {
+      if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
          return false; // No check
       }
 
