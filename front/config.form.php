@@ -40,7 +40,7 @@ if (isset($_POST["update"])) {
 
    $config->update($_POST);
 
-   Html::header();
+   Html::back();
 }
-Html::header($CFG_GLPI["root_doc"]."/front/config.form.php?forcetab=".
+Html::redirect($CFG_GLPI["root_doc"]."/front/config.form.php?forcetab=".
              urlencode('PluginBehaviorsConfig####1'));
