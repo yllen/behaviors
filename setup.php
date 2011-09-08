@@ -73,7 +73,7 @@ function plugin_version_behaviors() {
                 'version'        => '0.83.0',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
-                'minGlpiVersion' => '0.80');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '0.83');// For compatibility / no install in version < 0.72
 }
 
 
