@@ -96,6 +96,20 @@ class PluginBehaviorsTicket {
             = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
                                                      $ticket->input['_users_id_requester']);
       }
+      // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
+   }
+
+
+   static function afterPrepareAdd(Ticket $ticket) {
+      global $DB, $LANG;
+
+      if (!is_array($ticket->input) || !count($ticket->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
+      // Toolbox::logDebug("PluginBehaviorsTicket::afterPrepareAdd(), Ticket=", $ticket);
+      $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('use_assign_user_group')
           && isset($ticket->input['_users_id_assign'])
@@ -105,7 +119,7 @@ class PluginBehaviorsTicket {
             = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
                                                       $ticket->input['_users_id_assign']);
       }
-      // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
+      // Toolbox::logDebug("PluginBehaviorsTicket::afterPrepareAdd(), Updated input=", $ticket->input);
    }
 
 
