@@ -66,7 +66,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return self::$_instance;
    }
 
-   static function install() {
+   static function install(Migration $mig) {
       global $DB, $LANG;
 
       $table = 'glpi_plugin_behaviors_configs';
@@ -91,40 +91,23 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          $query = "INSERT INTO `$table` (id, date_mod) VALUES (1, NOW())";
          $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
+
       } else {
          // Upgrade
 
-         $changes = array();
+         $mig->addField($table, 'tickets_id_format',        'string');
+         $mig->addField($table, 'remove_from_ocs',          'bool');
+         $mig->addField($table, 'is_requester_mandatory',   'bool');
 
-         if (!FieldExists($table,'tickets_id_format')) {
-            $changes[] = "ADD `tickets_id_format` VARCHAR( 15 ) NULL";
-         }
-         if (!FieldExists($table,'remove_from_ocs')) {
-            $changes[] = "ADD `remove_from_ocs` tinyint(1) NOT NULL default '0'";
-         }
-         if (!FieldExists($table,'is_requester_mandatory')) {
-            $changes[] = "ADD `is_requester_mandatory` tinyint(1) NOT NULL default '0'";
-         }
          // version 0.78.0 - feature #2801 Forbid change of ticket's creation date
-         if (!FieldExists($table,'is_ticketdate_locked')) {
-            $changes[] = "ADD `is_ticketdate_locked` tinyint(1) NOT NULL default '0'";
-         }
-         // Version 0.80.0 - set_use_date_on_state now handle in GLPI
-         if (FieldExists($table,'set_use_date_on_state')) {
-            $changes[] = "DROP `set_use_date_on_state`";
-         }
-         // Version 0.83.0 - groups now have is_requester and is_assign attribute
-         if (FieldExists($table,'sql_user_group_filter')) {
-            $changes[] = "DROP `sql_user_group_filter`";
-         }
-         if (FieldExists($table,'sql_tech_group_filter')) {
-            $changes[] = "DROP `sql_tech_group_filter`";
-         }
+         $mig->addField($table, 'is_ticketdate_locked',     'bool');
 
-         if (count($changes)>0) {
-            $query="ALTER TABLE `$table` ".implode(",\n", $changes);
-            $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
-         }
+         // Version 0.80.0 - set_use_date_on_state now handle in GLPI
+         $mig->dropField($table, 'set_use_date_on_state');
+
+         // Version 0.83.0 - groups now have is_requester and is_assign attribute
+         $mig->dropField($table, 'sql_user_group_filter');
+         $mig->dropField($table, 'sql_tech_group_filter');
       }
 
       return true;

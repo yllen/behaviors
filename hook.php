@@ -31,10 +31,15 @@
 
 function plugin_behaviors_install() {
 
+   $migration = new Migration(180);
+
    // No autoload when plugin is not activated
    require 'inc/config.class.php';
+   PluginBehaviorsConfig::install($migration);
 
-   return PluginBehaviorsConfig::install();
+   $migration->executeMigration();
+
+   return true;
 }
 
 
