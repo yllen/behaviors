@@ -111,7 +111,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          }
          // Version 0.80.0 - set_use_date_on_state now handle in GLPI
          if (FieldExists($table,'set_use_date_on_state')) {
-            $changes[] = "DROP `set_use_date_on_status`";
+            $changes[] = "DROP `set_use_date_on_state`";
          }
          // Version 0.83.0 - groups now have is_requester and is_assign attribute
          if (FieldExists($table,'sql_user_group_filter')) {
