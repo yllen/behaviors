@@ -168,12 +168,15 @@ class PluginBehaviorsTicket {
       // Wand to solve/close the ticket
       if ((isset($ticket->input['solutiontypes_id'])
              &&  $ticket->input['solutiontypes_id'])
+          || (isset($ticket->input['solution'])
+              &&    $ticket->input['solution'])
           || (isset($ticket->input['status'])
-             && in_array($ticket->input['status'], array('solved','closed')))) {
+               && in_array($ticket->input['status'], array('solved','closed')))) {
 
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
                unset($ticket->input['status']);
+               unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect($LANG['plugin_behaviors'][101], true, ERROR);
             }
@@ -181,6 +184,8 @@ class PluginBehaviorsTicket {
          if ($config->getField('is_ticketsolutiontype_mandatory')) {
             if (!$sol) {
                unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect($LANG['plugin_behaviors'][100], true, ERROR);
             }
          }
