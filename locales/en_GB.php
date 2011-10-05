@@ -42,6 +42,9 @@ $LANG['plugin_behaviors'][11] = "Delete computer in OCS when purged from GLPI";
 $LANG['plugin_behaviors'][12] = "Plugin \"Item's uninstallation\" not installed";
 $LANG['plugin_behaviors'][13] = "Requester is mandatory";
 $LANG['plugin_behaviors'][14] = "Deny change of ticket's creation date";
+$LANG['plugin_behaviors'][15] = "Additional Notifications";
+$LANG['plugin_behaviors'][16] = "Assign to a technician";
+$LANG['plugin_behaviors'][17] = "Assign to a group";
 
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";

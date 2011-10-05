@@ -42,6 +42,9 @@ $LANG['plugin_behaviors'][11] = "Supprimer la machine dans OCS lors de la purge 
 $LANG['plugin_behaviors'][12] = "Le plugin \"Désinstallation d'un matériel\" n'est pas installé";
 $LANG['plugin_behaviors'][13] = "Demandeur obligatoire";
 $LANG['plugin_behaviors'][14] = "Interdire la modification de la date d'ouverture";
+$LANG['plugin_behaviors'][15] = "Notifications supplémentaires";
+$LANG['plugin_behaviors'][16] = "Attribution à un technicien";
+$LANG['plugin_behaviors'][17] = "Attribution à un groupe";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";

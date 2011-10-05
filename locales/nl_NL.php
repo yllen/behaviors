@@ -44,6 +44,9 @@ $LANG['plugin_behaviors'][11] = "Verwijder computers in OCS als ze uit GLPI verw
 $LANG['plugin_behaviors'][12] = "Plugin \"Item's uninstallation\" niet geïnstalleerd";
 $LANG['plugin_behaviors'][13] = "Aanvrager is verplicht";
 $LANG['plugin_behaviors'][14] = "Weiger het veranderen van de aanmaakdatum van het ticket";
+$LANG['plugin_behaviors'][15] = "Additional Notifications";
+$LANG['plugin_behaviors'][16] = "Assign to a technician";
+$LANG['plugin_behaviors'][17] = "Assign to a group";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";

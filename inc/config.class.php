@@ -83,6 +83,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
                      `tickets_id_format` VARCHAR(15) NULL,
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
+                     `add_notif` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -104,6 +105,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // Version 0.80.0 - set_use_date_on_state now handle in GLPI
          $mig->dropField($table, 'set_use_date_on_state');
+
+         // Version 0.80.4 - feature #3171 additional notifications
+         $mig->addField($table, 'add_notif',                'bool');
 
          // Version 0.83.0 - groups now have is_requester and is_assign attribute
          $mig->dropField($table, 'sql_user_group_filter');
@@ -155,25 +159,29 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
-      echo "<td rowspan='8' colspan='2' class='top'>".$LANG['common'][25]."&nbsp;:<br>";
-      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
-      echo "<br>".$LANG['common'][26]."&nbsp;: ";
-      echo Html::convDateTime($config->fields["date_mod"]);
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".$LANG['setup'][704];     // Notifications
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_requester_user_group", $config->fields['use_requester_user_group']);
+      echo "<td>".$LANG['plugin_behaviors'][15]."&nbsp;:</td><td>";
+      Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
       Dropdown::showYesNo("use_assign_user_group", $config->fields['use_assign_user_group']);
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][25];      // Comments
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][13]."&nbsp;:</td><td>";
       Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
+      echo "</td><td rowspan='5' colspan='2' class='center'>";
+      echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<br>".$LANG['common'][26]."&nbsp;: ";
+      echo Html::convDateTime($config->fields["date_mod"]);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
