@@ -69,10 +69,9 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['itemtype'])
           && isset($ticket->input['items_id'])
           && $ticket->input['items_id']>0
-          && class_exists($ticket->input['itemtype'])
+          && ($item = getItemForItemtype($ticket->input['itemtype']))
           && (!isset($ticket->input['groups_id']) || $ticket->input['groups_id']<=0)) {
 
-         $item = new $ticket->input['itemtype']();
          if ($item->isField('groups_id')
              && $item->getFromDB($ticket->input['items_id'])) {
             $ticket->input['groups_id'] = $item->getField('groups_id');
