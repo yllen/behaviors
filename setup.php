@@ -85,6 +85,7 @@ function plugin_version_behaviors() {
 
    return array('name'           => $LANG['plugin_behaviors'][0],
                 'version'        => '0.83.0',
+                'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
                 'minGlpiVersion' => '0.83');// For compatibility / no install in version < 0.72
