@@ -75,7 +75,10 @@ class PluginBehaviorsTicket {
 
       if (!isset($ticket->input['_auto_import'])
           && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
-         if ($config->getField('is_requester_mandatory') && !$ticket->input['_users_id_requester']) {
+         if ($config->getField('is_requester_mandatory')
+             && !$ticket->input['_users_id_requester']
+             && (!isset($ticket->input['_users_id_requester_notif']['alternative_email'])
+                 || empty($ticket->input['_users_id_requester_notif']['alternative_email']))) {
             Session::addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
             $ticket->input = array();
             return true;
