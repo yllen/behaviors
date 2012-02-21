@@ -34,7 +34,7 @@
 
 class PluginBehaviorsUser {
 
-   static private function getUserGroup ($entity, $userid, $filter='') {
+   static private function getUserGroup ($entity, $userid, $filter='', $first=true) {
       global $DB;
 
       $config = PluginBehaviorsConfig::getInstance();
@@ -48,20 +48,24 @@ class PluginBehaviorsUser {
       if ($filter) {
          $query .= "AND ($filter)";
       }
+      $rep = array();
       foreach ($DB->request($query) as $data) {
-         return ($data['id']);
+         if ($first) {
+            return $data['id'];
+         }
+         $rep[]=$data['id'];
       }
-      return 0;
+      return ($first ? 0 : $rep);
    }
 
-   static function getRequesterGroup ($entity, $userid) {
+   static function getRequesterGroup ($entity, $userid, $first=true) {
 
-      return self::getUserGroup($entity, $userid, '`is_requester`');
+      return self::getUserGroup($entity, $userid, '`is_requester`', $first);
    }
 
-   static function getTechnicianGroup ($entity, $userid) {
+   static function getTechnicianGroup ($entity, $userid, $first=true) {
 
-      return self::getUserGroup($entity, $userid, '`is_assign`');
+      return self::getUserGroup($entity, $userid, '`is_assign`', $first);
    }
 
 }

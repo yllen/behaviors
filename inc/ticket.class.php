@@ -109,9 +109,20 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['_users_id_requester'])
           && $ticket->input['_users_id_requester']>0
           && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
-         $ticket->input['_groups_id_requester']
-            = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
-                                                     $ticket->input['_users_id_requester']);
+            if ($config->getField('use_requester_user_group') == 1) {
+               // First group
+               $ticket->input['_groups_id_requester']
+                  = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
+                                                           $ticket->input['_users_id_requester'],
+                                                           true);
+            } else {
+               // All groups
+               $ticket->input['_additional_groups_requesters']
+                  = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
+                                                           $ticket->input['_users_id_requester'],
+                                                           false);
+
+            }
       }
       // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
    }
@@ -132,9 +143,19 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['_users_id_assign'])
           && $ticket->input['_users_id_assign']>0
           && (!isset($ticket->input['_groups_id_assign']) || $ticket->input['_groups_id_assign']<=0)) {
-         $ticket->input['_groups_id_assign']
-            = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
-                                                      $ticket->input['_users_id_assign']);
+         if ($config->getField('use_assign_user_group')==1) {
+            // First group
+            $ticket->input['_groups_id_assign']
+               = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
+                                                         $ticket->input['_users_id_assign'],
+                                                         true);
+         } else {
+            // All groups
+            $ticket->input['_additional_groups_assigns"']
+               = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
+                                                         $ticket->input['_users_id_assign'],
+                                                         false);
+         }
       }
       // Toolbox::logDebug("PluginBehaviorsTicket::afterPrepareAdd(), Updated input=", $ticket->input);
    }

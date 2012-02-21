@@ -135,6 +135,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static function showConfigForm($item) {
       global $LANG;
 
+      $yesnoall = array(
+         0 => $LANG['choice'][0],
+         1 => $LANG['buttons'][55],
+         2 => $LANG['common'][66]
+      );
+
       $config = self::getInstance();
 
       $config->showFormHeader();
@@ -168,14 +174,16 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("use_requester_user_group", $config->fields['use_requester_user_group']);
+      Dropdown::showFromArray('use_requester_user_group', $yesnoall,
+                              array('value' => $config->fields['use_requester_user_group']));
       echo "<td>".$LANG['plugin_behaviors'][15]."&nbsp;:</td><td>";
       Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("use_assign_user_group", $config->fields['use_assign_user_group']);
+      Dropdown::showFromArray('use_assign_user_group', $yesnoall,
+                              array('value' => $config->fields['use_assign_user_group']));
       echo "</td><td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][25];      // Comments
       echo "</td></tr>";
 
