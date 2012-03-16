@@ -221,4 +221,31 @@ class PluginBehaviorsTicket {
 
       //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
    }
+   
+   
+   
+   static function onNewTicket($item) {
+      global $DB, $LANG;
+
+      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+         if (strstr($_SERVER['PHP_SELF'], "/front/ticket.form.php")
+                 AND isset($_POST['id'])
+                 AND $_POST['id'] == 0
+                 AND !isset($_GET['id'])) {
+            
+            $config = PluginBehaviorsConfig::getInstance();
+            if ($config->getField('use_requester_user_group')
+                && isset($_POST['_users_id_requester'])
+                && $_POST['_users_id_requester']>0
+                && (!isset($_POST['_groups_id_requester']) || $_POST['_groups_id_requester']<=0)) {
+
+                  // First group
+                  $_REQUEST['_groups_id_requester']
+                     = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
+                                                              $_POST['_users_id_requester'],
+                                                              true);
+            }
+         }
+      }
+   }
 }

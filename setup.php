@@ -74,6 +74,8 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
       'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
    );
+   
+   $PLUGIN_HOOKS['post_init']['behaviors'] = array('PluginBehaviorsTicket',   'onNewTicket');
 
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['behaviors'] =
