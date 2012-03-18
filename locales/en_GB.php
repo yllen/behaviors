@@ -49,6 +49,7 @@ $LANG['plugin_behaviors'][14] = "Deny change of ticket's creation date";
 $LANG['plugin_behaviors'][15] = "Additional Notifications";
 $LANG['plugin_behaviors'][16] = "Assign to a technician";
 $LANG['plugin_behaviors'][17] = "Assign to a group";
+$LANG['plugin_behaviors'][18] = "Reopen ticket";
 
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";

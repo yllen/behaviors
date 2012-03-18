@@ -44,6 +44,7 @@ class PluginBehaviorsTicket {
          Plugin::loadLang('behaviors');
          $target->events['plugin_behaviors_ticketnewtech'] = $LANG['plugin_behaviors'][16];
          $target->events['plugin_behaviors_ticketnewgrp']  = $LANG['plugin_behaviors'][17];
+         $target->events['plugin_behaviors_ticketreopen']  = $LANG['plugin_behaviors'][18];
       }
    }
 
@@ -247,6 +248,21 @@ class PluginBehaviorsTicket {
                                                               true);
             }
          }
+      }
+   }
+
+
+   static function afterUpdate(Ticket $ticket) {
+      // Toolbox::logDebug("PluginBehaviorsTicket::afterUpdate(), Ticket=", $ticket);
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('add_notif')
+          && in_array('status', $ticket->updates)
+          && in_array($ticket->oldvalues['status'], array('closed', 'solved'))
+          && !in_array($ticket->input['status'], array('closed', 'solved'))) {
+
+         NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
       }
    }
 }

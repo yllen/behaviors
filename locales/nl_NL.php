@@ -50,6 +50,7 @@ $LANG['plugin_behaviors'][14] = "Weiger het veranderen van de aanmaakdatum van h
 $LANG['plugin_behaviors'][15] = "Aanvullende notities";
 $LANG['plugin_behaviors'][16] = "Toekennen aan een helpdeskmedewerker";
 $LANG['plugin_behaviors'][17] = "Toekennen aan een groep";
+$LANG['plugin_behaviors'][18] = "Reopen ticket";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";

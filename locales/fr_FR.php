@@ -49,6 +49,7 @@ $LANG['plugin_behaviors'][14] = "Interdire la modification de la date d'ouvertur
 $LANG['plugin_behaviors'][15] = "Notifications supplémentaires";
 $LANG['plugin_behaviors'][16] = "Attribution à un technicien";
 $LANG['plugin_behaviors'][17] = "Attribution à un groupe";
+$LANG['plugin_behaviors'][18] = "Ticket réouvert";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";

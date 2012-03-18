@@ -57,6 +57,7 @@ function plugin_init_behaviors() {
       'Peripheral'         => array('PluginBehaviorsPeripheral',        'afterUpdate'),
       'Phone'              => array('PluginBehaviorsPhone',             'afterUpdate'),
       'Printer'            => array('PluginBehaviorsPrinter',           'afterUpdate'),
+      'Ticket'             => array('PluginBehaviorsTicket',            'afterUpdate'),
    );
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] = array(
@@ -74,7 +75,7 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
       'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
    );
-   
+
    $PLUGIN_HOOKS['post_init']['behaviors'] = array('PluginBehaviorsTicket',   'onNewTicket');
 
    // Notifications
