@@ -228,7 +228,8 @@ class PluginBehaviorsTicket {
    static function onNewTicket($item) {
       global $DB, $LANG;
 
-      if ($_SESSION['glpiactiveprofile']['interface'] == 'central') {
+      if (isset($_SESSION['glpiactiveprofile']['interface'])
+          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
          if (strstr($_SERVER['PHP_SELF'], "/front/ticket.form.php")
                  AND isset($_POST['id'])
                  AND $_POST['id'] == 0
