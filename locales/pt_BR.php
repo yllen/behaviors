@@ -49,7 +49,7 @@ $LANG['plugin_behaviors'][14] = "Negar mudança da data de criação do ticket";
 $LANG['plugin_behaviors'][15] = "Notificações adicionais";
 $LANG['plugin_behaviors'][16] = "Atribuir à um técnico";
 $LANG['plugin_behaviors'][17] = "Atribuir a um grupo";
-$LANG['plugin_behaviors'][18] = "Reopen ticket";
+$LANG['plugin_behaviors'][18] = "Chamado reaberto";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Não é permitido fechar um Chamado sem adicionar a solução do problema na Aba Soluções.";
