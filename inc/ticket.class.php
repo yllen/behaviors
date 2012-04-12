@@ -226,7 +226,6 @@ class PluginBehaviorsTicket {
 
 
    static function onNewTicket($item) {
-      global $DB, $LANG;
 
       if (isset($_SESSION['glpiactiveprofile']['interface'])
           && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
@@ -241,14 +240,33 @@ class PluginBehaviorsTicket {
             if ($config->getField('use_requester_user_group')==1
                 && isset($_POST['_users_id_requester'])
                 && $_POST['_users_id_requester']>0
-                && (!isset($_POST['_groups_id_requester']) || $_POST['_groups_id_requester']<=0)) {
+                && (!isset($_POST['_groups_id_requester'])
+                    || $_POST['_groups_id_requester']<=0
+                    || (isset($_SESSION['glpi_behaviors_auto_group'])
+                        && $_SESSION['glpi_behaviors_auto_group']==$_POST['_groups_id_requester']))) {
 
-                  // First group
-                  $_REQUEST['_groups_id_requester']
-                     = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
-                                                              $_POST['_users_id_requester'],
-                                                              true);
+               // Select first group of this user
+               $grp = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
+                                                             $_POST['_users_id_requester'],
+                                                             true);
+               $_SESSION['glpi_behaviors_auto_group'] = $grp;
+               $_REQUEST['_groups_id_requester']      = $grp;
+
+            } else if ($config->getField('use_requester_user_group')==1
+                && isset($_POST['_users_id_requester'])
+                && $_POST['_users_id_requester']<=0
+                && isset($_POST['_groups_id_requester'])
+                && isset($_SESSION['glpi_behaviors_auto_group'])
+                && $_SESSION['glpi_behaviors_auto_group']==$_POST['_groups_id_requester']) {
+
+               // clear user, so clear group
+               $_SESSION['glpi_behaviors_auto_group'] = 0;
+               $_REQUEST['_groups_id_requester']      = 0;
+            } else {
+               unset($_SESSION['glpi_behaviors_auto_group']);
             }
+         } else {
+            unset($_SESSION['glpi_behaviors_auto_group']);
          }
       }
    }
