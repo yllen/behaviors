@@ -122,11 +122,15 @@ class PluginBehaviorsTicket {
                                                            true);
             } else {
                // All groups
-               $ticket->input['_additional_groups_requesters']
-                  = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
+               $g = PluginBehaviorsUser::getRequesterGroup($ticket->input['entities_id'],
                                                            $ticket->input['_users_id_requester'],
                                                            false);
-
+               if (count($g)) {
+                  $ticket->input['_groups_id_requester'] = array_shift($g);
+               }
+               if (count($g)) {
+                  $ticket->input['_additional_groups_requesters'] = $g;
+               }
             }
       }
       // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
