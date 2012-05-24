@@ -50,7 +50,9 @@ $LANG['plugin_behaviors'][15] = "Notifications supplémentaires";
 $LANG['plugin_behaviors'][16] = "Attribution à un technicien";
 $LANG['plugin_behaviors'][17] = "Attribution à un groupe";
 $LANG['plugin_behaviors'][18] = "Ticket réouvert";
+$LANG['plugin_behaviors'][19] = "Interdire les modifications simultanées";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";
 $LANG['plugin_behaviors'][101] = "Impossible de fermer un ticket sans durée";
+$LANG['plugin_behaviors'][102] = "Enregistrement impossible, l'élément a été modifié";

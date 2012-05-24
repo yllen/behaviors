@@ -50,7 +50,9 @@ $LANG['plugin_behaviors'][15] = "Additional Notifications";
 $LANG['plugin_behaviors'][16] = "Assign to a technician";
 $LANG['plugin_behaviors'][17] = "Assign to a group";
 $LANG['plugin_behaviors'][18] = "Reopen ticket";
+$LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
 
 // Message
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";
 $LANG['plugin_behaviors'][101] = "You cannot close a ticket without duration";
+$LANG['plugin_behaviors'][102] = "Can't save, item have been updated";

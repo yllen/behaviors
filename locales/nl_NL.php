@@ -51,7 +51,9 @@ $LANG['plugin_behaviors'][15] = "Aanvullende notities";
 $LANG['plugin_behaviors'][16] = "Toekennen aan een helpdeskmedewerker";
 $LANG['plugin_behaviors'][17] = "Toekennen aan een groep";
 $LANG['plugin_behaviors'][18] = "Reopen ticket";
+$LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";
 $LANG['plugin_behaviors'][101] = "Kan ticket niet sluiten zonder opgegeven tijdsduur.";
+$LANG['plugin_behaviors'][102] = "Can't save, item have been updated";

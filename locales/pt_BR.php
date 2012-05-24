@@ -50,9 +50,9 @@ $LANG['plugin_behaviors'][15] = "Notificações adicionais";
 $LANG['plugin_behaviors'][16] = "Atribuir à um técnico";
 $LANG['plugin_behaviors'][17] = "Atribuir a um grupo";
 $LANG['plugin_behaviors'][18] = "Chamado reaberto";
+$LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Não é permitido fechar um Chamado sem adicionar a solução do problema na Aba Soluções.";
 $LANG['plugin_behaviors'][101] = "Não é permitido fechar um Chamado sem adicionar o tempo de solução do Chamado sem atribuir uma tarefa com duração com determinado tempo na Aba Tarefas.";
-
-?>
+$LANG['plugin_behaviors'][102] = "Can't save, item have been updated";

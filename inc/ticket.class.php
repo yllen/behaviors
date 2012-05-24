@@ -192,6 +192,18 @@ class PluginBehaviorsTicket {
          }
       }
 
+      if (isset($ticket->input['_read_date_mod'])
+          && $config->getField('use_lock')
+          && $ticket->input['_read_date_mod']!=$ticket->fields['date_mod']) {
+
+         $msg = $LANG['plugin_behaviors'][102].' ('.
+                getUserName($ticket->fields['users_id_lastupdater']).', '.
+                Html::convDateTime($config->fields['date_mod']).')';
+
+         Session::addMessageAfterRedirect($msg, true, ERROR);
+         return $ticket->input = false;
+      }
+
       $sol = (isset($ticket->input['solutiontypes_id'])
                     ? $ticket->input['solutiontypes_id']
                     : $ticket->fields['solutiontypes_id']);

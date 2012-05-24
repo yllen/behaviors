@@ -88,6 +88,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `tickets_id_format` VARCHAR(15) NULL,
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `add_notif` tinyint(1) NOT NULL default '0',
+                     `use_lock` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -116,6 +117,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // Version 0.83.0 - groups now have is_requester and is_assign attribute
          $mig->dropField($table, 'sql_user_group_filter');
          $mig->dropField($table, 'sql_tech_group_filter');
+
+         // Version 0.83.1 - prevent update on ticket updated by another user
+         $mig->addField($table, 'use_lock',                 'bool');
+
       }
 
       return true;
@@ -190,7 +195,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][13]."&nbsp;:</td><td>";
       Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
-      echo "</td><td rowspan='5' colspan='2' class='center'>";
+      echo "</td><td rowspan='6' colspan='2' class='center'>";
       echo "<textarea cols='60' rows='10' name='comment' >".$config->fields['comment']."</textarea>";
       echo "<br>".$LANG['common'][26]."&nbsp;: ";
       echo Html::convDateTime($config->fields["date_mod"]);
@@ -213,6 +218,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][14]."&nbsp;:</td><td>";
       Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".$LANG['plugin_behaviors'][19]."&nbsp;:</td><td>";
+      Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
