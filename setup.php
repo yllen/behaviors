@@ -99,8 +99,8 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.83.1','lt') || version_compare(GLPI_VERSION,'0.84','ge')) {
-      echo "This plugin requires GLPI >= 0.83.1";
+   if (version_compare(GLPI_VERSION,'0.83.2','lt') || version_compare(GLPI_VERSION,'0.84','ge')) {
+      echo "This plugin requires GLPI >= 0.83.2";
       return false;
    }
    return true;
