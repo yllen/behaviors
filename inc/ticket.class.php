@@ -93,11 +93,11 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['items_id'])
           && $ticket->input['items_id']>0
           && ($item = getItemForItemtype($ticket->input['itemtype']))
-          && (!isset($ticket->input['groups_id']) || $ticket->input['groups_id']<=0)) {
+          && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
 
          if ($item->isField('groups_id')
              && $item->getFromDB($ticket->input['items_id'])) {
-            $ticket->input['groups_id'] = $item->getField('groups_id');
+            $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
         }
       }
 
