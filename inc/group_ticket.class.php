@@ -50,8 +50,9 @@ class PluginBehaviorsGroup_Ticket {
       }
    }
 
+
    static function beforeAdd(Group_Ticket $item) {
-      global $LANG;
+      global $DB, $LANG;
 
       // Toolbox::logDebug("PluginBehaviorsGroup_Ticket::beforeAdd()", $item);
 
@@ -64,12 +65,12 @@ class PluginBehaviorsGroup_Ticket {
       if ($config->getField('use_single_tech')
           && $item->input['type'] == Ticket::ASSIGN) {
 
-         $cond = "`tickets_id`='".$item->input['tickets_id']."'
-                  AND type=".Ticket::ASSIGN;
+         $crit = array('tickets_id' => $item->input['tickets_id'],
+                       'type'       => Ticket::ASSIGN);
 
-         if (countElementsInTable('glpi_groups_tickets', $cond) > 0) {
-            Session::addMessageAfterRedirect($LANG['plugin_behaviors'][104], true, ERROR);
-            return $item->input = false;
+         foreach ($DB->request('glpi_groups_tickets', $crit) as $data) {
+            $gu = new Group_Ticket();
+            $gu->delete($data);
          }
       }
    }

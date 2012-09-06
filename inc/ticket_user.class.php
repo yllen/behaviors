@@ -50,8 +50,9 @@ class PluginBehaviorsTicket_User {
       }
    }
 
+
    static function beforeAdd(Ticket_User $item) {
-      global $LANG;
+      global $DB, $LANG;
 
       // Toolbox::logDebug("PluginBehaviorsTicket_User::beforeAdd()", $item);
 
@@ -64,12 +65,12 @@ class PluginBehaviorsTicket_User {
       if ($config->getField('use_single_tech')
           && $item->input['type'] == Ticket::ASSIGN) {
 
-         $cond = "`tickets_id`='".$item->input['tickets_id']."'
-                  AND type=".Ticket::ASSIGN;
+         $crit = array('tickets_id' => $item->input['tickets_id'],
+                       'type'       => Ticket::ASSIGN);
 
-         if (countElementsInTable('glpi_tickets_users', $cond) > 0) {
-            Session::addMessageAfterRedirect($LANG['plugin_behaviors'][103], true, ERROR);
-            return $item->input = false;
+         foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
+            $gu = new Ticket_User();
+            $gu->delete($data);
          }
       }
    }

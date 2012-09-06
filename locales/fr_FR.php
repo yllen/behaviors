@@ -57,5 +57,3 @@ $LANG['plugin_behaviors'][20] = "Technicien et groupe unique";
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";
 $LANG['plugin_behaviors'][101] = "Impossible de fermer un ticket sans durée";
 $LANG['plugin_behaviors'][102] = "Enregistrement impossible, l'élément a été modifié";
-$LANG['plugin_behaviors'][103] = "Ajout d'un autre technicien interdit par la configuration";
-$LANG['plugin_behaviors'][104] = "Ajout d'un autre groupe interdit par la configuration";
