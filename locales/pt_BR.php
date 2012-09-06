@@ -58,3 +58,4 @@ $LANG['plugin_behaviors'][100] = "Não é permitido fechar um Chamado sem adicio
 $LANG['plugin_behaviors'][101] = "Não é permitido fechar um Chamado sem adicionar o tempo de solução do Chamado sem atribuir uma tarefa com duração com determinado tempo na Aba Tarefas.";
 $LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
 $LANG['plugin_behaviors'][103] = "Configuration forbids to add another technician";
+$LANG['plugin_behaviors'][104] = "Configuration forbids to add another group";

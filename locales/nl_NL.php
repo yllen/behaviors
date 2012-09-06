@@ -59,3 +59,4 @@ $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype"
 $LANG['plugin_behaviors'][101] = "Kan ticket niet sluiten zonder opgegeven tijdsduur.";
 $LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
 $LANG['plugin_behaviors'][103] = "Configuration forbids to add another technician";
+$LANG['plugin_behaviors'][104] = "Configuration forbids to add another group";
