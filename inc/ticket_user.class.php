@@ -49,4 +49,28 @@ class PluginBehaviorsTicket_User {
          }
       }
    }
+
+   static function beforeAdd(Ticket_User $item) {
+      global $LANG;
+
+      // Toolbox::logDebug("PluginBehaviorsTicket_User::beforeAdd()", $item);
+
+      // Check is the connected user is a tech
+      if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
+         return false; // No check
+      }
+
+      $config = PluginBehaviorsConfig::getInstance();
+      if ($config->getField('use_single_tech')
+          && $item->input['type'] == Ticket::ASSIGN) {
+
+         $cond = "`tickets_id`='".$item->input['tickets_id']."'
+                  AND type=".Ticket::ASSIGN;
+
+         if (countElementsInTable('glpi_tickets_users', $cond) > 0) {
+            Session::addMessageAfterRedirect($LANG['plugin_behaviors'][103], true, ERROR);
+            return $item->input = false;
+         }
+      }
+   }
 }

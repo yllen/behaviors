@@ -57,3 +57,4 @@ $LANG['plugin_behaviors'][20] = "Single technician and group";
 $LANG['plugin_behaviors'][100] = "You cannot close a ticket without solution type";
 $LANG['plugin_behaviors'][101] = "You cannot close a ticket without duration";
 $LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
+$LANG['plugin_behaviors'][103] = "Configuration forbids to add another technician";

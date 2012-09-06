@@ -61,7 +61,8 @@ function plugin_init_behaviors() {
    );
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] = array(
-      'Ticket'    => array('PluginBehaviorsTicket',   'beforeAdd')
+      'Ticket'      => array('PluginBehaviorsTicket',      'beforeAdd'),
+      'Ticket_User' => array('PluginBehaviorsTicket_User', 'beforeAdd')
    );
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] = array(
