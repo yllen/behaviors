@@ -52,6 +52,7 @@ $LANG['plugin_behaviors'][16] = "Toekennen aan een helpdeskmedewerker";
 $LANG['plugin_behaviors'][17] = "Toekennen aan een groep";
 $LANG['plugin_behaviors'][18] = "Reopen ticket";
 $LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
+$LANG['plugin_behaviors'][20] = "Single technician and group";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";

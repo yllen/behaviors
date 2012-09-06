@@ -51,6 +51,7 @@ $LANG['plugin_behaviors'][16] = "Attribution à un technicien";
 $LANG['plugin_behaviors'][17] = "Attribution à un groupe";
 $LANG['plugin_behaviors'][18] = "Ticket réouvert";
 $LANG['plugin_behaviors'][19] = "Interdire les modifications simultanées";
+$LANG['plugin_behaviors'][20] = "Technicien et groupe unique";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";
