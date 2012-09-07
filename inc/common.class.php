@@ -36,6 +36,7 @@ class PluginBehaviorsCommon {
 
    static $clone_types = array(
       'NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
+      'Profile'               => 'PluginBehaviorsProfile',
       );
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
@@ -92,12 +93,15 @@ class PluginBehaviorsCommon {
    static function cloneItem(Array $param) {
       global $LANG;
 
+      // Sanity check
       if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
           || !array_key_exists($param['itemtype'], self::$clone_types)
           || empty($param['name'])
           || !($item = getItemForItemtype($param['itemtype']))) {
          return false;
       }
+
+      // Read original and prepare clone
       $item->check($param['id'], 'r');
       $input = $item->fields;
       unset($input['id']);
@@ -107,14 +111,29 @@ class PluginBehaviorsCommon {
       $input['name'] = $param['name'];
       $input['_add'] = 1;
 
+      // Manage NULL fields in original
+      foreach($input as $k => $v) {
+         if (is_null($input[$k])) {
+            $input[$k] = "NULL";
+         }
+      }
+
+      // Specific to itemtype - before clone
+      if (method_exists(self::$clone_types[$param['itemtype']], 'preClone')) {
+         $input = call_user_func(array(self::$clone_types[$param['itemtype']], 'preClone'), $item, $input);
+      }
+
+      // Clone
       $clone = clone $item;
       $clone->check(-1, 'w', $input);
       $new = $clone->add($input);
 
+      // Specific to itemtype - after clone
       if (method_exists(self::$clone_types[$param['itemtype']], 'postClone')) {
          call_user_func(array(self::$clone_types[$param['itemtype']], 'postClone'), $item, $clone);
       }
 
+      // History
       if ($clone->dohistory) {
          $changes[0] = '0';
          $changes[1] = '';
