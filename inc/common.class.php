@@ -103,7 +103,8 @@ class PluginBehaviorsCommon {
 
       // Read original and prepare clone
       $item->check($param['id'], 'r');
-      $input = $item->fields;
+
+      $input = ToolBox::addslashes_deep($item->fields);
       unset($input['id']);
       if ($item->isEntityAssign()) {
          $input['entities_id'] = $_SESSION['glpiactive_entity'];
