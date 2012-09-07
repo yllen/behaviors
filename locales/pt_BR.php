@@ -52,6 +52,8 @@ $LANG['plugin_behaviors'][17] = "Atribuir a um grupo";
 $LANG['plugin_behaviors'][18] = "Chamado reaberto";
 $LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
 $LANG['plugin_behaviors'][20] = "Single technician and group";
+$LANG['plugin_behaviors'][21] = "Clone";
+$LANG['plugin_behaviors'][22] = "Clone of";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Não é permitido fechar um Chamado sem adicionar a solução do problema na Aba Soluções.";

@@ -34,4 +34,92 @@
 
 class PluginBehaviorsCommon {
 
+   static $clone_types = array(
+      'NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
+      );
+
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+      global $LANG;
+
+      if (array_key_exists($item->getType(), self::$clone_types)
+          && $item->canUpdate()) {
+         return $LANG['plugin_behaviors'][21];
+      }
+      return '';
+   }
+
+   static function showCloneForm(CommonGLPI $item) {
+      global $LANG;
+
+      echo "<form name='form' method='post' action='".Toolbox::getItemTypeFormURL(__CLASS__)."' >";
+      echo "<div class='spaced' id='tabsbody'>";
+      echo "<table class='tab_cadre_fixe'>";
+
+      echo "<tr><th>".$LANG['plugin_behaviors'][21]."</th></tr>";
+
+      if ($item->isEntityAssign()) {
+         echo "<tr class='tab_bg_1'><td class='center'>".$LANG['ldap'][27]."&nbsp;:&nbsp;<b>";
+         echo Dropdown::getDropdownName('glpi_entities', $_SESSION['glpiactive_entity']);
+         echo "</b></td></tr>";
+      }
+
+      echo "<tr class='tab_bg_1'><td class='center'>".$LANG['common'][16]."&nbsp;:&nbsp;";
+      $name = $LANG['plugin_behaviors'][22]." ".$item->getName();
+      Html::autocompletionTextField($item, 'name', array('value' => $name, 'size' => 60));
+      echo "<input type='hidden' name='itemtype' value='".$item->getType()."'>";
+      echo "<input type='hidden' name='id'       value='".$item->getID()."'>";
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'><td class='center'>";
+      echo "<input type='submit' name='_clone' value='".$LANG['plugin_behaviors'][21]."' class='submit'>";
+      echo "</th></tr>";
+
+      echo "</table></div>";
+      Html::closeForm();
+
+   }
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+      if (array_key_exists($item->getType(), self::$clone_types)
+          && $item->canUpdate()) {
+         self::showCloneForm($item);
+      }
+      return true;
+   }
+
+
+   static function cloneItem(Array $param) {
+      global $LANG;
+
+      if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
+          || !array_key_exists($param['itemtype'], self::$clone_types)
+          || empty($param['name'])
+          || !($item = getItemForItemtype($param['itemtype']))) {
+         return false;
+      }
+      $item->check($param['id'], 'r');
+      $input = $item->fields;
+      unset($input['id']);
+      if ($item->isEntityAssign()) {
+         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+      }
+      $input['name'] = $param['name'];
+      $input['_add'] = 1;
+
+      $clone = clone $item;
+      $clone->check(-1, 'w', $input);
+      $new = $clone->add($input);
+
+      if (method_exists(self::$clone_types[$param['itemtype']], 'postClone')) {
+         call_user_func(array(self::$clone_types[$param['itemtype']], 'postClone'), $item, $clone);
+      }
+
+      if ($clone->dohistory) {
+         $changes[0] = '0';
+         $changes[1] = '';
+         $changes[2] = addslashes($LANG['plugin_behaviors'][22]." ".$item->getNameID(0, true));
+         Log::history($clone->getID(), $clone->getType(), $changes, 0, Log::HISTORY_LOG_SIMPLE_MESSAGE);
+      }
+   }
 }
