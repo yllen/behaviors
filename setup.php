@@ -35,10 +35,11 @@
 // Init the hooks of the plugins -Needed
 function plugin_init_behaviors() {
    global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
-
-   Plugin::registerClass('PluginBehaviorsCommon',
+   
+   if (class_exists('PluginBehaviorsCommon')) {
+      Plugin::registerClass('PluginBehaviorsCommon',
                          array('addtabon' => array_keys(PluginBehaviorsCommon::$clone_types)));
-
+   }
    Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => 'Config'));
    $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
 
