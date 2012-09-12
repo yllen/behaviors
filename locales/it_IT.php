@@ -50,15 +50,15 @@ $LANG['plugin_behaviors'][15] = "Notifiche aggiuntive";
 $LANG['plugin_behaviors'][16] = "Assignato a un tecnico";
 $LANG['plugin_behaviors'][17] = "Assignato a un groppo";
 $LANG['plugin_behaviors'][18] = "Chiamata riaperta";
-$LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
-$LANG['plugin_behaviors'][20] = "Single technician and group";
-$LANG['plugin_behaviors'][21] = "Clone";
-$LANG['plugin_behaviors'][22] = "Clone of";
+$LANG['plugin_behaviors'][19] = "Attiva protezione da inserimenti simultanei";
+$LANG['plugin_behaviors'][20] = "Singolo tecnico e gruppo";
+$LANG['plugin_behaviors'][21] = "Clona";
+$LANG['plugin_behaviors'][22] = "Clone di";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Non puoi chiudere una chiamata senza inserire il tipo di soluzione";
 $LANG['plugin_behaviors'][101] = "Non puoi chiudere una chiamata senza inserire la durata";
-$LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
+$LANG['plugin_behaviors'][102] = "Impossibile salvare! L'elemento è stato aggiornato";
 
 // use_single_tech config options
 $LANG['plugin_behaviors'][201] = "Single user and single group";
