@@ -43,6 +43,7 @@ class PluginBehaviorsCommon {
       'RuleRight'             => 'PluginBehaviorsRule',
       'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
       'RuleTicket'            => 'PluginBehaviorsRule',
+      'Transfer'              => 'PluginBehaviorsCommon',
       );
 
 
