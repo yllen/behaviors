@@ -61,6 +61,5 @@ $LANG['plugin_behaviors'][101] = "You cannot close a ticket without duration";
 $LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
 
 // use_single_tech config options
-$LANG['plugin_behaviors'][200] = "Standard behavior";
 $LANG['plugin_behaviors'][201] = "Single user and single group";
-$LANG['plugin_behaviors'][202] = "Single user or single group";
+$LANG['plugin_behaviors'][202] = "Single user or group";

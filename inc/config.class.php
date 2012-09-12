@@ -231,7 +231,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][20]."&nbsp;:</td><td>";
       $tab = array(
-         0 => $LANG['plugin_behaviors'][200],
+         0 => $LANG['choice'][0],
          1 => $LANG['plugin_behaviors'][201],
          2 => $LANG['plugin_behaviors'][202]
       );

@@ -61,6 +61,5 @@ $LANG['plugin_behaviors'][101] = "Impossible de fermer un ticket sans durée";
 $LANG['plugin_behaviors'][102] = "Enregistrement impossible, l'élément a été modifié";
 
 // use_single_tech config options
-$LANG['plugin_behaviors'][200] = "Comportement par défaut";
-$LANG['plugin_behaviors'][201] = "Utilisateur et groupe uniques";
-$LANG['plugin_behaviors'][202] = "Utilisateur unique ou groupe unique";
+$LANG['plugin_behaviors'][201] = "Utilisateur unique et groupe unique";
+$LANG['plugin_behaviors'][202] = "Utilisateur ou groupe unique";
