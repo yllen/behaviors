@@ -37,6 +37,12 @@ class PluginBehaviorsCommon {
    static $clone_types = array(
       'NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
       'Profile'               => 'PluginBehaviorsProfile',
+      'RuleImportComputer'    => 'PluginBehaviorsRule',
+      'RuleMailCollector'     => 'PluginBehaviorsRule',
+      'RuleOcs'               => 'PluginBehaviorsRule',
+      'RuleRight'             => 'PluginBehaviorsRule',
+      'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
+      'RuleTicket'            => 'PluginBehaviorsRule',
       );
 
 
