@@ -72,13 +72,13 @@ class PluginBehaviorsTicket_User {
             $gu = new Ticket_User();
             $gu->delete($data);
          }
-		 
-		 if ($config->getField('single_tech_mode') == 2){
 
-	         foreach ($DB->request('glpi_groups_tickets', $crit) as $data) {
-	            $gu = new Group_Ticket();
-	            $gu->delete($data);
-	         }
+       if ($config->getField('single_tech_mode') == 2){
+
+            foreach ($DB->request('glpi_groups_tickets', $crit) as $data) {
+               $gu = new Group_Ticket();
+               $gu->delete($data);
+            }
          }
       }
    }

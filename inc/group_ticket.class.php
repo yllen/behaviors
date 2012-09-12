@@ -62,7 +62,7 @@ class PluginBehaviorsGroup_Ticket {
       }
 
       $config = PluginBehaviorsConfig::getInstance();
-     if ($config->getField('single_tech_mode') != 0
+      if ($config->getField('single_tech_mode') != 0
           && $item->input['type'] == Ticket::ASSIGN) {
 
          $crit = array('tickets_id' => $item->input['tickets_id'],
@@ -73,12 +73,12 @@ class PluginBehaviorsGroup_Ticket {
             $gu->delete($data);
          }
 
-		 if ($config->getField('single_tech_mode') == 2){
+         if ($config->getField('single_tech_mode') == 2){
 
-	         foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
-	            $gu = new Ticket_User();
-	            $gu->delete($data);
-	         }
+            foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
+               $gu = new Ticket_User();
+               $gu->delete($data);
+            }
          }
       }
    }

@@ -231,11 +231,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][20]."&nbsp;:</td><td>";
       $tab = array(
-      	0 => $LANG['plugin_behaviors'][200],
-        1 => $LANG['plugin_behaviors'][201],
-        2 => $LANG['plugin_behaviors'][202]
-		);
-		Dropdown::showFromArray('single_tech_mode', $tab, array('value' => $config->fields['single_tech_mode']));
+         0 => $LANG['plugin_behaviors'][200],
+         1 => $LANG['plugin_behaviors'][201],
+         2 => $LANG['plugin_behaviors'][202]
+      );
+      Dropdown::showFromArray('single_tech_mode', $tab, array('value' => $config->fields['single_tech_mode']));
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
