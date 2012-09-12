@@ -39,6 +39,30 @@ class PluginBehaviorsCommon {
       'Profile'               => 'PluginBehaviorsProfile',
       );
 
+
+   static function getCloneTypes() {
+      return self::$clone_types;
+   }
+
+
+   /**
+    * Declare that a type is clonable
+    *
+    * @param $clonetype    String   classe name of new clonable type
+    * @param $managertype  String   class name which manage the clone actions
+    *
+    * @return Boolean
+   **/
+   static function addCloneType($clonetype, $managertype='') {
+      if (!isset(self::$clone_types[$clonetype])) {
+         self::$clone_types[$clonetype] = ($managertype?$managertype:$clonetype);
+         return true;
+      }
+      // already registered
+      return false;
+   }
+
+
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
       global $LANG;
 
@@ -48,6 +72,7 @@ class PluginBehaviorsCommon {
       }
       return '';
    }
+
 
    static function showCloneForm(CommonGLPI $item) {
       global $LANG;
