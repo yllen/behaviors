@@ -34,17 +34,17 @@
 
 class PluginBehaviorsNotificationTemplate extends PluginBehaviorsCommon {
 
-   static function postClone(NotificationTemplate $srce, NotificationTemplate $dest) {
+   static function postClone(NotificationTemplate $clone, $oldid) {
       global $DB;
 
       $trad = new NotificationTemplateTranslation();
-      $fkey = getForeignKeyFieldForTable($srce->getTable());
-      $crit = array($fkey => $srce->getID());
+      $fkey = getForeignKeyFieldForTable($clone->getTable());
+      $crit = array($fkey => $oldid);
 
       foreach ($DB->request($trad->getTable(), $crit) as $data) {
          unset($data['id']);
-         $data[$fkey] = $dest->getID();
-         $trad->add($data);
+         $data[$fkey] = $clone->getID();
+         $trad->add(Toolbox::addslashes_deep($data));
       }
    }
 }

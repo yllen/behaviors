@@ -105,12 +105,13 @@ class PluginBehaviorsCommon {
       $item->check($param['id'], 'r');
 
       $input = ToolBox::addslashes_deep($item->fields);
+      $input['name']   = $param['name'];
+      $input['_add']   = 1;
+      $input['_old_id'] = $input['id'];
       unset($input['id']);
       if ($item->isEntityAssign()) {
          $input['entities_id'] = $_SESSION['glpiactive_entity'];
       }
-      $input['name'] = $param['name'];
-      $input['_add'] = 1;
 
       // Manage NULL fields in original
       foreach($input as $k => $v) {
@@ -131,8 +132,9 @@ class PluginBehaviorsCommon {
 
       // Specific to itemtype - after clone
       if (method_exists(self::$clone_types[$param['itemtype']], 'postClone')) {
-         call_user_func(array(self::$clone_types[$param['itemtype']], 'postClone'), $item, $clone);
+         call_user_func(array(self::$clone_types[$param['itemtype']], 'postClone'), $clone, $param['id']);
       }
+      Plugin::doHook('item_clone', $clone);
 
       // History
       if ($clone->dohistory) {
