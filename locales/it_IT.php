@@ -59,3 +59,8 @@ $LANG['plugin_behaviors'][22] = "Clone of";
 $LANG['plugin_behaviors'][100] = "Non puoi chiudere una chiamata senza inserire il tipo di soluzione";
 $LANG['plugin_behaviors'][101] = "Non puoi chiudere una chiamata senza inserire la durata";
 $LANG['plugin_behaviors'][102] = "Can't save, item have been updated";
+
+// use_single_tech config options
+$LANG['plugin_behaviors'][200] = "Standard behavior";
+$LANG['plugin_behaviors'][201] = "Single user and single group";
+$LANG['plugin_behaviors'][202] = "Single user or single group";

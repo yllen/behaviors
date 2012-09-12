@@ -89,7 +89,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `add_notif` tinyint(1) NOT NULL default '0',
                      `use_lock` tinyint(1) NOT NULL default '0',
-                     `use_single_tech` tinyint(1) NOT NULL default '0',
+                     `single_tech_mode` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -123,7 +123,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'use_lock',                 'bool');
 
          // Version 0.83.4 - single tech/group #3857
-         $mig->addField($table, 'use_single_tech',          'bool');
+         $mig->addField($table, 'single_tech_mode',         "tinyint(1) NOT NULL default '0'");
       }
 
       return true;
@@ -230,7 +230,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".$LANG['plugin_behaviors'][20]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("use_single_tech", $config->fields['use_single_tech']);
+      $tab = array(
+      	0 => $LANG['plugin_behaviors'][200],
+        1 => $LANG['plugin_behaviors'][201],
+        2 => $LANG['plugin_behaviors'][202]
+		);
+		Dropdown::showFromArray('single_tech_mode', $tab, array('value' => $config->fields['single_tech_mode']));
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
