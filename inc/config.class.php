@@ -89,7 +89,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `add_notif` tinyint(1) NOT NULL default '0',
                      `use_lock` tinyint(1) NOT NULL default '0',
-                     `single_tech_mode` tinyint(1) NOT NULL default '0',
+                     `single_tech_mode` int(11) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -123,7 +123,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'use_lock',                 'bool');
 
          // Version 0.83.4 - single tech/group #3857
-         $mig->addField($table, 'single_tech_mode',         "tinyint(1) NOT NULL default '0'");
+         $mig->addField($table, 'single_tech_mode',         'integer');
       }
 
       return true;
