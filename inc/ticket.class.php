@@ -45,6 +45,7 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketnewtech'] = $LANG['plugin_behaviors'][16];
          $target->events['plugin_behaviors_ticketnewgrp']  = $LANG['plugin_behaviors'][17];
          $target->events['plugin_behaviors_ticketreopen']  = $LANG['plugin_behaviors'][18];
+         $target->events['plugin_behaviors_replysurvey']   = $LANG['plugin_behaviors'][23];
       }
    }
 

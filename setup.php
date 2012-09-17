@@ -55,13 +55,14 @@ function plugin_init_behaviors() {
    );
 
    $PLUGIN_HOOKS['item_update']['behaviors'] = array(
-      'Computer'           => array('PluginBehaviorsComputer',          'afterUpdate'),
-      'Monitor'            => array('PluginBehaviorsMonitor',           'afterUpdate'),
-      'NetworkEquipment'   => array('PluginBehaviorsNetworkEquipment',  'afterUpdate'),
-      'Peripheral'         => array('PluginBehaviorsPeripheral',        'afterUpdate'),
-      'Phone'              => array('PluginBehaviorsPhone',             'afterUpdate'),
-      'Printer'            => array('PluginBehaviorsPrinter',           'afterUpdate'),
-      'Ticket'             => array('PluginBehaviorsTicket',            'afterUpdate'),
+      'Computer'           => array('PluginBehaviorsComputer',           'afterUpdate'),
+      'Monitor'            => array('PluginBehaviorsMonitor',            'afterUpdate'),
+      'NetworkEquipment'   => array('PluginBehaviorsNetworkEquipment',   'afterUpdate'),
+      'Peripheral'         => array('PluginBehaviorsPeripheral',         'afterUpdate'),
+      'Phone'              => array('PluginBehaviorsPhone',              'afterUpdate'),
+      'Printer'            => array('PluginBehaviorsPrinter',            'afterUpdate'),
+      'Ticket'             => array('PluginBehaviorsTicket',             'afterUpdate'),
+      'TicketSatisfaction' => array('PluginBehaviorsTicketSatisfaction', 'afterUpdate'),
    );
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] = array(
@@ -95,11 +96,11 @@ function plugin_version_behaviors() {
    global $LANG;
 
    return array('name'           => $LANG['plugin_behaviors'][0],
-                'version'        => '0.83.3',
+                'version'        => '0.83.4',
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
-                'minGlpiVersion' => '0.83.3');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '0.83.4');// For compatibility / no install in version < 0.72
 }
 
 
@@ -107,8 +108,8 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.83.3','lt') || version_compare(GLPI_VERSION,'0.84','ge')) {
-      echo "This plugin requires GLPI >= 0.83.3";
+   if (version_compare(GLPI_VERSION,'0.83.4','lt') || version_compare(GLPI_VERSION,'0.84','ge')) {
+      echo "This plugin requires GLPI >= 0.83.4";
       return false;
    }
    return true;

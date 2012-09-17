@@ -54,6 +54,7 @@ $LANG['plugin_behaviors'][19] = "Attiva protezione da inserimenti simultanei";
 $LANG['plugin_behaviors'][20] = "Singolo tecnico e gruppo";
 $LANG['plugin_behaviors'][21] = "Clona";
 $LANG['plugin_behaviors'][22] = "Clone di";
+$LANG['plugin_behaviors'][23] = "Reply to satisfaction survey";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Non puoi chiudere una chiamata senza inserire il tipo di soluzione";

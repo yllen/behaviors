@@ -55,6 +55,7 @@ $LANG['plugin_behaviors'][19] = "Protect from simultaneous update";
 $LANG['plugin_behaviors'][20] = "Single technician and group";
 $LANG['plugin_behaviors'][21] = "Clone";
 $LANG['plugin_behaviors'][22] = "Clone of";
+$LANG['plugin_behaviors'][23] = "Reply to satisfaction survey";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Kan ticket niet sluiten zonder oplossingstype";

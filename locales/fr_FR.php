@@ -54,6 +54,7 @@ $LANG['plugin_behaviors'][19] = "Interdire les modifications simultanées";
 $LANG['plugin_behaviors'][20] = "Technicien et groupe unique";
 $LANG['plugin_behaviors'][21] = "Cloner";
 $LANG['plugin_behaviors'][22] = "Copie de";
+$LANG['plugin_behaviors'][23] = "Réponse à enquête de satisfaction";
 
 // Message
 $LANG['plugin_behaviors'][100] = "Impossible de fermer un ticket sans type de solution";
