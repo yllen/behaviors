@@ -37,7 +37,7 @@ class PluginBehaviorsTicket_User {
    static function afterAdd(Ticket_User $item) {
       global $DB, $LANG;
 
-      //logDebug("PluginBehaviorsTicket_User::afterAdd()", $item);
+      //Toolbox::logDebug(__METHOD__, $item);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')) {
@@ -48,13 +48,6 @@ class PluginBehaviorsTicket_User {
             }
          }
       }
-   }
-
-
-   static function beforeAdd(Ticket_User $item) {
-      global $DB, $LANG;
-
-      // Toolbox::logDebug("PluginBehaviorsTicket_User::beforeAdd()", $item);
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
@@ -69,11 +62,13 @@ class PluginBehaviorsTicket_User {
                        'type'       => Ticket::ASSIGN);
 
          foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
-            $gu = new Ticket_User();
-            $gu->delete($data);
+            if ($data['id'] != $item->getID()) {
+               $gu = new Ticket_User();
+               $gu->delete($data);
+            }
          }
 
-       if ($config->getField('single_tech_mode') == 2){
+       if ($config->getField('single_tech_mode') == 2) {
 
             foreach ($DB->request('glpi_groups_tickets', $crit) as $data) {
                $gu = new Group_Ticket();
