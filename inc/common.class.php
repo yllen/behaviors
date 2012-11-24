@@ -69,6 +69,13 @@ class PluginBehaviorsCommon {
       return false;
    }
 
+   static function postInit() {
+      Plugin::registerClass('PluginBehaviorsCommon',
+                         array('addtabon' => array_keys(PluginBehaviorsCommon::getCloneTypes())));
+
+      PluginBehaviorsTicket::onNewTicket();
+   }
+
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
       global $LANG;

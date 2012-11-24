@@ -36,10 +36,6 @@
 function plugin_init_behaviors() {
    global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
 
-   if (class_exists('PluginBehaviorsCommon')) {
-      Plugin::registerClass('PluginBehaviorsCommon',
-                         array('addtabon' => array_keys(PluginBehaviorsCommon::getCloneTypes())));
-   }
    Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => 'Config'));
    $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
 
@@ -81,11 +77,12 @@ function plugin_init_behaviors() {
       'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
    );
 
-   $PLUGIN_HOOKS['post_init']['behaviors'] = array('PluginBehaviorsTicket',   'onNewTicket');
-
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['behaviors'] =
          array('NotificationTargetTicket' => array('PluginBehaviorsTicket', 'addEvents'));
+
+   // End init, when all types are registered
+   $PLUGIN_HOOKS['post_init']['behaviors'] = array('PluginBehaviorsCommon', 'postInit');
 
    $PLUGIN_HOOKS['csrf_compliant']['behaviors'] = true;
 }

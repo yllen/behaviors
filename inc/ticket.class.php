@@ -242,7 +242,7 @@ class PluginBehaviorsTicket {
    }
 
 
-   static function onNewTicket($item) {
+   static function onNewTicket() {
 
       if (isset($_SESSION['glpiactiveprofile']['interface'])
           && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
