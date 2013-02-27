@@ -35,12 +35,10 @@
 class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
    static function afterAdd(Computer $comp) {
-
       // Toolbox::logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
    }
 
    static function afterUpdate(Computer $comp) {
-
       // Toolbox::logDebug("PluginBehaviorsComputer::afterUpdate(), Computer=", $comp);
    }
 

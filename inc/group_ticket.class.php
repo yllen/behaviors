@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2013 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -35,13 +35,13 @@
 class PluginBehaviorsGroup_Ticket {
 
    static function afterAdd(Group_Ticket $item) {
-      global $DB, $LANG;
+      global $DB;
 
       //Toolbox::logDebug(__METHOD__, $item);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')) {
-         if ($item->getField('type') == Ticket::ASSIGN) {
+         if ($item->getField('type') == CommonITILActor::ASSIGN) {
             $ticket = new Ticket();
             if ($ticket->getFromDB($item->getField('tickets_id'))) {
                NotificationEvent::raiseEvent('plugin_behaviors_ticketnewgrp', $ticket);
@@ -50,16 +50,17 @@ class PluginBehaviorsGroup_Ticket {
       }
 
       // Check is the connected user is a tech
-      if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('own_ticket',1)) {
          return false; // No check
       }
 
       $config = PluginBehaviorsConfig::getInstance();
-      if ($config->getField('single_tech_mode') != 0
-          && $item->input['type'] == Ticket::ASSIGN) {
+      if (($config->getField('single_tech_mode') != 0)
+          && ($item->input['type'] == CommonITILActor::ASSIGN)) {
 
          $crit = array('tickets_id' => $item->input['tickets_id'],
-                       'type'       => Ticket::ASSIGN);
+                       'type'       => CommonITILActor::ASSIGN);
 
          foreach ($DB->request('glpi_groups_tickets', $crit) as $data) {
             if ($data['id'] != $item->getID()) {

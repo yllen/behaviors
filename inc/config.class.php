@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2013 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -36,25 +36,26 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
    static private $_instance = NULL;
 
-   function canCreate() {
+
+   static function canCreate() {
       return Session::haveRight('config', 'w');
    }
 
-   function canView() {
+
+   static function canView() {
       return Session::haveRight('config', 'r');
    }
 
-   static function getTypeName() {
-      global $LANG;
 
-      return $LANG['common'][12];
+   static function getTypeName() {
+      return __('Setup');
    }
+
 
    function getName($with_comment=0) {
-      global $LANG;
-
-      return $LANG['plugin_behaviors'][0];
+      return __('Behaviours', 'behaviors');
    }
+
 
    /**
     * Singleton for the unique config record
@@ -70,13 +71,14 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return self::$_instance;
    }
 
+
    static function install(Migration $mig) {
-      global $DB, $LANG;
+      global $DB;
 
       $table = 'glpi_plugin_behaviors_configs';
       if (!TableExists($table)) { //not installed
 
-         $query = "CREATE TABLE `$table` (
+         $query = "CREATE TABLE". `$table` ."(
                      `id` int(11) NOT NULL,
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
@@ -94,10 +96,14 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `comment` text,
                      PRIMARY KEY  (`id`)
                    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-         $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
+         $DB->queryOrDie($query, __('Error in creating glpi_plugin_behaviors_configs', 'behaviors').
+                                 "<br>".$DB->error());
 
-         $query = "INSERT INTO `$table` (id, date_mod) VALUES (1, NOW())";
-         $DB->query($query) or die($LANG['update'][90] . "&nbsp;:<br>" . $DB->error());
+         $query = "INSERT INTO ".`$table` ."
+                         (id, date_mod)
+                   VALUES (1, NOW())";
+         $DB->queryOrDie($query, __('Error during update glpi_plugin_behaviors_configs', 'behaviors').
+                                 "<br>" . $DB->error());
 
       } else {
          // Upgrade
@@ -129,62 +135,63 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return true;
    }
 
+
    static function uninstall() {
       global $DB;
 
       if (TableExists('glpi_plugin_behaviors_configs')) { //not installed
 
          $query = "DROP TABLE `glpi_plugin_behaviors_configs`";
-         $DB->query($query) or die($DB->error());
+         $DB->queryOrDie($query, $DB->error());
       }
       return true;
    }
 
-   static function showConfigForm($item) {
-      global $LANG;
 
-      $yesnoall = array(
-         0 => $LANG['choice'][0],
-         1 => $LANG['buttons'][55],
-         2 => $LANG['common'][66]
-      );
+   static function showConfigForm($item) {
+
+      $yesnoall = array(0 => __('No'),
+                        1 => __('First'),
+                        2 => __('All'));
 
       $config = self::getInstance();
 
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][13]."</td>";      // New ticket
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['Menu'][38]."</td>";     // Inventory
+      echo "<td colspan='2' class='tab_bg_2 b center'>".__('New ticket')."</td>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Inventory', 'behaviors')."</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][10]."&nbsp;:</td><td>";
-      $tab = array('NULL' => '-----');
+      echo "<td>".__("Ticket's number format", "behaviors")."</td><td>";
+      $tab = array('NULL' => Dropdown::EMPTY_VALUE);
       foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
          $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
       }
-      Dropdown::showFromArray("tickets_id_format", $tab, array('value' => $config->fields['tickets_id_format']));
-      echo "<td>".$LANG['plugin_behaviors'][11]."&nbsp;:</td><td>";
+      Dropdown::showFromArray("tickets_id_format", $tab,
+                              array('value' => $config->fields['tickets_id_format']));
+      echo "<td>".__('Delete computer in OCSNG when purged from GLPI', 'behaviors')."</td><td>";
       $plugin = new Plugin();
       if ($plugin->isActivated('uninstall')) {
          Dropdown::showYesNo('remove_from_ocs', $config->fields['remove_from_ocs']);
       } else {
-         echo $LANG['plugin_behaviors'][12];
+         _e("Plugin \"Item's uninstallation\" not installed", "behaviors");
       }
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][1]."&nbsp;:</td><td>";
+      echo "<td>".__("Use the associated item's group", "behaviors")."</td><td>";
       Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".$LANG['setup'][704];     // Notifications
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
+                                                                'behaviors');
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][2]."&nbsp;:</td><td>";
+      echo "<td>".__("Use the requester's group", "behaviors")."$</td><td>";
       Dropdown::showFromArray('use_requester_user_group', $yesnoall,
                               array('value' => $config->fields['use_requester_user_group']));
-      echo "<td>".$LANG['plugin_behaviors'][15]."&nbsp;:</td><td>";
+      echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
       Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
@@ -196,46 +203,47 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][13]."&nbsp;:</td><td>";
+      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
       echo "</td><td rowspan='7' colspan='2' class='center'>";
       echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
-      echo "<br>".$LANG['common'][26]."&nbsp;: ";
-      echo Html::convDateTime($config->fields["date_mod"]);
+      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
+                             Html::convDateTime($config->fields["date_mod"]));
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
-      echo "<td colspan='2' class='tab_bg_2 b center'>".$LANG['job'][38].' - '.$LANG['buttons'][14];
-      echo "</td></tr>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][7]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("is_ticketrealtime_mandatory", $config->fields['is_ticketrealtime_mandatory']);
+      echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("is_ticketrealtime_mandatory",
+                          $config->fields['is_ticketrealtime_mandatory']);
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][8]."&nbsp;:</td><td>";
-      Dropdown::showYesNo("is_ticketsolutiontype_mandatory", $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "<td>".__('Type of solution is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketsolutiontype_mandatory",
+                          $config->fields['is_ticketsolutiontype_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][14]."&nbsp;:</td><td>";
+      echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][19]."&nbsp;:</td><td>";
+      echo "<td>".__('Protect from simultaneous update', 'behaviors')."</td><td>";
       Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][20]."&nbsp;:</td><td>";
-      $tab = array(
-         0 => $LANG['choice'][0],
-         1 => $LANG['plugin_behaviors'][201],
-         2 => $LANG['plugin_behaviors'][202]
-      );
-      Dropdown::showFromArray('single_tech_mode', $tab, array('value' => $config->fields['single_tech_mode']));
+      echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
+      $tab = array(0 => __('No'),
+                   1 => __('Single user and single group', 'behaviors'),
+                   2 => __('Single user or group', 'behaviors'));
+      Dropdown::showFromArray('single_tech_mode', $tab,
+                              array('value' => $config->fields['single_tech_mode']));
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
@@ -245,10 +253,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
-      global $LANG;
 
       if ($item->getType()=='Config') {
-            return $LANG['plugin_behaviors'][0];
+            return self::getName();
       }
       return '';
    }

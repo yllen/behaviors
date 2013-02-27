@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2013 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -36,28 +36,27 @@ class PluginBehaviorsTicket {
 
 
    static function addEvents(NotificationTargetTicket $target) {
-      global $LANG;
 
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
-         $target->events['plugin_behaviors_ticketnewtech'] = $LANG['plugin_behaviors'][16];
-         $target->events['plugin_behaviors_ticketnewgrp']  = $LANG['plugin_behaviors'][17];
-         $target->events['plugin_behaviors_ticketreopen']  = $LANG['plugin_behaviors'][18];
-         $target->events['plugin_behaviors_replysurvey']   = $LANG['plugin_behaviors'][23];
+         $target->events['plugin_behaviors_ticketnewtech'] = __('Assign to a technician', 'behaviors');
+         $target->events['plugin_behaviors_ticketnewgrp']  = __('Assign to a group', 'behaviors');
+         $target->events['plugin_behaviors_ticketreopen']  = __('Reopen ticket', 'behaviors');
+         $target->events['plugin_behaviors_replysurvey']   = __('Reply to satisfaction survey',
+                                                                'behaviors');
       }
    }
 
 
    static function beforeAdd(Ticket $ticket) {
-      global $DB, $LANG;
+      global $DB;
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
       }
-
 
       //Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
@@ -77,12 +76,13 @@ class PluginBehaviorsTicket {
 
       if (!isset($ticket->input['_auto_import'])
           && isset($_SESSION['glpiactiveprofile']['interface'])
-          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+          && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
+
          if ($config->getField('is_requester_mandatory')
              && !$ticket->input['_users_id_requester']
              && (!isset($ticket->input['_users_id_requester_notif']['alternative_email'])
                  || empty($ticket->input['_users_id_requester_notif']['alternative_email']))) {
-            Session::addMessageAfterRedirect($LANG['plugin_behaviors'][13], true, ERROR);
+            Session::addMessageAfterRedirect(__('Requester is mandatory', 'behaviors'), true, ERROR);
             $ticket->input = array();
             return true;
 
@@ -92,9 +92,10 @@ class PluginBehaviorsTicket {
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['itemtype'])
           && isset($ticket->input['items_id'])
-          && $ticket->input['items_id']>0
+          && ($ticket->input['items_id'] > 0)
           && ($item = getItemForItemtype($ticket->input['itemtype']))
-          && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
+          && (!isset($ticket->input['_groups_id_requester'])
+              || ($ticket->input['_groups_id_requester'] <= 0))) {
 
          if ($item->isField('groups_id')
              && $item->getFromDB($ticket->input['items_id'])) {
@@ -113,8 +114,9 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('use_requester_user_group')
           && isset($ticket->input['_users_id_requester'])
-          && $ticket->input['_users_id_requester']>0
+          && ($ticket->input['_users_id_requester'] > 0)
           && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
+
             if ($config->getField('use_requester_user_group') == 1) {
                // First group
                $ticket->input['_groups_id_requester']
@@ -139,7 +141,7 @@ class PluginBehaviorsTicket {
 
 
    static function afterPrepareAdd(Ticket $ticket) {
-      global $DB, $LANG;
+      global $DB;
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -151,8 +153,10 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('use_assign_user_group')
           && isset($ticket->input['_users_id_assign'])
-          && $ticket->input['_users_id_assign']>0
-          && (!isset($ticket->input['_groups_id_assign']) || $ticket->input['_groups_id_assign']<=0)) {
+          && ($ticket->input['_users_id_assign'] > 0)
+          && (!isset($ticket->input['_groups_id_assign'])
+              || ($ticket->input['_groups_id_assign'] <= 0))) {
+
          if ($config->getField('use_assign_user_group')==1) {
             // First group
             $ticket->input['_groups_id_assign']
@@ -172,7 +176,6 @@ class PluginBehaviorsTicket {
 
 
    static function beforeUpdate(Ticket $ticket) {
-      global $LANG;
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -183,7 +186,8 @@ class PluginBehaviorsTicket {
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
-      if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('own_ticket',1)) {
          return false; // No check
       }
 
@@ -197,9 +201,9 @@ class PluginBehaviorsTicket {
           && $config->getField('use_lock')
           && $ticket->input['_read_date_mod']!=$ticket->fields['date_mod']) {
 
-         $msg = $LANG['plugin_behaviors'][102].' ('.
-                getUserName($ticket->fields['users_id_lastupdater']).', '.
-                Html::convDateTime($config->fields['date_mod']).')';
+         $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
+                           getUserName($ticket->fields['users_id_lastupdater']).', '.
+                           Html::convDateTime($config->fields['date_mod']));
 
          Session::addMessageAfterRedirect($msg, true, ERROR);
          return $ticket->input = false;
@@ -213,19 +217,18 @@ class PluginBehaviorsTicket {
                     : $ticket->fields['actiontime']);
 
       // Wand to solve/close the ticket
-      if ((isset($ticket->input['solutiontypes_id'])
-             &&  $ticket->input['solutiontypes_id'])
-          || (isset($ticket->input['solution'])
-              &&    $ticket->input['solution'])
+      if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
+          || (isset($ticket->input['solution']) && $ticket->input['solution'])
           || (isset($ticket->input['status'])
-               && in_array($ticket->input['status'], array('solved','closed')))) {
+              && in_array($ticket->input['status'], array('solved','closed')))) {
 
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect($LANG['plugin_behaviors'][101], true, ERROR);
+               Session::addMessageAfterRedirect(__('You cannot close a ticket without duration',
+                                                   'behaviors'), true, ERROR);
             }
          }
          if ($config->getField('is_ticketsolutiontype_mandatory')) {
@@ -233,7 +236,8 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect($LANG['plugin_behaviors'][100], true, ERROR);
+               Session::addMessageAfterRedirect(__('You cannot close a ticket without solution type',
+                                                   'behaviors'), true, ERROR);
             }
          }
       }
@@ -245,22 +249,22 @@ class PluginBehaviorsTicket {
    static function onNewTicket() {
 
       if (isset($_SESSION['glpiactiveprofile']['interface'])
-          && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
+          && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
+
          if (strstr($_SERVER['PHP_SELF'], "/front/ticket.form.php")
-                 AND isset($_POST['id'])
-                 AND $_POST['id'] == 0
-                 AND !isset($_GET['id'])) {
+             && isset($_POST['id'])
+             && ($_POST['id'] == 0)
+             && !isset($_GET['id'])) {
 
             $config = PluginBehaviorsConfig::getInstance();
 
             // Only if config to add the "first" group
-            if ($config->getField('use_requester_user_group')==1
-                && isset($_POST['_users_id_requester'])
-                && $_POST['_users_id_requester']>0
+            if (($config->getField('use_requester_user_group') == 1)
+                && isset($_POST['_users_id_requester']) && ($_POST['_users_id_requester'] > 0)
                 && (!isset($_POST['_groups_id_requester'])
-                    || $_POST['_groups_id_requester']<=0
+                    || ($_POST['_groups_id_requester'] <= 0)
                     || (isset($_SESSION['glpi_behaviors_auto_group'])
-                        && $_SESSION['glpi_behaviors_auto_group']==$_POST['_groups_id_requester']))) {
+                        && ($_SESSION['glpi_behaviors_auto_group'] == $_POST['_groups_id_requester'])))) {
 
                // Select first group of this user
                $grp = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
@@ -269,12 +273,11 @@ class PluginBehaviorsTicket {
                $_SESSION['glpi_behaviors_auto_group'] = $grp;
                $_REQUEST['_groups_id_requester']      = $grp;
 
-            } else if ($config->getField('use_requester_user_group')==1
-                && isset($_POST['_users_id_requester'])
-                && $_POST['_users_id_requester']<=0
+            } else if (($config->getField('use_requester_user_group') == 1)
+                && isset($_POST['_users_id_requester']) && ($_POST['_users_id_requester'] <= 0)
                 && isset($_POST['_groups_id_requester'])
                 && isset($_SESSION['glpi_behaviors_auto_group'])
-                && $_SESSION['glpi_behaviors_auto_group']==$_POST['_groups_id_requester']) {
+                && ($_SESSION['glpi_behaviors_auto_group'] == $_POST['_groups_id_requester'])) {
 
                // clear user, so clear group
                $_SESSION['glpi_behaviors_auto_group'] = 0;

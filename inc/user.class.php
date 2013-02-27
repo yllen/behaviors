@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2013 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -42,29 +42,29 @@ class PluginBehaviorsUser {
       $query = "SELECT glpi_groups.id
                 FROM glpi_groups_users
                 INNER JOIN glpi_groups ON (glpi_groups.id = glpi_groups_users.groups_id)
-                WHERE glpi_groups_users.users_id='$userid'".
+                WHERE glpi_groups_users.users_id = '".$userid."'".
                 getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
 
       if ($filter) {
-         $query .= "AND ($filter)";
+         $query .= "AND (".$filter.")";
       }
       $rep = array();
       foreach ($DB->request($query) as $data) {
          if ($first) {
             return $data['id'];
          }
-         $rep[]=$data['id'];
+         $rep[] = $data['id'];
       }
       return ($first ? 0 : $rep);
    }
 
-   static function getRequesterGroup ($entity, $userid, $first=true) {
 
+   static function getRequesterGroup ($entity, $userid, $first=true) {
       return self::getUserGroup($entity, $userid, '`is_requester`', $first);
    }
 
-   static function getTechnicianGroup ($entity, $userid, $first=true) {
 
+   static function getTechnicianGroup ($entity, $userid, $first=true) {
       return self::getUserGroup($entity, $userid, '`is_assign`', $first);
    }
 

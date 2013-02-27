@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2013 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -35,7 +35,6 @@
 class PluginBehaviorsRule extends PluginBehaviorsCommon {
 
    static function postClone(Rule $clone, $oldid) {
-
       global $DB;
 
       $fkey = getForeignKeyFieldForTable($clone->getTable());

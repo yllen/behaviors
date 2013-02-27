@@ -35,13 +35,13 @@
 class PluginBehaviorsTicket_User {
 
    static function afterAdd(Ticket_User $item) {
-      global $DB, $LANG;
+      global $DB;
 
       //Toolbox::logDebug(__METHOD__, $item);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')) {
-         if ($item->getField('type') == Ticket::ASSIGN) {
+         if ($item->getField('type') == CommonITILActor::ASSIGN) {
             $ticket = new Ticket();
             if ($ticket->getFromDB($item->getField('tickets_id'))) {
                NotificationEvent::raiseEvent('plugin_behaviors_ticketnewtech', $ticket);
@@ -50,16 +50,17 @@ class PluginBehaviorsTicket_User {
       }
 
       // Check is the connected user is a tech
-      if (!is_numeric(Session::getLoginUserID(false)) || !Session::haveRight('own_ticket',1)) {
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('own_ticket',1)) {
          return false; // No check
       }
 
       $config = PluginBehaviorsConfig::getInstance();
-      if ($config->getField('single_tech_mode') != 0
-          && $item->input['type'] == Ticket::ASSIGN) {
+      if (($config->getField('single_tech_mode') != 0)
+          && ($item->input['type'] == CommonITILActor::ASSIGN)) {
 
          $crit = array('tickets_id' => $item->input['tickets_id'],
-                       'type'       => Ticket::ASSIGN);
+                       'type'       => CommonITILActor::ASSIGN);
 
          foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
             if ($data['id'] != $item->getID()) {
