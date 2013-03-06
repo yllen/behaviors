@@ -88,7 +88,6 @@ function plugin_init_behaviors() {
 }
 
 function plugin_version_behaviors() {
-   global $LANG;
 
    return array('name'           => __('Behaviours', 'behaviors'),
                 'version'        => '0.84',
