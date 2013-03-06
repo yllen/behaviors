@@ -196,10 +196,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".$LANG['plugin_behaviors'][6]."&nbsp;:</td><td>";
+      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group', $yesnoall,
                               array('value' => $config->fields['use_assign_user_group']));
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".$LANG['common'][25];      // Comments
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
