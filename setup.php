@@ -90,7 +90,7 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
    global $LANG;
 
-   return array('name'           => $LANG['plugin_behaviors'][0],
+   return array('name'           => __('Behaviours', 'behaviors'),
                 'version'        => '0.84',
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet, Nelly Mahu-Lasson',
