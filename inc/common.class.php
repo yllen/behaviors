@@ -33,12 +33,12 @@
 */
 
 class PluginBehaviorsCommon {
-   //TODO RuleOcs is now in the ocsinventoryng plugin
+
    static $clone_types = array('NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
                                'Profile'               => 'PluginBehaviorsProfile',
                                'RuleImportComputer'    => 'PluginBehaviorsRule',
+                               'RuleImportEntity'      => 'PluginBehaviorsRule',
                                'RuleMailCollector'     => 'PluginBehaviorsRule',
-    //                           'RuleOcs'               => 'PluginBehaviorsRule',
                                'RuleRight'             => 'PluginBehaviorsRule',
                                'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
                                'RuleTicket'            => 'PluginBehaviorsRule',
