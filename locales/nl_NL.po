@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-27 17:07+0100\n"
+"POT-Creation-Date: 2013-03-06 16:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: setup.php:92 inc/config.class.php:56
+msgid "Behaviours"
+msgstr "Behaviours"
+
 #: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
 msgid "Clone"
 msgstr "Clone"
@@ -24,10 +28,6 @@ msgstr "Clone"
 #: inc/common.class.php:108 inc/common.class.php:186
 msgid "Clone of"
 msgstr "Clone of"
-
-#: inc/config.class.php:56
-msgid "Behaviours"
-msgstr "Behaviours"
 
 #: inc/config.class.php:99
 msgid "Error in creating glpi_plugin_behaviors_configs"
@@ -47,11 +47,11 @@ msgstr "Ticketnummer formaat"
 
 #: inc/config.class.php:174
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Verwijder computers in OCSNG als ze uit GLPI verwijderd worden"
+msgstr ""
 
 #: inc/config.class.php:179
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Plugin \"Item's uninstallation\" niet geïnstalleerd"
+msgstr ""
 
 #: inc/config.class.php:184
 msgid "Use the associated item's group"

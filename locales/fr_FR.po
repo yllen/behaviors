@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-27 17:07+0100\n"
+"POT-Creation-Date: 2013-03-06 16:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: setup.php:92 inc/config.class.php:56
+msgid "Behaviours"
+msgstr "Comportements"
 
 #: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
 msgid "Clone"
@@ -25,21 +29,17 @@ msgstr "Cloner"
 msgid "Clone of"
 msgstr "Copie de"
 
-#: inc/config.class.php:56
-msgid "Behaviours"
-msgstr "Comportements"
-
 #: inc/config.class.php:99
 msgid "Error in creating glpi_plugin_behaviors_configs"
-msgstr "Erreur dans la création de glpi_plugin_behaviors_configs"
+msgstr ""
 
 #: inc/config.class.php:105
 msgid "Error during update glpi_plugin_behaviors_configs"
-msgstr "Erreur durant la mise à jour de glpi_plugin_behaviors_configs"
+msgstr ""
 
 #: inc/config.class.php:163
 msgid "Inventory"
-msgstr "Inventaire"
+msgstr ""
 
 #: inc/config.class.php:167
 msgid "Ticket's number format"
@@ -47,11 +47,11 @@ msgstr "Format de numérotation des tickets"
 
 #: inc/config.class.php:174
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Supprimer l'ordinateur d'OCSNF quand il est purgé dans GLPI"
+msgstr ""
 
 #: inc/config.class.php:179
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Le plugin \"Désinstallation d'un matériel\" n'est pas installé"
+msgstr ""
 
 #: inc/config.class.php:184
 msgid "Use the associated item's group"

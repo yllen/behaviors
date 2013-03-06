@@ -34,7 +34,7 @@
 
 // Init the hooks of the plugins -Needed
 function plugin_init_behaviors() {
-   global $PLUGIN_HOOKS,$LANG,$CFG_GLPI;
+   global $PLUGIN_HOOKS, $CFG_GLPI;
 
    Plugin::registerClass('PluginBehaviorsConfig', array('addtabon' => 'Config'));
    $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
@@ -113,7 +113,5 @@ function plugin_behaviors_check_prerequisites() {
 // Check configuration process for plugin : need to return true if succeeded
 // Can display a message only if failure and $verbose is true
 function plugin_behaviors_check_config($verbose=false) {
-   global $LANG;
-
    return true;
 }
