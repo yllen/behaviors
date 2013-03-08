@@ -46,8 +46,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return Session::haveRight('config', 'r');
    }
 
-
-   static function getTypeName() {
+   
+   static function getTypeName($nb=0) {
       return __('Setup');
    }
 
