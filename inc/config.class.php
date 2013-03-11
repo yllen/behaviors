@@ -46,7 +46,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return Session::haveRight('config', 'r');
    }
 
-   
+
    static function getTypeName($nb=0) {
       return __('Setup');
    }
@@ -188,7 +188,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Use the requester's group", "behaviors")."$</td><td>";
+      echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_requester_user_group', $yesnoall,
                               array('value' => $config->fields['use_requester_user_group']));
       echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
@@ -203,7 +203,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
+      echo "<td>".__("Requester is mandatory", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
       echo "</td><td rowspan='7' colspan='2' class='center'>";
       echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";

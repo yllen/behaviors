@@ -32,7 +32,7 @@
  --------------------------------------------------------------------------
  */
 
-include (GLPI_ROOT . "../../../inc/includes.php");
+include ("../../../inc/includes.php");
 
 $config = new PluginBehaviorsCommon();
 if (isset($_POST["_clone"])) {

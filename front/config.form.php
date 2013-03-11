@@ -32,7 +32,7 @@
  --------------------------------------------------------------------------
  */
 
-include (GLPI_ROOT . "../../../inc/includes.php");
+include ("../../../inc/includes.php");
 
 // No autoload when plugin is not activated
 require_once('../inc/config.class.php');
