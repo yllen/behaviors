@@ -220,7 +220,9 @@ class PluginBehaviorsTicket {
       if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
           || (isset($ticket->input['solution']) && $ticket->input['solution'])
           || (isset($ticket->input['status'])
-              && in_array($ticket->input['status'], array('solved','closed')))) {
+              && in_array($ticket->input['status'],
+                          array(implode("','",Ticket::getSolvedStatusArray()),
+                                implode("','",Ticket::getclosedStatusArray()))))) {
 
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
@@ -264,7 +266,8 @@ class PluginBehaviorsTicket {
                 && (!isset($_POST['_groups_id_requester'])
                     || ($_POST['_groups_id_requester'] <= 0)
                     || (isset($_SESSION['glpi_behaviors_auto_group'])
-                        && ($_SESSION['glpi_behaviors_auto_group'] == $_POST['_groups_id_requester'])))) {
+                        && ($_SESSION['glpi_behaviors_auto_group']
+                              == $_POST['_groups_id_requester'])))) {
 
                // Select first group of this user
                $grp = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
@@ -299,8 +302,12 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('add_notif')
           && in_array('status', $ticket->updates)
-          && in_array($ticket->oldvalues['status'], array('closed', 'solved'))
-          && !in_array($ticket->input['status'], array('closed', 'solved'))) {
+          && in_array($ticket->oldvalues['status'],
+                      array(implode("','",Ticket::getSolvedStatusArray()),
+                            implode("','",Ticket::getclosedStatusArray())))
+          && !in_array($ticket->input['status'],
+                       array(implode("','",Ticket::getSolvedStatusArray()),
+                             implode("','",Ticket::getclosedStatusArray())))) {
 
          NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
       }
