@@ -78,7 +78,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $table = 'glpi_plugin_behaviors_configs';
       if (!TableExists($table)) { //not installed
 
-         $query = "CREATE TABLE". `$table` ."(
+         $query = "CREATE TABLE `". $table."`(
                      `id` int(11) NOT NULL,
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
