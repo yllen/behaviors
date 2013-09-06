@@ -99,7 +99,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $DB->queryOrDie($query, __('Error in creating glpi_plugin_behaviors_configs', 'behaviors').
                                  "<br>".$DB->error());
 
-         $query = "INSERT INTO ".`$table` ."
+         $query = "INSERT INTO `$table`
                          (id, date_mod)
                    VALUES (1, NOW())";
          $DB->queryOrDie($query, __('Error during update glpi_plugin_behaviors_configs', 'behaviors').
