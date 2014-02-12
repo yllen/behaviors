@@ -46,6 +46,7 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketreopen']  = __('Reopen ticket', 'behaviors');
          $target->events['plugin_behaviors_replysurvey']   = __('Reply to satisfaction survey',
                                                                 'behaviors');
+         PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
 
@@ -299,7 +300,7 @@ class PluginBehaviorsTicket {
       // Toolbox::logDebug("PluginBehaviorsTicket::afterUpdate(), Ticket=", $ticket);
 
       $config = PluginBehaviorsConfig::getInstance();
-
+      
       if ($config->getField('add_notif')
           && in_array('status', $ticket->updates)
           && in_array($ticket->oldvalues['status'],

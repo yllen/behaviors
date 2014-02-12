@@ -48,6 +48,7 @@ function plugin_init_behaviors() {
       'Printer'            => array('PluginBehaviorsPrinter',           'afterAdd'),
       'Ticket_User'        => array('PluginBehaviorsTicket_User',       'afterAdd'),
       'Group_Ticket'       => array('PluginBehaviorsGroup_Ticket',      'afterAdd'),
+      'Document_Item'      => array('PluginBehaviorsDocument_Item',     'afterAdd'),
    );
 
    $PLUGIN_HOOKS['item_update']['behaviors'] = array(
@@ -75,6 +76,10 @@ function plugin_init_behaviors() {
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
       'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
+   );
+
+   $PLUGIN_HOOKS['item_purge']['behaviors'] = array(
+      'Document_Item'      => array('PluginBehaviorsDocument_Item',     'afterPurge'),
    );
 
    // Notifications
