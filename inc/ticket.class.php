@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2013 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -166,7 +166,7 @@ class PluginBehaviorsTicket {
                                                          true);
          } else {
             // All groups
-            $ticket->input['_additional_groups_assigns"']
+            $ticket->input['_additional_groups_assigns']
                = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
                                                          $ticket->input['_users_id_assign'],
                                                          false);
@@ -300,7 +300,7 @@ class PluginBehaviorsTicket {
       // Toolbox::logDebug("PluginBehaviorsTicket::afterUpdate(), Ticket=", $ticket);
 
       $config = PluginBehaviorsConfig::getInstance();
-      
+
       if ($config->getField('add_notif')
           && in_array('status', $ticket->updates)
           && in_array($ticket->oldvalues['status'],
