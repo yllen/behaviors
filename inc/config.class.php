@@ -130,6 +130,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // Version 0.83.4 - single tech/group #3857
          $mig->addField($table, 'single_tech_mode',         'integer');
+
+         // Version 0.84.2 - solution description mandatory #2803
+         $mig->addField($table, 'is_ticketsolution_mandatory', 'bool');
       }
 
       return true;
@@ -225,6 +228,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketsolutiontype_mandatory",
                           $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Description of solution is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketsolution_mandatory",
+                          $config->fields['is_ticketsolution_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

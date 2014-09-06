@@ -210,12 +210,15 @@ class PluginBehaviorsTicket {
          return $ticket->input = false;
       }
 
-      $sol = (isset($ticket->input['solutiontypes_id'])
-                    ? $ticket->input['solutiontypes_id']
-                    : $ticket->fields['solutiontypes_id']);
-      $dur = (isset($ticket->input['actiontime'])
-                    ? $ticket->input['actiontime']
-                    : $ticket->fields['actiontime']);
+      $soltyp  = (isset($ticket->input['solutiontypes_id'])
+                        ? $ticket->input['solutiontypes_id']
+                        : $ticket->fields['solutiontypes_id']);
+      $dur     = (isset($ticket->input['actiontime'])
+                        ? $ticket->input['actiontime']
+                        : $ticket->fields['actiontime']);
+      $soldesc = (isset($ticket->input['solution'])
+                        ? $ticket->input['solution']
+                        : $ticket->fields['solution']);
 
       // Wand to solve/close the ticket
       if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
@@ -235,7 +238,7 @@ class PluginBehaviorsTicket {
             }
          }
          if ($config->getField('is_ticketsolutiontype_mandatory')) {
-            if (!$sol) {
+            if (!$soltyp) {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
@@ -243,6 +246,16 @@ class PluginBehaviorsTicket {
                                                    'behaviors'), true, ERROR);
             }
          }
+         if ($config->getField('is_ticketsolution_mandatory')) {
+            if (!$soldesc) {
+               unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
+               Session::addMessageAfterRedirect(__('You cannot close a ticket without solution description',
+                                                   'behaviors'), true, ERROR);
+            }
+         }
+
       }
 
       //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
