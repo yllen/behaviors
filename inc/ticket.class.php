@@ -219,6 +219,9 @@ class PluginBehaviorsTicket {
       $soldesc = (isset($ticket->input['solution'])
                         ? $ticket->input['solution']
                         : $ticket->fields['solution']);
+      $cat    = (isset($ticket->input['itilcategories_id'])
+                        ? $ticket->input['itilcategories_id']
+                        : $ticket->fields['itilcategories_id']);
 
       // Wand to solve/close the ticket
       if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
@@ -252,6 +255,15 @@ class PluginBehaviorsTicket {
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__('You cannot close a ticket without solution description',
+                                                   'behaviors'), true, ERROR);
+            }
+         }
+         if ($config->getField('is_ticketcategory_mandatory')) {
+            if (!$cat) {
+               unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
+               Session::addMessageAfterRedirect(__("You cannot close a ticket without ticket's category",
                                                    'behaviors'), true, ERROR);
             }
          }

@@ -133,6 +133,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // Version 0.84.2 - solution description mandatory #2803
          $mig->addField($table, 'is_ticketsolution_mandatory', 'bool');
+         //- ticket category mandatory #3738
+         $mig->addField($table, 'is_ticketcategory_mandatory', 'bool');
+
       }
 
       return true;
@@ -221,6 +224,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory",
                           $config->fields['is_ticketrealtime_mandatory']);
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("is_ticketcategory_mandatory",
+                          $config->fields['is_ticketcategory_mandatory']);
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
