@@ -83,11 +83,14 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_ticketsolution_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_ticketcategory_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
                      `tickets_id_format` VARCHAR(15) NULL,
+                     `is_problemsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
                      `remove_from_ocs` tinyint(1) NOT NULL default '0',
                      `add_notif` tinyint(1) NOT NULL default '0',
                      `use_lock` tinyint(1) NOT NULL default '0',
@@ -135,7 +138,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'is_ticketsolution_mandatory', 'bool');
          //- ticket category mandatory #3738
          $mig->addField($table, 'is_ticketcategory_mandatory', 'bool');
-
+         //- solution type mandatory for a problem  #5048
+         $mig->addField($table, 'is_problemsolutiontype_mandatory', 'bool');
       }
 
       return true;
@@ -263,6 +267,16 @@ class PluginBehaviorsConfig extends CommonDBTM {
                    2 => __('Single user or group', 'behaviors'));
       Dropdown::showFromArray('single_tech_mode', $tab,
                               array('value' => $config->fields['single_tech_mode']));
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>"; // Problem - Update
+      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_problemsolutiontype_mandatory",
+                          $config->fields['is_problemsolutiontype_mandatory']);
       echo "</td></tr>";
 
       $config->showFormButtons(array('candel'=>false));

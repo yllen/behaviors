@@ -71,7 +71,8 @@ function plugin_init_behaviors() {
    );
 
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] = array(
-      'Ticket'    => array('PluginBehaviorsTicket',   'beforeUpdate')
+      'Problem'    => array('PluginBehaviorsProblem', 'beforeUpdate'),
+      'Ticket'     => array('PluginBehaviorsTicket',  'beforeUpdate')
    );
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
