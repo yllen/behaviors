@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2013 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -34,16 +34,8 @@
 
 class PluginBehaviorsTicketSatisfaction {
 
+
    static function afterUpdate(TicketSatisfaction $ticketsatisfaction) {
-
-      $config = PluginBehaviorsConfig::getInstance();
-      $ticket = new Ticket();
-      if ($config->getField('add_notif')
-          && $ticket->getFromDB($ticketsatisfaction->getField('tickets_id'))
-          && $ticketsatisfaction->input["date_answered"]) {
-
-         NotificationEvent::raiseEvent('plugin_behaviors_replysurvey', $ticket);
-      }
    }
 
 }

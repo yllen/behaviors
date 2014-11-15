@@ -44,8 +44,6 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketnewtech'] = __('Assign to a technician', 'behaviors');
          $target->events['plugin_behaviors_ticketnewgrp']  = __('Assign to a group', 'behaviors');
          $target->events['plugin_behaviors_ticketreopen']  = __('Reopen ticket', 'behaviors');
-         $target->events['plugin_behaviors_replysurvey']   = __('Reply to satisfaction survey',
-                                                                'behaviors');
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
