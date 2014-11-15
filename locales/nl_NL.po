@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-06 19:49+0200\n"
-"PO-Revision-Date: 2014-09-06 18:23+0000\n"
+"POT-Creation-Date: 2014-11-15 18:28+0100\n"
+"PO-Revision-Date: 2014-11-15 17:32+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/glpi-project-plugin-behaviors/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: inc/common.class.php:108 inc/common.class.php:186
+#: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr "Aanvullende notities"
 msgid "Use the technician's group"
 msgstr "Gebruik de helpdeskmedewerkersgroep"
 
-#: inc/config.class.php:216 inc/ticket.class.php:86
+#: inc/config.class.php:216 inc/ticket.class.php:84
 msgid "Requester is mandatory"
 msgstr "Aanvrager is verplicht"
 
@@ -124,7 +124,7 @@ msgstr ""
 msgid "Add document to ticket"
 msgstr ""
 
-#: inc/document_item.class.php:46
+#: inc/document_item.class.php:47
 msgid "Delete document to ticket"
 msgstr ""
 
@@ -144,26 +144,22 @@ msgstr "Toekennen aan een groep"
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:47
-msgid "Reply to satisfaction survey"
-msgstr ""
-
-#: inc/ticket.class.php:205
+#: inc/ticket.class.php:202
 msgid "Can't save, item have been updated"
 msgstr ""
 
-#: inc/ticket.class.php:239
+#: inc/ticket.class.php:236
 msgid "You cannot close a ticket without duration"
 msgstr "Kan ticket niet sluiten zonder opgegeven tijdsduur"
 
-#: inc/ticket.class.php:248
+#: inc/ticket.class.php:245
 msgid "You cannot close a ticket without solution type"
 msgstr "Kan ticket niet sluiten zonder oplossingstype"
 
-#: inc/ticket.class.php:257
+#: inc/ticket.class.php:254
 msgid "You cannot close a ticket without solution description"
 msgstr ""
 
-#: inc/ticket.class.php:266
+#: inc/ticket.class.php:263
 msgid "You cannot close a ticket without ticket's category"
 msgstr ""

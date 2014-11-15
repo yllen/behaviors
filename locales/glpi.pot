@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-06 19:49+0200\n"
+"POT-Creation-Date: 2014-11-15 18:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: inc/common.class.php:108 inc/common.class.php:186
+#: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Use the technician's group"
 msgstr ""
 
-#: inc/config.class.php:216 inc/ticket.class.php:86
+#: inc/config.class.php:216 inc/ticket.class.php:84
 msgid "Requester is mandatory"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgstr ""
 msgid "Add document to ticket"
 msgstr ""
 
-#: inc/document_item.class.php:46
+#: inc/document_item.class.php:47
 msgid "Delete document to ticket"
 msgstr ""
 
@@ -144,26 +144,22 @@ msgstr ""
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:47
-msgid "Reply to satisfaction survey"
-msgstr ""
-
-#: inc/ticket.class.php:205
+#: inc/ticket.class.php:202
 msgid "Can't save, item have been updated"
 msgstr ""
 
-#: inc/ticket.class.php:239
+#: inc/ticket.class.php:236
 msgid "You cannot close a ticket without duration"
 msgstr ""
 
-#: inc/ticket.class.php:248
+#: inc/ticket.class.php:245
 msgid "You cannot close a ticket without solution type"
 msgstr ""
 
-#: inc/ticket.class.php:257
+#: inc/ticket.class.php:254
 msgid "You cannot close a ticket without solution description"
 msgstr ""
 
-#: inc/ticket.class.php:266
+#: inc/ticket.class.php:263
 msgid "You cannot close a ticket without ticket's category"
 msgstr ""

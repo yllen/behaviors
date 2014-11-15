@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-06 19:49+0200\n"
-"PO-Revision-Date: 2014-09-06 18:13+0000\n"
+"POT-Creation-Date: 2014-11-15 18:28+0100\n"
+"PO-Revision-Date: 2014-11-15 17:31+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/projects/p/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Comportements"
 msgid "Clone"
 msgstr "Cloner"
 
-#: inc/common.class.php:108 inc/common.class.php:186
+#: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
 msgstr "Copie de"
 
@@ -76,7 +76,7 @@ msgstr "Notifications supplémentaires"
 msgid "Use the technician's group"
 msgstr "Prendre le groupe du technicien"
 
-#: inc/config.class.php:216 inc/ticket.class.php:86
+#: inc/config.class.php:216 inc/ticket.class.php:84
 msgid "Requester is mandatory"
 msgstr "Demandeur est obligatoire"
 
@@ -124,7 +124,7 @@ msgstr "Type de solution obligatoire pour résoudre/fermer un problème"
 msgid "Add document to ticket"
 msgstr "Ajout d'un document au ticket"
 
-#: inc/document_item.class.php:46
+#: inc/document_item.class.php:47
 msgid "Delete document to ticket"
 msgstr "Suppression d'un document du ticket"
 
@@ -144,26 +144,22 @@ msgstr "Attribution à un groupe"
 msgid "Reopen ticket"
 msgstr "Ticket réouvert"
 
-#: inc/ticket.class.php:47
-msgid "Reply to satisfaction survey"
-msgstr "Réponse à enquête de satisfaction"
-
-#: inc/ticket.class.php:205
+#: inc/ticket.class.php:202
 msgid "Can't save, item have been updated"
 msgstr "Enregistrement impossible, l'élément a été modifié"
 
-#: inc/ticket.class.php:239
+#: inc/ticket.class.php:236
 msgid "You cannot close a ticket without duration"
 msgstr "Impossible de fermer un ticket sans durée"
 
-#: inc/ticket.class.php:248
+#: inc/ticket.class.php:245
 msgid "You cannot close a ticket without solution type"
 msgstr "Impossible de fermer un ticket sans type de solution"
 
-#: inc/ticket.class.php:257
+#: inc/ticket.class.php:254
 msgid "You cannot close a ticket without solution description"
 msgstr "Impossible de fermer un ticket sans description de la solution"
 
-#: inc/ticket.class.php:266
+#: inc/ticket.class.php:263
 msgid "You cannot close a ticket without ticket's category"
 msgstr "Impossible de fermer un ticket sans catégorie de ticket"
