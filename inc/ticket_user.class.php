@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -37,7 +37,6 @@ class PluginBehaviorsTicket_User {
    static function afterAdd(Ticket_User $item) {
       global $DB;
 
-      //Toolbox::logDebug(__METHOD__, $item);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')) {
@@ -51,7 +50,7 @@ class PluginBehaviorsTicket_User {
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
-          || !Session::haveRight('own_ticket',1)) {
+          || !Session::haveRight('ticket', Ticket::OWN)) {
          return false; // No check
       }
 

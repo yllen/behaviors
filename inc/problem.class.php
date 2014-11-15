@@ -42,12 +42,12 @@ class PluginBehaviorsProblem {
          return false;
       }
 
-      Toolbox::logDebug("PluginBehaviorsProblem::beforeUpdate(), Problem=", $problem);
+  //    Toolbox::logDebug("PluginBehaviorsProblem::beforeUpdate(), Problem=", $problem);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
-          || !Session::haveRight('edit_all_problem',1)) {
+          || !Session::haveRight('problem', UPDATE)) {
          return false; // No check
       }
 
@@ -74,8 +74,6 @@ class PluginBehaviorsProblem {
             }
          }
       }
-
-      //Toolbox::logDebug("PluginBehaviorsProblem::beforeUpdate(), Updated input=", $problem->input);
    }
 
 }

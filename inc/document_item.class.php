@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    David Durieux
- @copyright Copyright (c) 2010-2013 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -41,39 +41,39 @@ class PluginBehaviorsDocument_Item {
 
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
-         
-         $target->events['plugin_behaviors_document_itemnew']  = __('Add document to ticket', 'behaviors');
-         $target->events['plugin_behaviors_document_itemdel']  = __('Delete document to ticket', 'behaviors');
+
+         $target->events['plugin_behaviors_document_itemnew']  = __('Add document to ticket',
+                                                                    'behaviors');
+         $target->events['plugin_behaviors_document_itemdel']  = __('Delete document to ticket',
+                                                                    'behaviors');
       }
    }
-
 
 
    static function afterAdd(Document_Item $document_item) {
-      
+
       $config = PluginBehaviorsConfig::getInstance();
       if ($config->getField('add_notif')
-          && $document_item->input['itemtype'] == 'Ticket'
-          && $_POST['itemtype'] == 'Ticket') {// prevent not in case of create ticket
+          && ($document_item->input['itemtype'] == 'Ticket')
+          && ($_POST['itemtype'] == 'Ticket')) {// prevent not in case of create ticket
          $ticket = new Ticket();
          $ticket->getFromDB($document_item->input['items_id']);
-         
+
          NotificationEvent::raiseEvent('plugin_behaviors_document_itemnew', $ticket);
       }
    }
-   
-   
-   
+
+
    static function afterPurge(Document_Item $document_item) {
-      
+
       $config = PluginBehaviorsConfig::getInstance();
-      if ($config->getField('add_notif')          
-          && $document_item->fields['itemtype'] == 'Ticket'
+      if ($config->getField('add_notif')
+          && ($document_item->fields['itemtype'] == 'Ticket')
           && isset($_POST['item'])) { // prevent not use in case of purge ticket
-         
+
          $ticket = new Ticket();
          $ticket->getFromDB($document_item->fields['items_id']);
-         
+
          NotificationEvent::raiseEvent('plugin_behaviors_document_itemdel', $ticket);
       }
    }

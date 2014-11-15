@@ -172,7 +172,6 @@ class PluginBehaviorsTicket {
                                                          false);
          }
       }
-      // Toolbox::logDebug("PluginBehaviorsTicket::afterPrepareAdd(), Updated input=", $ticket->input);
    }
 
 
@@ -188,7 +187,7 @@ class PluginBehaviorsTicket {
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
-          || !Session::haveRight('own_ticket',1)) {
+          || !Session::haveRight('ticket', Ticket::OWN)) {
          return false; // No check
       }
 
@@ -200,7 +199,7 @@ class PluginBehaviorsTicket {
 
       if (isset($ticket->input['_read_date_mod'])
           && $config->getField('use_lock')
-          && $ticket->input['_read_date_mod']!=$ticket->fields['date_mod']) {
+          && ($ticket->input['_read_date_mod'] != $ticket->fields['date_mod'])) {
 
          $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
                            getUserName($ticket->fields['users_id_lastupdater']).', '.
@@ -269,8 +268,6 @@ class PluginBehaviorsTicket {
          }
 
       }
-
-      //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Updated input=", $ticket->input);
    }
 
 

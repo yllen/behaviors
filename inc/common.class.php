@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2013 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -122,6 +122,7 @@ class PluginBehaviorsCommon {
 
    }
 
+
    static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
 
       if (array_key_exists($item->getType(), self::$clone_types)
@@ -143,7 +144,7 @@ class PluginBehaviorsCommon {
       }
 
       // Read original and prepare clone
-      $item->check($param['id'], 'r');
+      $item->check($param['id'], READ);
 
       $input = ToolBox::addslashes_deep($item->fields);
       $input['name']    = $param['name'];
@@ -169,7 +170,7 @@ class PluginBehaviorsCommon {
 
       // Clone
       $clone = clone $item;
-      $clone->check(-1, 'w', $input);
+      $clone->check(-1, CREATE, $input);
       $new = $clone->add($input);
 
       // Specific to itemtype - after clone

@@ -96,11 +96,11 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return array('name'           => __('Behaviours', 'behaviors'),
-                'version'        => '0.84.3',
+                'version'        => '0.85',
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet, Nelly Mahu-Lasson',
                 'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
-                'minGlpiVersion' => '0.84');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.72
 }
 
 
@@ -108,8 +108,8 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.84','lt') || version_compare(GLPI_VERSION,'0.85','ge')) {
-      echo "This plugin requires GLPI >= 0.84";
+   if (version_compare(GLPI_VERSION,'0.85','lt') || version_compare(GLPI_VERSION,'0.86','ge')) {
+      echo "This plugin requires GLPI >= 0.85";
       return false;
    }
    return true;

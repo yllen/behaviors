@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2012 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -33,6 +33,7 @@
 */
 
 class PluginBehaviorsComputer extends PluginBehaviorsCommon {
+
 
    static function afterAdd(Computer $comp) {
       // Toolbox::logDebug("PluginBehaviorsComputer::afterAdd(), Computer=", $comp);
@@ -48,7 +49,7 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
       $config = PluginBehaviorsConfig::getInstance();
 
-      if ($config->getField('remove_from_ocs')>0
+      if (($config->getField('remove_from_ocs') > 0)
           && class_exists('PluginUninstallUninstall')) {
          PluginUninstallUninstall::deleteComputerInOCSByGlpiID($comp->fields['id']);
       }

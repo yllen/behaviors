@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet
- @copyright Copyright (c) 2010-2013 Behaviors plugin team
+ @copyright Copyright (c) 2010-2014 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.indepnet.net/projects/behaviors
@@ -39,7 +39,7 @@ require_once('../inc/config.class.php');
 
 $config = new PluginBehaviorsConfig();
 if (isset($_POST["update"])) {
-   $config->check($_POST['id'],'w');
+   $config->check($_POST['id'], UPDATE);
 
    $config->update($_POST);
 
