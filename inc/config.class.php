@@ -169,12 +169,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('New ticket')."</td>";
+      echo "<td colspan='2' class='tab_bg_2 b center' width='60%'>".__('New ticket')."</td>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".__('Inventory', 'behaviors')."</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Ticket's number format", "behaviors")."</td><td>";
+      echo "<td>".__("Ticket's number format", "behaviors")."</td><td width='20%'>";
       $tab = array('NULL' => Dropdown::EMPTY_VALUE);
       foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
          $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
