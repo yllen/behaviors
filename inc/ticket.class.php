@@ -290,8 +290,28 @@ class PluginBehaviorsTicket {
                         && ($_SESSION['glpi_behaviors_auto_group']
                               == $_POST['_groups_id_requester'])))) {
 
+               // Get entity (in case of group not in root entity)
+                  //Get all the user's entities
+                  $all_entities = Profile_User::getUserEntities($_POST["_users_id_requester"], true,
+                                                                true);
+                  //For each user's entity, check if the technician which creates the ticket have access to it
+                  $userentities = array();
+                  foreach ($all_entities as $tmp => $ID_entity) {
+                     if (Session::haveAccessToEntity($ID_entity)) {
+                        $userentities[] = $ID_entity;
+                     }
+                  }
+                  $entities_id = $_POST['entities_id'];
+                  if ((count($userentities) > 0)
+                      && !in_array($_POST["entities_id"], $userentities)) {
+                     // If entity is not in the list of user's entities,
+                     // then use as default value the first value of the user's entites list
+                     $entities_id = $userentities[0];
+                  }
+
+
                // Select first group of this user
-               $grp = PluginBehaviorsUser::getRequesterGroup($_POST['entities_id'],
+               $grp = PluginBehaviorsUser::getRequesterGroup($entities_id,
                                                              $_POST['_users_id_requester'],
                                                              true);
                $_SESSION['glpi_behaviors_auto_group'] = $grp;
