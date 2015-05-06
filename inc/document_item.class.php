@@ -54,6 +54,8 @@ class PluginBehaviorsDocument_Item {
 
       $config = PluginBehaviorsConfig::getInstance();
       if ($config->getField('add_notif')
+         && (isset($_POST['itemtype']))
+         && (isset($document_item->input['itemtype']))
           && ($document_item->input['itemtype'] == 'Ticket')
           && ($_POST['itemtype'] == 'Ticket')) {// prevent not in case of create ticket
          $ticket = new Ticket();
@@ -68,6 +70,7 @@ class PluginBehaviorsDocument_Item {
 
       $config = PluginBehaviorsConfig::getInstance();
       if ($config->getField('add_notif')
+         && (isset($document_item->input['itemtype']))
           && ($document_item->fields['itemtype'] == 'Ticket')
           && isset($_POST['item'])) { // prevent not use in case of purge ticket
 
