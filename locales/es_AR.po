@@ -3,162 +3,163 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Luis A. Uriarte <luisuriarte@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-15 18:28+0100\n"
-"PO-Revision-Date: 2014-11-15 17:30+0000\n"
-"Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
-"Language-Team: English (http://www.transifex.com/projects/p/glpi-project-plugin-behaviors/language/en/)\n"
+"PO-Revision-Date: 2015-05-08 16:55+0000\n"
+"Last-Translator: Luis A. Uriarte <luisuriarte@gmail.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/glpi-project-plugin-behaviors/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
+"Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: setup.php:98 inc/config.class.php:56
 msgid "Behaviours"
-msgstr "Behaviours"
+msgstr "Comportamientos"
 
 #: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
 msgid "Clone"
-msgstr "Clone"
+msgstr "Clonar"
 
 #: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
-msgstr "Clone of"
+msgstr "Clon de"
 
 #: inc/config.class.php:102
 msgid "Error in creating glpi_plugin_behaviors_configs"
-msgstr "Error in creating glpi_plugin_behaviors_configs"
+msgstr "Error al crear al complemento comportamientos"
 
 #: inc/config.class.php:108
 msgid "Error during update glpi_plugin_behaviors_configs"
-msgstr "Error during update glpi_plugin_behaviors_configs"
+msgstr "Error al actualizar al complemento comportamientos"
 
 #: inc/config.class.php:173
 msgid "Inventory"
-msgstr "Inventory"
+msgstr "Inventario"
 
 #: inc/config.class.php:177
 msgid "Ticket's number format"
-msgstr "Ticket's number format"
+msgstr "Formato del número de ticket"
 
 #: inc/config.class.php:184
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Delete computer in OCSNG when purged from GLPI"
+msgstr "Borra computadora de OCSNG cuando se purgue de GLPI"
 
 #: inc/config.class.php:189
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Plugin \"Item's uninstallation\" not installed"
+msgstr "El complemento 'desinstalacion de elementos' no esta instalado"
 
 #: inc/config.class.php:194
 msgid "Use the associated item's group"
-msgstr "Use the associated item's group"
+msgstr "Usar elementos de grupos asociados"
 
 #: inc/config.class.php:196
 msgid "Notification"
 msgid_plural "Notifications"
-msgstr[0] "Notification"
-msgstr[1] "Notifications"
+msgstr[0] "Notificación"
+msgstr[1] "Notificaciones"
 
 #: inc/config.class.php:201
 msgid "Use the requester's group"
-msgstr "Use the requester's group"
+msgstr "Usar grupos de solicitantes"
 
 #: inc/config.class.php:204
 msgid "Additional notifications"
-msgstr "Additional notifications"
+msgstr "Notificaciones adicionales"
 
 #: inc/config.class.php:209
 msgid "Use the technician's group"
-msgstr "Use the technician's group"
+msgstr "Usar grupos de técnicos"
 
 #: inc/config.class.php:216 inc/ticket.class.php:84
 msgid "Requester is mandatory"
-msgstr "Requester is mandatory"
+msgstr "El solicitante es obligatorio"
 
 #: inc/config.class.php:228
 msgid "Duration is mandatory before ticket is solved/closed"
-msgstr "Duration is mandatory before ticket is solved/closed"
+msgstr "La duración es obligatoria luego de luego de resuelto/cerrado el requerimiento"
 
 #: inc/config.class.php:234
 msgid "Category is mandatory before ticket is solved/closed"
-msgstr "Category is mandatory before ticket is solved/closed"
+msgstr "La categoría es obligatoria luego de resuelto/cerrado el requerimiento"
 
 #: inc/config.class.php:240
 msgid "Type of solution is mandatory before ticket is solved/closed"
-msgstr "Type of solution is mandatory before ticket is solved/closed"
+msgstr "El tipo de solución es obligatorio luego de resuelto/cerrado el requerimiento"
 
 #: inc/config.class.php:247
 msgid "Description of solution is mandatory before ticket is solved/closed"
-msgstr "Description of solution is mandatory before ticket is solved/closed"
+msgstr "La descripción de solución es obligatoria luego de resuelto/cerrado el requerimiento"
 
 #: inc/config.class.php:254
 msgid "Deny change of ticket's creation date"
-msgstr "Deny change of ticket's creation date"
+msgstr "No se puede cambiar la fecha de creación del requerimiento"
 
 #: inc/config.class.php:259
 msgid "Protect from simultaneous update"
-msgstr "Protect from simultaneous update"
+msgstr "Proteger para actualización simultánea"
 
 #: inc/config.class.php:264
 msgid "Single technician and group"
-msgstr "Single technician and group"
+msgstr "técnico y grupo simple"
 
 #: inc/config.class.php:266
 msgid "Single user and single group"
-msgstr "Single user and single group"
+msgstr "Usuario simple y grupo simple"
 
 #: inc/config.class.php:267
 msgid "Single user or group"
-msgstr "Single user or group"
+msgstr "Usuario y grupo simple"
 
 #: inc/config.class.php:276
 msgid "Type of solution is mandatory before problem is solved/closed"
-msgstr "Type of solution is mandatory before problem is solved/closed"
+msgstr "El tipo de solución es obligatorio luego de resuelto/cerrado el requerimiento"
 
 #: inc/document_item.class.php:45
 msgid "Add document to ticket"
-msgstr "Add document to ticket"
+msgstr "Agregar documento al requerimiento"
 
 #: inc/document_item.class.php:47
 msgid "Delete document to ticket"
-msgstr "Delete document to ticket"
+msgstr "Borrar documento del requerimiento"
 
 #: inc/problem.class.php:72
 msgid "You cannot close a problem without solution type"
-msgstr "You cannot close a problem without solution type"
+msgstr "No se puede cerrar el problema sin tipo de solución"
 
 #: inc/ticket.class.php:44
 msgid "Assign to a technician"
-msgstr "Assign to a technician"
+msgstr "Asignar a un técnico"
 
 #: inc/ticket.class.php:45
 msgid "Assign to a group"
-msgstr "Assign to a group"
+msgstr "Asignar a un grupo"
 
 #: inc/ticket.class.php:46
 msgid "Reopen ticket"
-msgstr "Reopen ticket"
+msgstr "Reabrir requerimiento"
 
 #: inc/ticket.class.php:202
 msgid "Can't save, item have been updated"
-msgstr "Can't save, item have been updated"
+msgstr "No se puede guardad, se debe actualizar el elemento"
 
 #: inc/ticket.class.php:236
 msgid "You cannot close a ticket without duration"
-msgstr "You cannot close a ticket without duration"
+msgstr "No se puede cerrar el requerimiento sin duración"
 
 #: inc/ticket.class.php:245
 msgid "You cannot close a ticket without solution type"
-msgstr "You cannot close a ticket without solution type"
+msgstr "No se puede cerrar el requerimiento sin tipo de solución"
 
 #: inc/ticket.class.php:254
 msgid "You cannot close a ticket without solution description"
-msgstr "You cannot close a ticket without solution description"
+msgstr "No se puede cerrar el requerimiento sin descripción de solución"
 
 #: inc/ticket.class.php:263
 msgid "You cannot close a ticket without ticket's category"
-msgstr "You cannot close a ticket without ticket's category"
+msgstr "No se puede cerrar el requerimiento sin categoría"
