@@ -21,11 +21,11 @@
  along with Behaviors. If not, see <http://www.gnu.org/licenses/>.
 
  @package   behaviors
- @author    Remi Collet
- @copyright Copyright (c) 2010-2014 Behaviors plugin team
+ @author    Remi Collet, Nelly Mahu-Lasson
+ @copyright Copyright (c) 2010-2015 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
- @link      https://forge.indepnet.net/projects/behaviors
+ @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
  @since     2010
 
@@ -233,7 +233,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot close a ticket without duration',
+               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without duration',
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -242,7 +242,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot close a ticket without solution type',
+               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without solution type',
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -251,7 +251,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot close a ticket without solution description',
+               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without solution description',
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -260,7 +260,17 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("You cannot close a ticket without ticket's category",
+               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without ticket's category",
+                                                   'behaviors'), true, ERROR);
+            }
+         }
+         if ($config->getField('is_tickettech_mandatory')) {
+            if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
+                  && !isset($input["_itil_assign"]['users_id'])) {
+               unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
+               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without techician assign",
                                                    'behaviors'), true, ERROR);
             }
          }

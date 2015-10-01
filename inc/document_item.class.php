@@ -21,11 +21,11 @@
  along with Behaviors. If not, see <http://www.gnu.org/licenses/>.
 
  @package   behaviors
- @author    David Durieux
- @copyright Copyright (c) 2010-2014 Behaviors plugin team
+ @author    David Durieux, Nelly Mahu-Lasson
+ @copyright Copyright (c) 2010-2015 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
- @link      https://forge.indepnet.net/projects/behaviors
+ @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
  @since     2014
 
@@ -54,8 +54,6 @@ class PluginBehaviorsDocument_Item {
 
       $config = PluginBehaviorsConfig::getInstance();
       if ($config->getField('add_notif')
-         && (isset($_POST['itemtype']))
-         && (isset($document_item->input['itemtype']))
           && ($document_item->input['itemtype'] == 'Ticket')
           && ($_POST['itemtype'] == 'Ticket')) {// prevent not in case of create ticket
          $ticket = new Ticket();
@@ -70,7 +68,6 @@ class PluginBehaviorsDocument_Item {
 
       $config = PluginBehaviorsConfig::getInstance();
       if ($config->getField('add_notif')
-         && (isset($document_item->input['itemtype']))
           && ($document_item->fields['itemtype'] == 'Ticket')
           && isset($_POST['item'])) { // prevent not use in case of purge ticket
 

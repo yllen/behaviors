@@ -21,11 +21,11 @@
  along with Behaviors. If not, see <http://www.gnu.org/licenses/>.
 
  @package   behaviors
- @author    Remi Collet
- @copyright Copyright (c) 2010-2014 Behaviors plugin team
+ @author    Remi Collet, Nelly Mahu-Lasson
+ @copyright Copyright (c) 2010-2015 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
- @link      https://forge.indepnet.net/projects/behaviors
+ @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
  @since     2010
 
@@ -93,14 +93,15 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['csrf_compliant']['behaviors'] = true;
 }
 
+
 function plugin_version_behaviors() {
 
    return array('name'           => __('Behaviours', 'behaviors'),
-                'version'        => '0.85',
+                'version'        => '0.90',
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet, Nelly Mahu-Lasson',
-                'homepage'       => 'https://forge.indepnet.net/projects/behaviors',
-                'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.72
+                'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
+                'minGlpiVersion' => '0.90');// For compatibility / no install in version < 0.72
 }
 
 
@@ -108,8 +109,8 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.85','lt') || version_compare(GLPI_VERSION,'0.86','ge')) {
-      echo "This plugin requires GLPI >= 0.85";
+   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'0.91','ge')) {
+      echo "This plugin requires GLPI >= 0.90";
       return false;
    }
    return true;

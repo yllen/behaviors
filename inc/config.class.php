@@ -21,11 +21,11 @@
  along with Behaviors. If not, see <http://www.gnu.org/licenses/>.
 
  @package   behaviors
- @author    Remi Collet
- @copyright Copyright (c) 2010-2014 Behaviors plugin team
+ @author    Remi Collet, Nelly Mahu-Lasson
+ @copyright Copyright (c) 2010-2015 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
- @link      https://forge.indepnet.net/projects/behaviors
+ @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
  @since     2010
 
@@ -36,6 +36,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
    static private $_instance = NULL;
    static $rightname         = 'config';
+
 
    static function canCreate() {
       return Session::haveRight('config', UPDATE);
@@ -85,6 +86,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketsolution_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketcategory_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_tickettech_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
@@ -140,6 +142,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'is_ticketcategory_mandatory', 'bool');
          //- solution type mandatory for a problem  #5048
          $mig->addField($table, 'is_problemsolutiontype_mandatory', 'bool');
+
+         // Version 0.90 - technician mandatory #5381
+         if (!FieldExists($table, 'is_tickettech_mandatory')) {
+            $mig->addField($table, 'is_tickettech_mandatory', 'bool');
+         }
       }
 
       return true;
@@ -248,6 +255,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketsolution_mandatory",
                           $config->fields['is_ticketsolution_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Technician assigned is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_tickettech_mandatory",
+      $config->fields['is_tickettech_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
