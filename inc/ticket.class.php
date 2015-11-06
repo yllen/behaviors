@@ -201,7 +201,7 @@ class PluginBehaviorsTicket {
 
          $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
                            getUserName($ticket->fields['users_id_lastupdater']).', '.
-                           Html::convDateTime($config->fields['date_mod']));
+                           Html::convDateTime($ticket->fields['date_mod']));
 
          Session::addMessageAfterRedirect($msg, true, ERROR);
          return $ticket->input = false;
