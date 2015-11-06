@@ -53,4 +53,12 @@ class PluginBehaviorsProfile extends  PluginBehaviorsCommon {
 
       return $input;
    }
+
+   static function postClone(Profile $clone, $oldid) {
+      global $DB;
+
+      $rights = ProfileRight::getProfileRights($oldid);
+      $pright = new ProfileRight();
+      $pright->updateProfileRights($clone->getID(), $rights);
+   }
 }
