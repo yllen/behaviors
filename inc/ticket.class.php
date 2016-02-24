@@ -319,7 +319,7 @@ class PluginBehaviorsTicket {
             } else {
                unset($_SESSION['glpi_behaviors_auto_group']);
             }
-         } else {
+         } else if (strstr($_SERVER['PHP_SELF'], "/front/ticket.form.php")) {
             unset($_SESSION['glpi_behaviors_auto_group']);
          }
       }
