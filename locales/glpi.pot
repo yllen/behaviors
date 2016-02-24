@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 12:35+0200\n"
+"POT-Creation-Date: 2016-02-24 19:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Use the technician's group"
 msgstr ""
 
-#: inc/config.class.php:223 inc/ticket.class.php:84
+#: inc/config.class.php:223 inc/ticket.class.php:85
 msgid "Requester is mandatory"
 msgstr ""
 
@@ -144,29 +144,33 @@ msgid "Assign to a group"
 msgstr ""
 
 #: inc/ticket.class.php:46
+msgid "Assign to a supplier"
+msgstr ""
+
+#: inc/ticket.class.php:47
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:202
+#: inc/ticket.class.php:203
 msgid "Can't save, item have been updated"
 msgstr ""
 
-#: inc/ticket.class.php:236
+#: inc/ticket.class.php:237
 msgid "You cannot solve/close a ticket without duration"
 msgstr ""
 
-#: inc/ticket.class.php:245
+#: inc/ticket.class.php:246
 msgid "You cannot solve/close a ticket without solution type"
 msgstr ""
 
-#: inc/ticket.class.php:254
+#: inc/ticket.class.php:255
 msgid "You cannot solve/close a ticket without solution description"
 msgstr ""
 
-#: inc/ticket.class.php:263
+#: inc/ticket.class.php:264
 msgid "You cannot solve/close a ticket without ticket's category"
 msgstr ""
 
-#: inc/ticket.class.php:273
+#: inc/ticket.class.php:274
 msgid "You cannot solve/close a ticket without techician assign"
 msgstr ""

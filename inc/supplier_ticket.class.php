@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: supplier_ticket.class.php  yllen $
  -------------------------------------------------------------------------
 
  LICENSE
@@ -27,17 +27,32 @@
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
- @since     version 0.83.4
+ @since     2011
 
  --------------------------------------------------------------------------
- */
+*/
 
-include ("../../../inc/includes.php");
+class PluginBehaviorsSupplier_Ticket {
 
-$config = new PluginBehaviorsCommon();
-if (isset($_POST["_clone"])) {
-   PluginBehaviorsCommon::cloneItem($_POST);
+   static function afterAdd(Supplier_Ticket $item) {
+      global $DB;
 
-   Html::back();
+      $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('add_notif')) {
+         if ($item->getField('type') == CommonITILActor::ASSIGN) {
+            $ticket = new Ticket();
+            if ($ticket->getFromDB($item->getField('tickets_id'))) {
+               NotificationEvent::raiseEvent('plugin_behaviors_ticketnewsupp', $ticket);
+            }
+         }
+      }
+
+      // Check is the connected user is a tech
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('ticket', Ticket::OWN)) {
+         return false; // No check
+      }
+   }
+
 }
-Html::displayErrorAndDie('Lost!');

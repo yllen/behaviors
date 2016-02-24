@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 12:35+0200\n"
-"PO-Revision-Date: 2015-10-01 10:44+0000\n"
+"PO-Revision-Date: 2015-12-04 11:52+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Description de la solution obligatoire pour résoudre/fermer un ticket"
 
 #: inc/config.class.php:261
 msgid "Technician assigned is mandatory before ticket is solved/closed"
-msgstr "Techicien obligatoire pour résoudre/fermer un ticket"
+msgstr "Technicien obligatoire pour résoudre/fermer un ticket"
 
 #: inc/config.class.php:268
 msgid "Deny change of ticket's creation date"

@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-15 18:28+0100\n"
-"PO-Revision-Date: 2014-11-15 17:30+0000\n"
+"POT-Creation-Date: 2015-10-01 12:35+0200\n"
+"PO-Revision-Date: 2015-10-01 10:40+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
-"Language-Team: English (http://www.transifex.com/projects/p/glpi-project-plugin-behaviors/language/en/)\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: setup.php:98 inc/config.class.php:56
+#: setup.php:99 inc/config.class.php:57
 msgid "Behaviours"
 msgstr "Behaviours"
 
@@ -29,93 +29,97 @@ msgstr "Clone"
 msgid "Clone of"
 msgstr "Clone of"
 
-#: inc/config.class.php:102
+#: inc/config.class.php:104
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr "Error in creating glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:108
+#: inc/config.class.php:110
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr "Error during update glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:173
+#: inc/config.class.php:180
 msgid "Inventory"
 msgstr "Inventory"
 
-#: inc/config.class.php:177
+#: inc/config.class.php:184
 msgid "Ticket's number format"
 msgstr "Ticket's number format"
 
-#: inc/config.class.php:184
+#: inc/config.class.php:191
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr "Delete computer in OCSNG when purged from GLPI"
 
-#: inc/config.class.php:189
+#: inc/config.class.php:196
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr "Plugin \"Item's uninstallation\" not installed"
 
-#: inc/config.class.php:194
+#: inc/config.class.php:201
 msgid "Use the associated item's group"
 msgstr "Use the associated item's group"
 
-#: inc/config.class.php:196
+#: inc/config.class.php:203
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] "Notification"
 msgstr[1] "Notifications"
 
-#: inc/config.class.php:201
+#: inc/config.class.php:208
 msgid "Use the requester's group"
 msgstr "Use the requester's group"
 
-#: inc/config.class.php:204
+#: inc/config.class.php:211
 msgid "Additional notifications"
 msgstr "Additional notifications"
 
-#: inc/config.class.php:209
+#: inc/config.class.php:216
 msgid "Use the technician's group"
 msgstr "Use the technician's group"
 
-#: inc/config.class.php:216 inc/ticket.class.php:84
+#: inc/config.class.php:223 inc/ticket.class.php:84
 msgid "Requester is mandatory"
 msgstr "Requester is mandatory"
 
-#: inc/config.class.php:228
+#: inc/config.class.php:235
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "Duration is mandatory before ticket is solved/closed"
 
-#: inc/config.class.php:234
+#: inc/config.class.php:241
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr "Category is mandatory before ticket is solved/closed"
 
-#: inc/config.class.php:240
+#: inc/config.class.php:247
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Type of solution is mandatory before ticket is solved/closed"
 
-#: inc/config.class.php:247
+#: inc/config.class.php:254
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "Description of solution is mandatory before ticket is solved/closed"
 
-#: inc/config.class.php:254
+#: inc/config.class.php:261
+msgid "Technician assigned is mandatory before ticket is solved/closed"
+msgstr ""
+
+#: inc/config.class.php:268
 msgid "Deny change of ticket's creation date"
 msgstr "Deny change of ticket's creation date"
 
-#: inc/config.class.php:259
+#: inc/config.class.php:273
 msgid "Protect from simultaneous update"
 msgstr "Protect from simultaneous update"
 
-#: inc/config.class.php:264
+#: inc/config.class.php:278
 msgid "Single technician and group"
 msgstr "Single technician and group"
 
-#: inc/config.class.php:266
+#: inc/config.class.php:280
 msgid "Single user and single group"
 msgstr "Single user and single group"
 
-#: inc/config.class.php:267
+#: inc/config.class.php:281
 msgid "Single user or group"
 msgstr "Single user or group"
 
-#: inc/config.class.php:276
+#: inc/config.class.php:290
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Type of solution is mandatory before problem is solved/closed"
 
@@ -148,17 +152,21 @@ msgid "Can't save, item have been updated"
 msgstr "Can't save, item have been updated"
 
 #: inc/ticket.class.php:236
-msgid "You cannot close a ticket without duration"
-msgstr "You cannot close a ticket without duration"
+msgid "You cannot solve/close a ticket without duration"
+msgstr ""
 
 #: inc/ticket.class.php:245
-msgid "You cannot close a ticket without solution type"
-msgstr "You cannot close a ticket without solution type"
+msgid "You cannot solve/close a ticket without solution type"
+msgstr ""
 
 #: inc/ticket.class.php:254
-msgid "You cannot close a ticket without solution description"
-msgstr "You cannot close a ticket without solution description"
+msgid "You cannot solve/close a ticket without solution description"
+msgstr ""
 
 #: inc/ticket.class.php:263
-msgid "You cannot close a ticket without ticket's category"
-msgstr "You cannot close a ticket without ticket's category"
+msgid "You cannot solve/close a ticket without ticket's category"
+msgstr ""
+
+#: inc/ticket.class.php:273
+msgid "You cannot solve/close a ticket without techician assign"
+msgstr ""

@@ -3,171 +3,172 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ilkka Yläkoski <iylakoski@learn-it2.fi>, 2015-2016
+# hanzz <hanzz.k@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 12:35+0200\n"
-"PO-Revision-Date: 2016-01-20 14:21+0000\n"
-"Last-Translator: Ilkka Yläkoski <iylakoski@learn-it2.fi>\n"
-"Language-Team: Finnish (Finland) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fi_FI/)\n"
+"PO-Revision-Date: 2016-02-04 15:41+0000\n"
+"Last-Translator: hanzz <hanzz.k@gmail.com>\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: setup.php:99 inc/config.class.php:57
 msgid "Behaviours"
-msgstr "Käyttäyminen"
+msgstr "Chování"
 
 #: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
 msgid "Clone"
-msgstr "Kopioi"
+msgstr "Klon"
 
 #: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
-msgstr "Kopio kohteesta"
+msgstr "Klon"
 
 #: inc/config.class.php:104
 msgid "Error in creating glpi_plugin_behaviors_configs"
-msgstr "Virhe glpi_plugin_behaviors_configs-asetusten luonnissa"
+msgstr "Chyba při vytváření glpi_plugin_behaviors_configs"
 
 #: inc/config.class.php:110
 msgid "Error during update glpi_plugin_behaviors_configs"
-msgstr "Virhe glpi_plugin_behaviors_configs-asetusten päivityksessä"
+msgstr "Chyba při aktualizaci glpi_plugin_behaviors_configs"
 
 #: inc/config.class.php:180
 msgid "Inventory"
-msgstr "Inventointi"
+msgstr "Inventář"
 
 #: inc/config.class.php:184
 msgid "Ticket's number format"
-msgstr "Tiketin numeromuoto"
+msgstr "Formát čísla záznamu"
 
 #: inc/config.class.php:191
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Poista OCS:n tietokone, kun GLPI:ssä tehdään pysyvä poisto"
+msgstr "Smazat počítač v OCSNG po smazání z GLPI"
 
 #: inc/config.class.php:196
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Liitännäistä \"Kohteen asennuksen poisto\" ei ole asennettu"
+msgstr ""
 
 #: inc/config.class.php:201
 msgid "Use the associated item's group"
-msgstr "Käytä yhdistetyn kohteen ryhmää"
+msgstr ""
 
 #: inc/config.class.php:203
 msgid "Notification"
 msgid_plural "Notifications"
-msgstr[0] "Ilmoitus"
-msgstr[1] "Ilmoitukset"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: inc/config.class.php:208
 msgid "Use the requester's group"
-msgstr "Käytä toimeksiantajan ryhmää"
+msgstr "Použít skupinu žadatele"
 
 #: inc/config.class.php:211
 msgid "Additional notifications"
-msgstr "Lisäilmoitukset"
+msgstr ""
 
 #: inc/config.class.php:216
 msgid "Use the technician's group"
-msgstr "Käytä asentajan ryhmää"
+msgstr "Použijte technikovu skupinu"
 
 #: inc/config.class.php:223 inc/ticket.class.php:84
 msgid "Requester is mandatory"
-msgstr "Toimeksiantaja on pakollinen"
+msgstr ""
 
 #: inc/config.class.php:235
 msgid "Duration is mandatory before ticket is solved/closed"
-msgstr "Kesto on pakollinen, jotta tiketti voidaan sulkea tai ratkaista"
+msgstr ""
 
 #: inc/config.class.php:241
 msgid "Category is mandatory before ticket is solved/closed"
-msgstr "Luokka on pakollinen, jotta tiketti voidaan sulkea tai ratkaista"
+msgstr ""
 
 #: inc/config.class.php:247
 msgid "Type of solution is mandatory before ticket is solved/closed"
-msgstr "Ratkaisun tyyppi on pakollinen, jotta tiketti voidaan sulkea tai ratkaista"
+msgstr ""
 
 #: inc/config.class.php:254
 msgid "Description of solution is mandatory before ticket is solved/closed"
-msgstr "Ratkaisun kuvaus on pakollinen, jotta tiketti voidaan sulkea tai ratkaista"
+msgstr ""
 
 #: inc/config.class.php:261
 msgid "Technician assigned is mandatory before ticket is solved/closed"
-msgstr "Asentajan osoittaminen on pakollista, jotta tiketti voidaan sulkea tai ratkaista"
+msgstr ""
 
 #: inc/config.class.php:268
 msgid "Deny change of ticket's creation date"
-msgstr "Estä tiketin luontipäivän muutos"
+msgstr "Zakázat změnu data vytvoření záznamu"
 
 #: inc/config.class.php:273
 msgid "Protect from simultaneous update"
-msgstr "Estä yhtäaikaiset muutokset"
+msgstr "Ochránit před souběžnou aktualizací"
 
 #: inc/config.class.php:278
 msgid "Single technician and group"
-msgstr "Yksittäinen asentaja ja ryhmä"
+msgstr "Jeden technik a skupina"
 
 #: inc/config.class.php:280
 msgid "Single user and single group"
-msgstr "Yksittäinen käyttäjä ja yksittäinen ryhmä"
+msgstr "Jeden uživatel a jedna skupina"
 
 #: inc/config.class.php:281
 msgid "Single user or group"
-msgstr "Yksittäinen käyttäjä tai ryhmä"
+msgstr "Jeden uživatel nebo skupa"
 
 #: inc/config.class.php:290
 msgid "Type of solution is mandatory before problem is solved/closed"
-msgstr "Ratkaisun tyyppi on pakollinen, jotta ongelma voidaan sulkea tai ratkaista"
+msgstr "Typ řešení je povinný před vyřešením/uzavřením problému"
 
 #: inc/document_item.class.php:45
 msgid "Add document to ticket"
-msgstr "Lisää asiakirja tikettiin"
+msgstr "Přiřadit k záznamu dokument"
 
 #: inc/document_item.class.php:47
 msgid "Delete document to ticket"
-msgstr "Poista tiketin asiakirja"
+msgstr "Odstranit ze záznamu dokument"
 
 #: inc/problem.class.php:72
 msgid "You cannot close a problem without solution type"
-msgstr "Ongelmaa ei voi sulkea ilman ratkaisun tyyppiä"
+msgstr "Problém nemuže být uzavřen bez typu řešení"
 
 #: inc/ticket.class.php:44
 msgid "Assign to a technician"
-msgstr "Osoita asentajalle"
+msgstr "Přiřadit technikovi"
 
 #: inc/ticket.class.php:45
 msgid "Assign to a group"
-msgstr "Osoita ryhmälle"
+msgstr "Přiřadit skupině"
 
 #: inc/ticket.class.php:46
 msgid "Reopen ticket"
-msgstr "Tiketin avaus uudelleen"
+msgstr "Otevřít záznam znova"
 
 #: inc/ticket.class.php:202
 msgid "Can't save, item have been updated"
-msgstr "Tallennus ei ole mahdollista, sillä kohdetta on muokattu"
+msgstr "Položku nelze uložit, byla aktualizována"
 
 #: inc/ticket.class.php:236
 msgid "You cannot solve/close a ticket without duration"
-msgstr "Tiketin ratkaisu tai sulkeminen ei ole mahdollista ilman kestoa."
+msgstr "Nelze vyřešit/uzavřít záznam bez doby trvání"
 
 #: inc/ticket.class.php:245
 msgid "You cannot solve/close a ticket without solution type"
-msgstr "Tiketin ratkaisu tai sulkeminen ei ole mahdollista ilman ratkaisun tyyppiä."
+msgstr "Nelze vyřešit/uzavřít záznam bez typu řešení"
 
 #: inc/ticket.class.php:254
 msgid "You cannot solve/close a ticket without solution description"
-msgstr "Tiketin ratkaisu tai sulkeminen ei ole mahdollista ilman ratkaisun tyyppiä"
+msgstr "Nelze vyřešit/uzavřít záznam bez popisu řešení"
 
 #: inc/ticket.class.php:263
 msgid "You cannot solve/close a ticket without ticket's category"
-msgstr "Tiketin ratkaisu tai sulkeminen ei ole mahdollista ilman tiketin luokkaa"
+msgstr "Nelze vyřešit/uzavřít záznam bez kategorie záznamu"
 
 #: inc/ticket.class.php:273
 msgid "You cannot solve/close a ticket without techician assign"
-msgstr "Tiketin sulkeminen ei ole mahdollista ilman asentajan osoitusta."
+msgstr "Nelze vyřešit/uzavřít záznam bez přiřazení technika"
