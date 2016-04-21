@@ -48,6 +48,7 @@ function plugin_init_behaviors() {
       'Printer'            => array('PluginBehaviorsPrinter',           'afterAdd'),
       'Ticket_User'        => array('PluginBehaviorsTicket_User',       'afterAdd'),
       'Group_Ticket'       => array('PluginBehaviorsGroup_Ticket',      'afterAdd'),
+      'Supplier_Ticket'    => array('PluginBehaviorsSupplier_Ticket',   'afterAdd'),
       'Document_Item'      => array('PluginBehaviorsDocument_Item',     'afterAdd'),
    );
 
