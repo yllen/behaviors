@@ -190,10 +190,15 @@ class PluginBehaviorsConfig extends CommonDBTM {
                               array('value' => $config->fields['tickets_id_format']));
       echo "<td>".__('Delete computer in OCSNG when purged from GLPI', 'behaviors')."</td><td>";
       $plugin = new Plugin();
-      if ($plugin->isActivated('uninstall')) {
+      if ($plugin->isActivated('uninstall') && $plugin->isActivated('ocsinventoryng')) {
          Dropdown::showYesNo('remove_from_ocs', $config->fields['remove_from_ocs']);
       } else {
-         _e("Plugin \"Item's uninstallation\" not installed", "behaviors");
+         if (!$plugin->isActivated('uninstall')) {
+           echo __("Plugin \"Item's uninstallation\" not installed", "behaviors")."\n";
+         }
+         if (!$plugin->isActivated('ocsinventoryng')) {
+           _e("Plugin \"OCS Inventory NG\" not installed", "behaviors");
+         }
       }
       echo "</td></tr>\n";
 

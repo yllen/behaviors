@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 19:57+0100\n"
+"POT-Creation-Date: 2016-08-12 10:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:99 inc/config.class.php:57
+#: setup.php:100 inc/config.class.php:57
 msgid "Behaviours"
 msgstr ""
 
@@ -49,77 +49,81 @@ msgstr ""
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr ""
 
-#: inc/config.class.php:196
+#: inc/config.class.php:197
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr ""
 
-#: inc/config.class.php:201
+#: inc/config.class.php:200
+msgid "Plugin \"OCS Inventory NG\" not installed"
+msgstr ""
+
+#: inc/config.class.php:206
 msgid "Use the associated item's group"
 msgstr ""
 
-#: inc/config.class.php:203
+#: inc/config.class.php:208
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/config.class.php:208
+#: inc/config.class.php:213
 msgid "Use the requester's group"
 msgstr ""
 
-#: inc/config.class.php:211
+#: inc/config.class.php:216
 msgid "Additional notifications"
 msgstr ""
 
-#: inc/config.class.php:216
+#: inc/config.class.php:221
 msgid "Use the technician's group"
 msgstr ""
 
-#: inc/config.class.php:223 inc/ticket.class.php:85
+#: inc/config.class.php:228 inc/ticket.class.php:88
 msgid "Requester is mandatory"
 msgstr ""
 
-#: inc/config.class.php:235
+#: inc/config.class.php:240
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:241
+#: inc/config.class.php:246
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:247
+#: inc/config.class.php:252
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:254
+#: inc/config.class.php:259
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:261
+#: inc/config.class.php:266
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:268
+#: inc/config.class.php:273
 msgid "Deny change of ticket's creation date"
 msgstr ""
 
-#: inc/config.class.php:273
+#: inc/config.class.php:278
 msgid "Protect from simultaneous update"
 msgstr ""
 
-#: inc/config.class.php:278
+#: inc/config.class.php:283
 msgid "Single technician and group"
 msgstr ""
 
-#: inc/config.class.php:280
+#: inc/config.class.php:285
 msgid "Single user and single group"
 msgstr ""
 
-#: inc/config.class.php:281
+#: inc/config.class.php:286
 msgid "Single user or group"
 msgstr ""
 
-#: inc/config.class.php:290
+#: inc/config.class.php:295
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr ""
 
@@ -135,42 +139,42 @@ msgstr ""
 msgid "You cannot close a problem without solution type"
 msgstr ""
 
-#: inc/ticket.class.php:44
+#: inc/ticket.class.php:47
 msgid "Assign to a technician"
 msgstr ""
 
-#: inc/ticket.class.php:45
+#: inc/ticket.class.php:48
 msgid "Assign to a group"
 msgstr ""
 
-#: inc/ticket.class.php:46
+#: inc/ticket.class.php:49
 msgid "Assign to a supplier"
 msgstr ""
 
-#: inc/ticket.class.php:47
+#: inc/ticket.class.php:50
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:203
+#: inc/ticket.class.php:205
 msgid "Can't save, item have been updated"
 msgstr ""
 
-#: inc/ticket.class.php:237
+#: inc/ticket.class.php:239
 msgid "You cannot solve/close a ticket without duration"
 msgstr ""
 
-#: inc/ticket.class.php:246
+#: inc/ticket.class.php:248
 msgid "You cannot solve/close a ticket without solution type"
 msgstr ""
 
-#: inc/ticket.class.php:255
+#: inc/ticket.class.php:257
 msgid "You cannot solve/close a ticket without solution description"
 msgstr ""
 
-#: inc/ticket.class.php:264
+#: inc/ticket.class.php:266
 msgid "You cannot solve/close a ticket without ticket's category"
 msgstr ""
 
-#: inc/ticket.class.php:274
+#: inc/ticket.class.php:276
 msgid "You cannot solve/close a ticket without techician assign"
 msgstr ""
