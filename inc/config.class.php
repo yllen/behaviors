@@ -272,12 +272,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
-      echo "</td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Protect from simultaneous update', 'behaviors')."</td><td>";
       Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
-      echo "</td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
@@ -286,17 +286,17 @@ class PluginBehaviorsConfig extends CommonDBTM {
                    2 => __('Single user or group', 'behaviors'));
       Dropdown::showFromArray('single_tech_mode', $tab,
                               array('value' => $config->fields['single_tech_mode']));
-      echo "</td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Problem - Update
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
+      echo "<td colspan='4' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_problemsolutiontype_mandatory",
                           $config->fields['is_problemsolutiontype_mandatory']);
-      echo "</td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
       $config->showFormButtons(array('candel'=>false));
 

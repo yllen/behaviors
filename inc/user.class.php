@@ -40,10 +40,10 @@ class PluginBehaviorsUser {
 
       $config = PluginBehaviorsConfig::getInstance();
 
-      $query = "SELECT glpi_groups.id
-                FROM glpi_groups_users
-                INNER JOIN glpi_groups ON (glpi_groups.id = glpi_groups_users.groups_id)
-                WHERE glpi_groups_users.users_id = '".$userid."'".
+      $query = "SELECT `glpi_groups`.`id`
+                FROM `glpi_groups_users`
+                INNER JOIN `glpi_groups` ON (`glpi_groups`.`id` = `glpi_groups_users`.`groups_id`)
+                WHERE `glpi_groups_users`.`users_id` = '".$userid."'".
                 getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
 
       if ($filter) {
