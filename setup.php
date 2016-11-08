@@ -64,25 +64,20 @@ function plugin_init_behaviors() {
    );
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] = array(
-      'Ticket'       => array('PluginBehaviorsTicket',       'beforeAdd'),
-   );
+      'Ticket'       => array('PluginBehaviorsTicket',       'beforeAdd'));
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] = array(
-      'Ticket'    => array('PluginBehaviorsTicket',   'afterPrepareAdd')
-   );
+      'Ticket'       => array('PluginBehaviorsTicket',      'afterPrepareAdd'));
 
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] = array(
-      'Problem'    => array('PluginBehaviorsProblem', 'beforeUpdate'),
-      'Ticket'     => array('PluginBehaviorsTicket',  'beforeUpdate')
-   );
+      'Problem'      => array('PluginBehaviorsProblem',     'beforeUpdate'),
+      'Ticket'       => array('PluginBehaviorsTicket',      'beforeUpdate'));
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] = array(
-      'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'),
-   );
+      'Computer'           => array('PluginBehaviorsComputer',          'beforePurge'));
 
    $PLUGIN_HOOKS['item_purge']['behaviors'] = array(
-      'Document_Item'      => array('PluginBehaviorsDocument_Item',     'afterPurge'),
-   );
+      'Document_Item'      => array('PluginBehaviorsDocument_Item',     'afterPurge'));
 
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['behaviors'] =
@@ -98,11 +93,11 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return array('name'           => __('Behaviours', 'behaviors'),
-                'version'        => '1.1',
+                'version'        => '1.2',
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet, Nelly Mahu-Lasson',
                 'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-                'minGlpiVersion' => '0.90');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '9.1');// For compatibility / no install in version < 0.72
 }
 
 
@@ -110,8 +105,8 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'9.1','ge')) {
-      echo "This plugin requires GLPI >= 0.90";
+   if (version_compare(GLPI_VERSION,'9.1','lt') || version_compare(GLPI_VERSION,'9.2','ge')) {
+      echo "This plugin requires GLPI >= 9.1";
       return false;
    }
    return true;

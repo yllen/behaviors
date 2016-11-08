@@ -90,16 +90,21 @@ class PluginBehaviorsTicket {
       }
 
       if ($config->getField('use_requester_item_group')
-          && isset($ticket->input['itemtype'])
           && isset($ticket->input['items_id'])
-          && ($ticket->input['items_id'] > 0)
-          && ($item = getItemForItemtype($ticket->input['itemtype']))
-          && (!isset($ticket->input['_groups_id_requester'])
-              || ($ticket->input['_groups_id_requester'] <= 0))) {
+          && (is_array($ticket->input['items_id']))) {
+         foreach ($ticket->input['items_id'] as $type => $items) {
+            if (($item = getItemForItemtype($type))
+                && (!isset($ticket->input['_groups_id_requester'])
+                    || ($ticket->input['_groups_id_requester'] <= 0))) {
 
-         if ($item->isField('groups_id')
-             && $item->getFromDB($ticket->input['items_id'])) {
-            $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
+               if ($item->isField('groups_id')) {
+                  foreach ($items as $itemid) {
+                     if ($item->getFromDB($itemid)) {
+                        $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
+                     }
+                  }
+               }
+            }
         }
       }
 
