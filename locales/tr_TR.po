@@ -3,179 +3,178 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Laszlo Czirbesz <czirbesz.laszlo@soulware.hu>, 2016
+# Kaya Zeren <kayazeren@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-12 10:22+0200\n"
-"PO-Revision-Date: 2016-08-25 14:56+0000\n"
-"Last-Translator: Laszlo Czirbesz <czirbesz.laszlo@soulware.hu>\n"
-"Language-Team: Hungarian (Hungary) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/hu_HU/)\n"
+"PO-Revision-Date: 2016-09-26 12:28+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
+"Language-Team: Turkish (Turkey) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu_HU\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: tr_TR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: setup.php:100 inc/config.class.php:57
 msgid "Behaviours"
-msgstr "Viselkedés"
+msgstr "Davranışlar"
 
 #: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
 msgid "Clone"
-msgstr "Klónozás"
+msgstr "Kopyala"
 
 #: inc/common.class.php:108 inc/common.class.php:187
 msgid "Clone of"
-msgstr "Klónja a"
+msgstr "Şunun Kopyası"
 
 #: inc/config.class.php:104
 msgid "Error in creating glpi_plugin_behaviors_configs"
-msgstr "Hiba a glpi_plugin_behaviors_configs létrehozásakor"
+msgstr "creating glpi_plugin_behaviors_configs eklenirken bir sorun çıktı"
 
 #: inc/config.class.php:110
 msgid "Error during update glpi_plugin_behaviors_configs"
-msgstr "Hiba a glpi_plugin_behaviors_configs frissítésekor"
+msgstr "glpi_plugin_behaviors_configs güncellenirken bir sorun çıktı"
 
 #: inc/config.class.php:180
 msgid "Inventory"
-msgstr "Leltár"
+msgstr "Envanter"
 
 #: inc/config.class.php:184
 msgid "Ticket's number format"
-msgstr "Bejelentés azonosítójának formátuma"
+msgstr "Çağrı sayı biçimi"
 
 #: inc/config.class.php:191
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Számítógép törlése az OCSNG-ben, mikor a GLPI-ben végleg törlésre kerül"
+msgstr "GLPI üzerinden silinen bilgisayar OCSNG üzerinden silinsin"
 
 #: inc/config.class.php:197
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Nincs telepítve az \"Item's uninstallation\" nevű bővítmény"
+msgstr "\"Öge kaldırma\" uygulama eki yüklenmemiş"
 
 #: inc/config.class.php:200
 msgid "Plugin \"OCS Inventory NG\" not installed"
-msgstr "Nincs telepítve az \"OCS Inventory NG\" nevű bővítmény"
+msgstr "\"OCS Inventory NG\" uygulama eki yüklenmemiş"
 
 #: inc/config.class.php:206
 msgid "Use the associated item's group"
-msgstr "A hivatkozott elem csoportjának használata"
+msgstr "İlgili ögenin grubu kullanılsın"
 
 #: inc/config.class.php:208
 msgid "Notification"
 msgid_plural "Notifications"
-msgstr[0] "Értesítés"
-msgstr[1] "Értesítések"
+msgstr[0] "Bildirim"
 
 #: inc/config.class.php:213
 msgid "Use the requester's group"
-msgstr "Az igénylő csoportjának használata"
+msgstr "İstekte bulunanın grubu kullanılsın"
 
 #: inc/config.class.php:216
 msgid "Additional notifications"
-msgstr "További értesítések"
+msgstr "Ek bildirimler"
 
 #: inc/config.class.php:221
 msgid "Use the technician's group"
-msgstr "A Technikus csoportjának használata"
+msgstr "Teknisyenin grubu kullanılsın"
 
 #: inc/config.class.php:228 inc/ticket.class.php:88
 msgid "Requester is mandatory"
-msgstr "Kötelező az Igénylő megadása"
+msgstr "İstekte bulunan zorunludur"
 
 #: inc/config.class.php:240
 msgid "Duration is mandatory before ticket is solved/closed"
-msgstr "Időtartam megadása kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için süre zorunludur"
 
 #: inc/config.class.php:246
 msgid "Category is mandatory before ticket is solved/closed"
-msgstr "Kategória megadása kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için kategori zorunludur"
 
 #: inc/config.class.php:252
 msgid "Type of solution is mandatory before ticket is solved/closed"
-msgstr "Megoldás típusa kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
 #: inc/config.class.php:259
 msgid "Description of solution is mandatory before ticket is solved/closed"
-msgstr "Megoldás leírása kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm açıklaması zorunludur"
 
 #: inc/config.class.php:266
 msgid "Technician assigned is mandatory before ticket is solved/closed"
-msgstr "Tekchnikus hozzárendelése kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için atanan teknisyen zorunludur"
 
 #: inc/config.class.php:273
 msgid "Deny change of ticket's creation date"
-msgstr "A bejelentés létrehozásának dátuma nem változtatható"
+msgstr "Çağrı oluşturulma tarihi değiştirilemesin"
 
 #: inc/config.class.php:278
 msgid "Protect from simultaneous update"
-msgstr "Védelem az egyidejű frissítéstől"
+msgstr "Eşzaman güncelleme yapılamasın"
 
 #: inc/config.class.php:283
 msgid "Single technician and group"
-msgstr "Egyszeri technikus és csoport"
+msgstr "Tek teknisyen ve grup"
 
 #: inc/config.class.php:285
 msgid "Single user and single group"
-msgstr "Egyszeri Felhasználó és csoport"
+msgstr "Tek kullanıcı ve tek grup"
 
 #: inc/config.class.php:286
 msgid "Single user or group"
-msgstr "Egyszeri felhasználó vagy csoport"
+msgstr "Tek kullanıcı ya da grup"
 
 #: inc/config.class.php:295
 msgid "Type of solution is mandatory before problem is solved/closed"
-msgstr "Megoldás típusa kötelező a bejelentés megoldása / lezárása előtt"
+msgstr "Sorunun çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
 #: inc/document_item.class.php:45
 msgid "Add document to ticket"
-msgstr "Dokumentum hozzáadása bejelentéshez"
+msgstr "Çağrıya bir belge ekle"
 
 #: inc/document_item.class.php:47
 msgid "Delete document to ticket"
-msgstr "Dokumentum törlése bejelentésről"
+msgstr "Çağrıdaki ek belgeyi sil"
 
 #: inc/problem.class.php:72
 msgid "You cannot close a problem without solution type"
-msgstr "Nem zárható le a bejelentés megoldás típus nélkül"
+msgstr "Sorunun çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
 #: inc/ticket.class.php:47
 msgid "Assign to a technician"
-msgstr "Technikushoz rendelés"
+msgstr "Bir teknisyen atayın"
 
 #: inc/ticket.class.php:48
 msgid "Assign to a group"
-msgstr "Csoporthoz rendelés"
+msgstr "Bir grup atayın"
 
 #: inc/ticket.class.php:49
 msgid "Assign to a supplier"
-msgstr "Céghez rendelés"
+msgstr "Bir tedarikçi atayın"
 
 #: inc/ticket.class.php:50
 msgid "Reopen ticket"
-msgstr "Bejelentés újranyitása"
+msgstr "Çağrıyı yeniden aç"
 
 #: inc/ticket.class.php:205
 msgid "Can't save, item have been updated"
-msgstr "Nem menthető , tétel frissítve"
+msgstr "Öge güncellendiğinden kaydedilemedi"
 
 #: inc/ticket.class.php:239
 msgid "You cannot solve/close a ticket without duration"
-msgstr "Nem oldható meg vagy zárható le a bejelentés időtartam nélkül"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için süre zorunludur"
 
 #: inc/ticket.class.php:248
 msgid "You cannot solve/close a ticket without solution type"
-msgstr "Nem oldható meg vagy zárható le a bejelentés megoldás típus nélkül"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
 #: inc/ticket.class.php:257
 msgid "You cannot solve/close a ticket without solution description"
-msgstr "Nem oldható meg vagy zárható le a bejelentés a megoldás leírása nélkül"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm açıklaması zorunludur"
 
 #: inc/ticket.class.php:266
 msgid "You cannot solve/close a ticket without ticket's category"
-msgstr "Nem oldható meg vagy zárható le a bejelentés a bejelentés kategóriája nélkül"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için çağrı kategorisi zorunludur"
 
 #: inc/ticket.class.php:276
 msgid "You cannot solve/close a ticket without techician assign"
-msgstr "Nem oldható meg vagy zárható le a bejelentés hozzárendelt technikus nélkül"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için bir teknisyen atanması zorunludur"

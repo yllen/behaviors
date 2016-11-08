@@ -102,7 +102,7 @@ function plugin_version_behaviors() {
                 'license'        => 'AGPLv3+',
                 'author'         => 'Remi Collet, Nelly Mahu-Lasson',
                 'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-                'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.72
+                'minGlpiVersion' => '0.90');// For compatibility / no install in version < 0.72
 }
 
 
@@ -110,7 +110,7 @@ function plugin_version_behaviors() {
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'0.91','ge')) {
+   if (version_compare(GLPI_VERSION,'0.90','lt') || version_compare(GLPI_VERSION,'9.1','ge')) {
       echo "This plugin requires GLPI >= 0.90";
       return false;
    }
