@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2016 Behaviors plugin team
+ @copyright Copyright (c) 2010-2017 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -44,6 +44,13 @@ class PluginBehaviorsTicket_User {
             $ticket = new Ticket();
             if ($ticket->getFromDB($item->getField('tickets_id'))) {
                NotificationEvent::raiseEvent('plugin_behaviors_ticketnewtech', $ticket);
+            }
+         }
+
+         if ($item->getField('type') == CommonITILActor::OBSERVER) {
+            $ticket = new Ticket();
+            if ($ticket->getFromDB($item->getField('tickets_id'))) {
+               NotificationEvent::raiseEvent('plugin_behaviors_ticketnewwatch', $ticket);
             }
          }
       }

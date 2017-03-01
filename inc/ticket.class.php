@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2015 Behaviors plugin team
+ @copyright Copyright (c) 2010-2017 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -41,10 +41,11 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
-         $target->events['plugin_behaviors_ticketnewtech'] = __('Assign to a technician', 'behaviors');
-         $target->events['plugin_behaviors_ticketnewgrp']  = __('Assign to a group', 'behaviors');
-         $target->events['plugin_behaviors_ticketnewsupp'] = __('Assign to a supplier', 'behaviors');
-         $target->events['plugin_behaviors_ticketreopen']  = __('Reopen ticket', 'behaviors');
+         $target->events['plugin_behaviors_ticketnewtech']  = __('Assign to a technician', 'behaviors');
+         $target->events['plugin_behaviors_ticketnewgrp']   = __('Assign to a group', 'behaviors');
+         $target->events['plugin_behaviors_ticketnewsupp']  = __('Assign to a supplier', 'behaviors');
+         $target->events['plugin_behaviors_ticketnewwatch'] = __('Add a watcher', 'behaviors');
+         $target->events['plugin_behaviors_ticketreopen']   = __('Reopen ticket', 'behaviors');
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
@@ -88,7 +89,6 @@ class PluginBehaviorsTicket {
 
          }
       }
-
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
@@ -278,6 +278,27 @@ class PluginBehaviorsTicket {
                unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without techician assign",
                                                    'behaviors'), true, ERROR);
+            }
+         }
+
+         if ($config->getField('use_requester_item_group')
+             && isset($ticket->input['items_id'])
+             && (is_array($ticket->input['items_id']))) {
+            foreach ($ticket->input['items_id'] as $type => $items) {
+               foreach ($items as $number => $id) {
+                  if (($item = getItemForItemtype($id))
+                      && (!isset($ticket->input['_groups_id_requester'])
+                          || ($ticket->input['_groups_id_requester'] <= 0))) {
+
+                     if ($item->isField('groups_id')) {
+                        foreach ($items as $itemid) {
+                           if ($item->getFromDB($itemid)) {
+                              $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
+                           }
+                        }
+                     }
+                  }
+               }
             }
          }
 
