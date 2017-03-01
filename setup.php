@@ -82,6 +82,10 @@ function plugin_init_behaviors() {
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['behaviors'] =
          array('NotificationTargetTicket' => array('PluginBehaviorsTicket', 'addEvents'));
+   $PLUGIN_HOOKS['item_add_targets']['behaviors'] =
+         array('NotificationTargetTicket' => array('PluginBehaviorsTicket', 'addTargets'));
+   $PLUGIN_HOOKS['item_action_targets']['behaviors'] =
+   array('NotificationTargetTicket' => array('PluginBehaviorsTicket', 'addActionTargets'));
 
    // End init, when all types are registered
    $PLUGIN_HOOKS['post_init']['behaviors'] = array('PluginBehaviorsCommon', 'postInit');

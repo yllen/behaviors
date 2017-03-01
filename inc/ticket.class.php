@@ -34,6 +34,12 @@
 
 class PluginBehaviorsTicket {
 
+   const LAST_TECH_ASSIGN       = 50;
+   const LAST_GROUP_ASSIGN      = 51;
+   const LAST_SUPPLIER_ASSIGN   = 52;
+   const LAST_WATCHER_ADDED     = 53;
+
+
 
    static function addEvents(NotificationTargetTicket $target) {
 
@@ -47,6 +53,178 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketnewwatch'] = __('Add a watcher', 'behaviors');
          $target->events['plugin_behaviors_ticketreopen']   = __('Reopen ticket', 'behaviors');
          PluginBehaviorsDocument_Item::addEvents($target);
+      }
+   }
+
+
+   static function addTargets(NotificationTargetTicket $target) {
+
+      $target->addTarget(self::LAST_TECH_ASSIGN , __('Last technician assigned', 'behaviors'));
+      $target->addTarget(self::LAST_GROUP_ASSIGN , __('Last group assigned', 'behaviors'));
+      $target->addTarget(self::LAST_SUPPLIER_ASSIGN , __('Last supplier assigned', 'behaviors'));
+      $target->addTarget(self::LAST_WATCHER_ADDED , __('Last watcher added', 'behaviors'));
+   }
+
+
+   static function addActionTargets(NotificationTargetTicket $target) {
+
+      switch ($target->data['items_id']) {
+         case self::LAST_TECH_ASSIGN :
+            self::getLastLinkedUserByType(CommonITILActor::ASSIGN, $target);
+             break;
+
+         case self::LAST_GROUP_ASSIGN :
+            self::getLastLinkedGroupByType(CommonITILActor::ASSIGN, $target);
+            break;
+
+         case self::LAST_SUPPLIER_ASSIGN :
+            self::getLastSupplierAddress($target);
+            break;
+
+         case self::LAST_WATCHER_ADDED :
+            self::getLastLinkedUserByType(CommonITILActor::OBSERVER, $target);
+            break;
+      }
+   }
+
+
+   static function getLastLinkedUserByType($type, $target) {
+      global $DB, $CFG_GLPI;
+
+      $userlinktable = getTableForItemType($target->obj->userlinkclass);
+      $fkfield       = $target->obj->getForeignKeyField();
+
+      $last = "SELECT MAX(`id`) AS lastid
+               FROM `$userlinktable`
+               WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
+                      AND `$userlinktable`.`type` = '$type'";
+      $result = $DB->query($last);
+
+      $querylast = '';
+      if ($data = $DB->fetch_assoc($result)) {
+         $object = new $target->obj->userlinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $querylast = " AND `$userlinktable`.`users_id` = '".$object->fields['users_id']."'";
+         }
+      }
+
+      //Look for the user by his id
+      $query =  $target->getDistinctUserSql().",
+                      `$userlinktable`.`use_notification` AS notif,
+                      `$userlinktable`.`alternative_email` AS altemail
+                FROM `$userlinktable`
+                LEFT JOIN `glpi_users` ON (`$userlinktable`.`users_id` = `glpi_users`.`id`)".
+                $target->getProfileJoinSql()."
+                WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
+                      AND `$userlinktable`.`type` = '$type'
+                      $querylast";
+
+      foreach ($DB->request($query) as $data) {
+         //Add the user email and language in the notified users list
+         if ($data['notif']) {
+            $author_email = UserEmail::getDefaultForUser($data['users_id']);
+            $author_lang  = $data["language"];
+            $author_id    = $data['users_id'];
+
+            if (!empty($data['altemail'])
+                && ($data['altemail'] != $author_email)
+                && NotificationMail::isUserAddressValid($data['altemail'])) {
+               $author_email = $data['altemail'];
+            }
+            if (empty($author_lang)) {
+               $author_lang = $CFG_GLPI["language"];
+            }
+            if (empty($author_id)) {
+               $author_id = -1;
+            }
+            $target->addToAddressesList(array('email'    => $author_email,
+                                              'language' => $author_lang,
+                                              'users_id' => $author_id));
+         }
+      }
+
+      // Anonymous user
+      $query = "SELECT `alternative_email`
+                FROM `$userlinktable`
+                WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
+                      AND `$userlinktable`.`users_id` = 0
+                      AND `$userlinktable`.`use_notification` = 1
+                      AND `$userlinktable`.`type` = '$type'";
+      foreach ($DB->request($query) as $data) {
+         if (NotificationMail::isUserAddressValid($data['alternative_email'])) {
+            $target->addToAddressesList(array('email'    => $data['alternative_email'],
+                                              'language' => $CFG_GLPI["language"],
+                                              'users_id' => -1));
+         }
+      }
+   }
+
+
+   static function getLastLinkedGroupByType($type, $target) {
+      global $DB;
+
+      $grouplinktable = getTableForItemType($target->obj->grouplinkclass);
+      $fkfield        = $target->obj->getForeignKeyField();
+
+      $last = "SELECT MAX(`id`) AS lastid
+               FROM `$grouplinktable`
+               WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
+                     AND `$grouplinktable`.`type` = '$type'";
+      $result = $DB->query($last);
+      $data = $DB->fetch_assoc($result);
+
+      $querylast = '';
+      $object = new $target->obj->grouplinkclass();
+      if ($object->getFromDB($data['lastid'])) {
+         $querylast = " AND `$grouplinktable`.`groups_id` = '".$object->fields['groups_id']."'";
+      }
+
+      //Look for the user by his id
+      $query = "SELECT `groups_id`
+                FROM `$grouplinktable`
+                WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
+                      AND `$grouplinktable`.`type` = '$type'
+                      $querylast";
+
+      foreach ($DB->request($query) as $data) {
+         //Add the group in the notified users list
+         $target->getAddressesByGroup(0, $data['groups_id']);
+      }
+   }
+
+
+   static  function getLastSupplierAddress($target) {
+      global $DB;
+
+      if (!$target->options['sendprivate']
+          && $target->obj->countSuppliers(CommonITILActor::ASSIGN)) {
+
+         $supplierlinktable = getTableForItemType($target->obj->supplierlinkclass);
+         $fkfield           = $target->obj->getForeignKeyField();
+
+         $last = "SELECT MAX(`id`) AS lastid
+                  FROM `$supplierlinktable`
+                  WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'";
+
+         $result = $DB->query($last);
+         $data = $DB->fetch_assoc($result);
+
+         $querylast = '';
+         $object = new $target->obj->supplierlinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $querylast = " AND `$supplierlinktable`.`suppliers_id` = '".$object->fields['suppliers_id']."'";
+         }
+         $query = "SELECT DISTINCT `glpi_suppliers`.`email` AS email,
+                                   `glpi_suppliers`.`name` AS name
+                   FROM `$supplierlinktable`
+                   LEFT JOIN `glpi_suppliers`
+                      ON (`$supplierlinktable`.`suppliers_id` = `glpi_suppliers`.`id`)
+                   WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->getID()."'
+                         $querylast";
+
+         foreach ($DB->request($query) as $data) {
+            $target->addToAddressesList($data);
+         }
       }
    }
 
