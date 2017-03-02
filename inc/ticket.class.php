@@ -52,6 +52,7 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketnewsupp']  = __('Assign to a supplier', 'behaviors');
          $target->events['plugin_behaviors_ticketnewwatch'] = __('Add a watcher', 'behaviors');
          $target->events['plugin_behaviors_ticketreopen']   = __('Reopen ticket', 'behaviors');
+         $target->events['plugin_behaviors_ticketstatus']   = __('Change status', 'behaviors');
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
@@ -550,15 +551,20 @@ class PluginBehaviorsTicket {
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')
-          && in_array('status', $ticket->updates)
-          && in_array($ticket->oldvalues['status'],
-                      array(implode("','",Ticket::getSolvedStatusArray()),
-                            implode("','",Ticket::getclosedStatusArray())))
-          && !in_array($ticket->input['status'],
-                       array(implode("','",Ticket::getSolvedStatusArray()),
-                             implode("','",Ticket::getclosedStatusArray())))) {
+          && in_array('status', $ticket->updates)) {
 
-         NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
+         if (in_array($ticket->oldvalues['status'],
+                      array(implode("','",Ticket::getSolvedStatusArray()),
+                            implode("','",Ticket::getClosedStatusArray())))
+             && !in_array($ticket->input['status'],
+                          array(implode("','",Ticket::getSolvedStatusArray()),
+                                implode("','",Ticket::getClosedStatusArray())))) {
+
+            NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
+
+         } else if ($ticket->oldvalues['status'] <> $ticket->input['status']) {
+             NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
+         }
       }
    }
 }
