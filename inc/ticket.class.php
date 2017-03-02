@@ -421,7 +421,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without duration',
+               Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -430,7 +430,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without solution type',
+               Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -439,7 +439,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot solve/close a ticket without solution description',
+               Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -448,7 +448,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without ticket's category",
+               Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -458,7 +458,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without techician assign",
+               Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
@@ -468,7 +468,7 @@ class PluginBehaviorsTicket {
                unset($ticket->input['status']);
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without tickets's location",
+               Session::addMessageAfterRedirect(__("Location is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
