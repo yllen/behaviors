@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2016 Behaviors plugin team
+ @copyright Copyright (c) 2010-2017 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -88,6 +88,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_ticketcategory_mandatory` tinyint(1) NOT NULL default '0',
                      `is_tickettech_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_ticketlocation_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
@@ -147,6 +148,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          if (!FieldExists($table, 'is_tickettech_mandatory')) {
             $mig->addField($table, 'is_tickettech_mandatory', 'bool');
          }
+
+         // Version 1.3 - ticket location mandatory #5520
+         $mig->addField($table, 'is_ticketlocation_mandatory', 'bool',
+                        array('after' => 'is_ticketrealtime_mandatory'));
       }
 
       return true;
@@ -267,6 +272,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettech_mandatory",
       $config->fields['is_tickettech_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Location is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketlocation_mandatory",
+      $config->fields['is_ticketlocation_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

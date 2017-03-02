@@ -403,6 +403,9 @@ class PluginBehaviorsTicket {
       $cat    = (isset($ticket->input['itilcategories_id'])
                         ? $ticket->input['itilcategories_id']
                         : $ticket->fields['itilcategories_id']);
+      $loc    = (isset($ticket->input['locations_id'])
+                        ? $ticket->input['locations_id']
+                        : $ticket->fields['locations_id']);
 
       // Wand to solve/close the ticket
       if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
@@ -455,6 +458,16 @@ class PluginBehaviorsTicket {
                unset($ticket->input['solution']);
                unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without techician assign",
+                                                   'behaviors'), true, ERROR);
+            }
+         }
+
+         if ($config->getField('is_ticketlocation_mandatory')) {
+            if (!$loc) {
+               unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
+               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket without tickets's location",
                                                    'behaviors'), true, ERROR);
             }
          }
