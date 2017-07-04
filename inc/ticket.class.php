@@ -34,10 +34,12 @@
 
 class PluginBehaviorsTicket {
 
-   const LAST_TECH_ASSIGN       = 50;
-   const LAST_GROUP_ASSIGN      = 51;
-   const LAST_SUPPLIER_ASSIGN   = 52;
-   const LAST_WATCHER_ADDED     = 53;
+   const LAST_TECH_ASSIGN                     = 50;
+   const LAST_GROUP_ASSIGN                    = 51;
+   const LAST_SUPPLIER_ASSIGN                 = 52;
+   const LAST_WATCHER_ADDED                   = 53;
+   const SUPERVISOR_LAST_GROUP_ASSIGN         = 54;
+   const LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR = 55;
 
 
 
@@ -64,6 +66,11 @@ class PluginBehaviorsTicket {
       $target->addTarget(self::LAST_GROUP_ASSIGN , __('Last group assigned', 'behaviors'));
       $target->addTarget(self::LAST_SUPPLIER_ASSIGN , __('Last supplier assigned', 'behaviors'));
       $target->addTarget(self::LAST_WATCHER_ADDED , __('Last watcher added', 'behaviors'));
+      $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
+                         __('Supervisor of last group assigned', 'behaviors'));
+      $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
+                         __('Last group assigned without supersivor', 'behaviors'));
+
    }
 
 
@@ -84,6 +91,14 @@ class PluginBehaviorsTicket {
 
          case self::LAST_WATCHER_ADDED :
             self::getLastLinkedUserByType(CommonITILActor::OBSERVER, $target);
+            break;
+
+         case self::SUPERVISOR_LAST_GROUP_ASSIGN :
+            self::getLastLinkedGroupByType(CommonITILActor::ASSIGN, $target, 1);
+            break;
+
+         case self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR :
+            self::getLastLinkedGroupByType(CommonITILActor::ASSIGN, $target, 2);
             break;
       }
    }
@@ -161,7 +176,7 @@ class PluginBehaviorsTicket {
    }
 
 
-   static function getLastLinkedGroupByType($type, $target) {
+   static function getLastLinkedGroupByType($type, $target, $supervisor=0) {
       global $DB;
 
       $grouplinktable = getTableForItemType($target->obj->grouplinkclass);
@@ -189,7 +204,7 @@ class PluginBehaviorsTicket {
 
       foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
-         $target->getAddressesByGroup(0, $data['groups_id']);
+         $target->getAddressesByGroup($supervisor, $data['groups_id']);
       }
    }
 
@@ -259,7 +274,10 @@ class PluginBehaviorsTicket {
           && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
 
          if ($config->getField('is_requester_mandatory')
-             && !$ticket->input['_users_id_requester']
+             && ((is_array($ticket->input['_users_id_requester'])
+                  && empty($ticket->input['_users_id_requester']))
+                 || (!is_array($ticket->input['_users_id_requester'])
+                     && !$ticket->input['_users_id_requester']))
              && (!isset($ticket->input['_users_id_requester_notif']['alternative_email'])
                  || empty($ticket->input['_users_id_requester_notif']['alternative_email']))) {
             Session::addMessageAfterRedirect(__('Requester is mandatory', 'behaviors'), true, ERROR);
@@ -413,8 +431,8 @@ class PluginBehaviorsTicket {
           || (isset($ticket->input['solution']) && $ticket->input['solution'])
           || (isset($ticket->input['status'])
               && in_array($ticket->input['status'],
-                          array(implode("','",Ticket::getSolvedStatusArray()),
-                                implode("','",Ticket::getclosedStatusArray()))))) {
+                          array_merge(Ticket::getSolvedStatusArray(),
+                                      Ticket::getclosedStatusArray())))) {
 
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
@@ -462,7 +480,6 @@ class PluginBehaviorsTicket {
                                                    'behaviors'), true, ERROR);
             }
          }
-
          if ($config->getField('is_ticketlocation_mandatory')) {
             if (!$loc) {
                unset($ticket->input['status']);
@@ -554,17 +571,19 @@ class PluginBehaviorsTicket {
           && in_array('status', $ticket->updates)) {
 
          if (in_array($ticket->oldvalues['status'],
-                      array(implode("','",Ticket::getSolvedStatusArray()),
-                            implode("','",Ticket::getClosedStatusArray())))
+                      array_merge(Ticket::getSolvedStatusArray(),
+                                  Ticket::getClosedStatusArray()))
              && !in_array($ticket->input['status'],
-                          array(implode("','",Ticket::getSolvedStatusArray()),
-                                implode("','",Ticket::getClosedStatusArray())))) {
+                          array_merge(Ticket::getSolvedStatusArray(),
+                                      Ticket::getClosedStatusArray()))) {
 
             NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
 
          } else if ($ticket->oldvalues['status'] <> $ticket->input['status']) {
-             NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
+           NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
          }
       }
    }
+
+
 }
