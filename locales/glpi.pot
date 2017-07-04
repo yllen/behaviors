@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 19:27+0100\n"
+"POT-Creation-Date: 2017-06-26 17:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Behaviours"
 msgstr ""
 
-#: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
+#: inc/common.class.php:86 inc/common.class.php:98 inc/common.class.php:118
 msgid "Clone"
 msgstr ""
 
-#: inc/common.class.php:108 inc/common.class.php:187
+#: inc/common.class.php:109 inc/common.class.php:188
 msgid "Clone of"
 msgstr ""
 
@@ -79,31 +79,31 @@ msgstr ""
 msgid "Use the technician's group"
 msgstr ""
 
-#: inc/config.class.php:233 inc/ticket.class.php:265
+#: inc/config.class.php:233 inc/ticket.class.php:283
 msgid "Requester is mandatory"
 msgstr ""
 
-#: inc/config.class.php:245 inc/ticket.class.php:424
+#: inc/config.class.php:245 inc/ticket.class.php:443
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:251 inc/ticket.class.php:451
+#: inc/config.class.php:251 inc/ticket.class.php:470
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:257 inc/ticket.class.php:433
+#: inc/config.class.php:257 inc/ticket.class.php:452
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:264 inc/ticket.class.php:442
+#: inc/config.class.php:264 inc/ticket.class.php:461
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:271 inc/ticket.class.php:461
+#: inc/config.class.php:271 inc/ticket.class.php:480
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:278 inc/ticket.class.php:471
+#: inc/config.class.php:278 inc/ticket.class.php:489
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr ""
 
@@ -143,46 +143,54 @@ msgstr ""
 msgid "You cannot close a problem without solution type"
 msgstr ""
 
-#: inc/ticket.class.php:50
+#: inc/ticket.class.php:52
 msgid "Assign to a technician"
 msgstr ""
 
-#: inc/ticket.class.php:51
+#: inc/ticket.class.php:53
 msgid "Assign to a group"
 msgstr ""
 
-#: inc/ticket.class.php:52
+#: inc/ticket.class.php:54
 msgid "Assign to a supplier"
 msgstr ""
 
-#: inc/ticket.class.php:53
+#: inc/ticket.class.php:55
 msgid "Add a watcher"
 msgstr ""
 
-#: inc/ticket.class.php:54
+#: inc/ticket.class.php:56
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:55
+#: inc/ticket.class.php:57
 msgid "Change status"
 msgstr ""
 
-#: inc/ticket.class.php:63
+#: inc/ticket.class.php:65
 msgid "Last technician assigned"
 msgstr ""
 
-#: inc/ticket.class.php:64
+#: inc/ticket.class.php:66
 msgid "Last group assigned"
 msgstr ""
 
-#: inc/ticket.class.php:65
+#: inc/ticket.class.php:67
 msgid "Last supplier assigned"
 msgstr ""
 
-#: inc/ticket.class.php:66
+#: inc/ticket.class.php:68
 msgid "Last watcher added"
 msgstr ""
 
-#: inc/ticket.class.php:387
+#: inc/ticket.class.php:70
+msgid "Supervisor of last group assigned"
+msgstr ""
+
+#: inc/ticket.class.php:72
+msgid "Last group assigned without supersivor"
+msgstr ""
+
+#: inc/ticket.class.php:406
 msgid "Can't save, item have been updated"
 msgstr ""

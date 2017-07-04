@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 19:27+0100\n"
-"PO-Revision-Date: 2017-03-02 18:24+0000\n"
+"POT-Creation-Date: 2017-06-26 17:51+0200\n"
+"PO-Revision-Date: 2017-06-26 15:53+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Behaviours"
 msgstr "Comportements"
 
-#: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
+#: inc/common.class.php:86 inc/common.class.php:98 inc/common.class.php:118
 msgid "Clone"
 msgstr "Cloner"
 
-#: inc/common.class.php:108 inc/common.class.php:187
+#: inc/common.class.php:109 inc/common.class.php:188
 msgid "Clone of"
 msgstr "Copie de"
 
@@ -80,31 +80,31 @@ msgstr "Notifications supplémentaires"
 msgid "Use the technician's group"
 msgstr "Prendre le groupe du technicien"
 
-#: inc/config.class.php:233 inc/ticket.class.php:265
+#: inc/config.class.php:233 inc/ticket.class.php:283
 msgid "Requester is mandatory"
 msgstr "Demandeur est obligatoire"
 
-#: inc/config.class.php:245 inc/ticket.class.php:424
+#: inc/config.class.php:245 inc/ticket.class.php:443
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "Durée obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:251 inc/ticket.class.php:451
+#: inc/config.class.php:251 inc/ticket.class.php:470
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr "Catégorie obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:257 inc/ticket.class.php:433
+#: inc/config.class.php:257 inc/ticket.class.php:452
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Type de solution obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:264 inc/ticket.class.php:442
+#: inc/config.class.php:264 inc/ticket.class.php:461
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "Description de la solution obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:271 inc/ticket.class.php:461
+#: inc/config.class.php:271 inc/ticket.class.php:480
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr "Technicien obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:278 inc/ticket.class.php:471
+#: inc/config.class.php:278 inc/ticket.class.php:489
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr "Lieu obligatoire pour résoudre/fermer un ticket"
 
@@ -144,46 +144,54 @@ msgstr "Suppression d'un document du ticket"
 msgid "You cannot close a problem without solution type"
 msgstr "Impossible de fermer un problème sans type de solution"
 
-#: inc/ticket.class.php:50
+#: inc/ticket.class.php:52
 msgid "Assign to a technician"
 msgstr "Attribution à un technicien"
 
-#: inc/ticket.class.php:51
+#: inc/ticket.class.php:53
 msgid "Assign to a group"
 msgstr "Attribution à un groupe"
 
-#: inc/ticket.class.php:52
+#: inc/ticket.class.php:54
 msgid "Assign to a supplier"
 msgstr "Attribution à un fournisseur"
 
-#: inc/ticket.class.php:53
+#: inc/ticket.class.php:55
 msgid "Add a watcher"
 msgstr "Ajout d'un observateur"
 
-#: inc/ticket.class.php:54
+#: inc/ticket.class.php:56
 msgid "Reopen ticket"
 msgstr "Ticket réouvert"
 
-#: inc/ticket.class.php:55
+#: inc/ticket.class.php:57
 msgid "Change status"
 msgstr "Changement de status"
 
-#: inc/ticket.class.php:63
+#: inc/ticket.class.php:65
 msgid "Last technician assigned"
 msgstr "Dernier technicien assigné"
 
-#: inc/ticket.class.php:64
+#: inc/ticket.class.php:66
 msgid "Last group assigned"
 msgstr "Dernier groupe assigné"
 
-#: inc/ticket.class.php:65
+#: inc/ticket.class.php:67
 msgid "Last supplier assigned"
 msgstr "Dernier fournisseur assigné"
 
-#: inc/ticket.class.php:66
+#: inc/ticket.class.php:68
 msgid "Last watcher added"
 msgstr "Dernier observateur ajouté"
 
-#: inc/ticket.class.php:387
+#: inc/ticket.class.php:70
+msgid "Supervisor of last group assigned"
+msgstr "Superviseur du dernier groupe chargé du ticket"
+
+#: inc/ticket.class.php:72
+msgid "Last group assigned without supersivor"
+msgstr "Dernier groupe chargé du ticket sans superviseur"
+
+#: inc/ticket.class.php:406
 msgid "Can't save, item have been updated"
 msgstr "Enregistrement impossible, l'élément a été modifié"

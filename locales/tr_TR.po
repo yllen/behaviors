@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Kaya Zeren <kayazeren@gmail.com>, 2016
+# Kaya Zeren <kayazeren@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-12 10:22+0200\n"
-"PO-Revision-Date: 2016-09-26 12:28+0000\n"
+"POT-Creation-Date: 2017-06-26 17:51+0200\n"
+"PO-Revision-Date: 2017-06-27 11:08+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,112 +18,116 @@ msgstr ""
 "Language: tr_TR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: setup.php:100 inc/config.class.php:57
+#: setup.php:99 inc/config.class.php:57
 msgid "Behaviours"
 msgstr "Davranışlar"
 
-#: inc/common.class.php:85 inc/common.class.php:97 inc/common.class.php:117
+#: inc/common.class.php:86 inc/common.class.php:98 inc/common.class.php:118
 msgid "Clone"
 msgstr "Kopyala"
 
-#: inc/common.class.php:108 inc/common.class.php:187
+#: inc/common.class.php:109 inc/common.class.php:188
 msgid "Clone of"
 msgstr "Şunun Kopyası"
 
-#: inc/config.class.php:104
+#: inc/config.class.php:105
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr "creating glpi_plugin_behaviors_configs eklenirken bir sorun çıktı"
 
-#: inc/config.class.php:110
+#: inc/config.class.php:111
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr "glpi_plugin_behaviors_configs güncellenirken bir sorun çıktı"
 
-#: inc/config.class.php:180
+#: inc/config.class.php:185
 msgid "Inventory"
 msgstr "Envanter"
 
-#: inc/config.class.php:184
+#: inc/config.class.php:189
 msgid "Ticket's number format"
 msgstr "Çağrı sayı biçimi"
 
-#: inc/config.class.php:191
+#: inc/config.class.php:196
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr "GLPI üzerinden silinen bilgisayar OCSNG üzerinden silinsin"
 
-#: inc/config.class.php:197
+#: inc/config.class.php:202
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr "\"Öge kaldırma\" uygulama eki yüklenmemiş"
 
-#: inc/config.class.php:200
+#: inc/config.class.php:205
 msgid "Plugin \"OCS Inventory NG\" not installed"
 msgstr "\"OCS Inventory NG\" uygulama eki yüklenmemiş"
 
-#: inc/config.class.php:206
+#: inc/config.class.php:211
 msgid "Use the associated item's group"
 msgstr "İlgili ögenin grubu kullanılsın"
 
-#: inc/config.class.php:208
+#: inc/config.class.php:213
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] "Bildirim"
 
-#: inc/config.class.php:213
+#: inc/config.class.php:218
 msgid "Use the requester's group"
 msgstr "İstekte bulunanın grubu kullanılsın"
 
-#: inc/config.class.php:216
+#: inc/config.class.php:221
 msgid "Additional notifications"
 msgstr "Ek bildirimler"
 
-#: inc/config.class.php:221
+#: inc/config.class.php:226
 msgid "Use the technician's group"
 msgstr "Teknisyenin grubu kullanılsın"
 
-#: inc/config.class.php:228 inc/ticket.class.php:88
+#: inc/config.class.php:233 inc/ticket.class.php:283
 msgid "Requester is mandatory"
 msgstr "İstekte bulunan zorunludur"
 
-#: inc/config.class.php:240
+#: inc/config.class.php:245 inc/ticket.class.php:443
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "Çağrının çözümlenmesi ya da kapatılması için süre zorunludur"
 
-#: inc/config.class.php:246
+#: inc/config.class.php:251 inc/ticket.class.php:470
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr "Çağrının çözümlenmesi ya da kapatılması için kategori zorunludur"
 
-#: inc/config.class.php:252
+#: inc/config.class.php:257 inc/ticket.class.php:452
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
-#: inc/config.class.php:259
+#: inc/config.class.php:264 inc/ticket.class.php:461
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm açıklaması zorunludur"
 
-#: inc/config.class.php:266
+#: inc/config.class.php:271 inc/ticket.class.php:480
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr "Çağrının çözümlenmesi ya da kapatılması için atanan teknisyen zorunludur"
 
-#: inc/config.class.php:273
+#: inc/config.class.php:278 inc/ticket.class.php:489
+msgid "Location is mandatory before ticket is solved/closed"
+msgstr "Çağrının çözümlenmesi ya da kapatılması için konum zorunludur"
+
+#: inc/config.class.php:285
 msgid "Deny change of ticket's creation date"
 msgstr "Çağrı oluşturulma tarihi değiştirilemesin"
 
-#: inc/config.class.php:278
+#: inc/config.class.php:290
 msgid "Protect from simultaneous update"
 msgstr "Eşzaman güncelleme yapılamasın"
 
-#: inc/config.class.php:283
+#: inc/config.class.php:295
 msgid "Single technician and group"
 msgstr "Tek teknisyen ve grup"
 
-#: inc/config.class.php:285
+#: inc/config.class.php:297
 msgid "Single user and single group"
 msgstr "Tek kullanıcı ve tek grup"
 
-#: inc/config.class.php:286
+#: inc/config.class.php:298
 msgid "Single user or group"
 msgstr "Tek kullanıcı ya da grup"
 
-#: inc/config.class.php:295
+#: inc/config.class.php:307
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Sorunun çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
@@ -139,42 +143,54 @@ msgstr "Çağrıdaki ek belgeyi sil"
 msgid "You cannot close a problem without solution type"
 msgstr "Sorunun çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
 
-#: inc/ticket.class.php:47
+#: inc/ticket.class.php:52
 msgid "Assign to a technician"
 msgstr "Bir teknisyen atayın"
 
-#: inc/ticket.class.php:48
+#: inc/ticket.class.php:53
 msgid "Assign to a group"
 msgstr "Bir grup atayın"
 
-#: inc/ticket.class.php:49
+#: inc/ticket.class.php:54
 msgid "Assign to a supplier"
 msgstr "Bir tedarikçi atayın"
 
-#: inc/ticket.class.php:50
+#: inc/ticket.class.php:55
+msgid "Add a watcher"
+msgstr "Bir izleyici ekle"
+
+#: inc/ticket.class.php:56
 msgid "Reopen ticket"
 msgstr "Çağrıyı yeniden aç"
 
-#: inc/ticket.class.php:205
+#: inc/ticket.class.php:57
+msgid "Change status"
+msgstr "Durumu değiştir"
+
+#: inc/ticket.class.php:65
+msgid "Last technician assigned"
+msgstr "Son atanan teknisyen"
+
+#: inc/ticket.class.php:66
+msgid "Last group assigned"
+msgstr "Son atanan grup"
+
+#: inc/ticket.class.php:67
+msgid "Last supplier assigned"
+msgstr "Son atanan tedarikçi"
+
+#: inc/ticket.class.php:68
+msgid "Last watcher added"
+msgstr "Son atanan izleyici"
+
+#: inc/ticket.class.php:70
+msgid "Supervisor of last group assigned"
+msgstr "Son atanan grubun yöneticisi"
+
+#: inc/ticket.class.php:72
+msgid "Last group assigned without supersivor"
+msgstr "Yöneticisiz olarak atanan son grup"
+
+#: inc/ticket.class.php:406
 msgid "Can't save, item have been updated"
 msgstr "Öge güncellendiğinden kaydedilemedi"
-
-#: inc/ticket.class.php:239
-msgid "You cannot solve/close a ticket without duration"
-msgstr "Çağrının çözümlenmesi ya da kapatılması için süre zorunludur"
-
-#: inc/ticket.class.php:248
-msgid "You cannot solve/close a ticket without solution type"
-msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm türü zorunludur"
-
-#: inc/ticket.class.php:257
-msgid "You cannot solve/close a ticket without solution description"
-msgstr "Çağrının çözümlenmesi ya da kapatılması için çözüm açıklaması zorunludur"
-
-#: inc/ticket.class.php:266
-msgid "You cannot solve/close a ticket without ticket's category"
-msgstr "Çağrının çözümlenmesi ya da kapatılması için çağrı kategorisi zorunludur"
-
-#: inc/ticket.class.php:276
-msgid "You cannot solve/close a ticket without techician assign"
-msgstr "Çağrının çözümlenmesi ya da kapatılması için bir teknisyen atanması zorunludur"
