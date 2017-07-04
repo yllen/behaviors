@@ -591,4 +591,89 @@ class PluginBehaviorsTicket {
    }
 
 
+   static function preClone(Ticket $srce, Array $input) {
+      global $DB;
+
+      $config = PluginBehaviorsConfig::getInstance();
+      $tickid = $srce->getField('id');
+
+      $user_reques                  = $srce->getUsers(CommonITILActor::REQUESTER);
+      $input['_users_id_requester'] = array();
+      foreach ($user_reques as $users) {
+         $input['_users_id_requester'][] = $users['users_id'];
+      }
+      $user_observ                 = $srce->getUsers(CommonITILActor::OBSERVER);
+      $input['_users_id_observer'] = array();
+      foreach ($user_observ as $users) {
+         $input['_users_id_observer'][] = $users['users_id'];
+      }
+      $user_assign               = $srce->getUsers(CommonITILActor::ASSIGN);
+      $input['_users_id_assign'] = array();
+      foreach ($user_assign as $users) {
+         $input['_users_id_assign'][] = $users['users_id'];
+      }
+
+      $group_reques                  = $srce->getGroups(CommonITILActor::REQUESTER);
+      $input['_groups_id_requester'] = array();
+      foreach ($group_reques as $groups) {
+         $input['_groups_id_requester'][] = $groups['groups_id'];
+      }
+      $group_observ                  = $srce->getGroups(CommonITILActor::OBSERVER);
+      $input['_groups_id_observer'] = array();
+      foreach ($group_observ as $groups) {
+         $input['_groups_id_observer'][] = $groups['groups_id'];
+      }
+      $group_assign                  = $srce->getGroups(CommonITILActor::ASSIGN);
+      $input['_groups_id_assign'] = array();
+      foreach ($group_assign as $groups) {
+         $input['_groups_id_assign'][] = $ugroups['groups_id'];
+      }
+
+      $suppliers                     = $srce->getSuppliers(CommonITILActor::ASSIGN);
+      $input['_suppliers_id_assign'] = array();
+      foreach ($suppliers as $suppliers) {
+         $input['_suppliers_id_assign'][] = $suppliers['groups_id'];
+      }
+
+      return $input;
+
+   }
+
+
+   static function postClone(Ticket $clone, $oldid) {
+      global $DB;
+
+      $fkey = getForeignKeyFieldForTable($clone->getTable());
+      $crit = array($fkey => $oldid);
+
+      // add items of tickets source
+      $item = new Item_Ticket();
+      foreach ($DB->request($item->getTable(), $crit) as $dataitem) {
+         $input = array('itemtype'    => $dataitem['itemtype'],
+                        'items_id'    => $dataitem['items_id'],
+                        'tickets_id'  => $clone->getField('id'));
+         $item->add($input);
+      }
+
+      // link new ticket to ticket source
+      $link = new Ticket_Ticket();
+      $inputlink = array('tickets_id_1'    => $clone->getField('id'),
+                         'tickets_id_2'    => $oldid,
+                         'link'            => 1);
+      $link->add($inputlink);
+
+      if (countElementsInTable("glpi_documents_items",
+                               "`itemtype` = 'Ticket' AND `items_id` = $oldid")) {
+         $docitem = new Document_Item();
+         foreach ($DB->request("glpi_documents_items", array('itemtype' => 'Ticket',
+                                                             'items_id' => $oldid)) as $doc) {
+            $inputdoc = array('documents_id' => $doc['documents_id'],
+                              'items_id'     => $clone->getField('id'),
+                              'itemtype'     => 'Ticket',
+                              'entities_id'  => $doc['entities_id'],
+                              'is_recursive' => $doc['is_recursive']);
+            $docitem->add($inputdoc);
+         }
+      }
+   }
 }

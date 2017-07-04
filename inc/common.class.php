@@ -42,7 +42,8 @@ class PluginBehaviorsCommon {
                                'RuleRight'             => 'PluginBehaviorsRule',
                                'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
                                'RuleTicket'            => 'PluginBehaviorsRule',
-                               'Transfer'              => 'PluginBehaviorsCommon');
+                               'Transfer'              => 'PluginBehaviorsCommon',
+                               'Ticket'                => 'PluginBehaviorsTicket');
 
 
    static function getCloneTypes() {
