@@ -55,6 +55,7 @@ class PluginBehaviorsTicket {
          $target->events['plugin_behaviors_ticketnewwatch'] = __('Add a watcher', 'behaviors');
          $target->events['plugin_behaviors_ticketreopen']   = __('Reopen ticket', 'behaviors');
          $target->events['plugin_behaviors_ticketstatus']   = __('Change status', 'behaviors');
+         $target->events['plugin_behaviors_ticketwaiting']  = __('Ticket waiting', 'behaviors');
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
@@ -580,7 +581,11 @@ class PluginBehaviorsTicket {
             NotificationEvent::raiseEvent('plugin_behaviors_ticketreopen', $ticket);
 
          } else if ($ticket->oldvalues['status'] <> $ticket->input['status']) {
-           NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
+            if ($ticket->input['status'] == CommonITILObject::WAITING) {
+               NotificationEvent::raiseEvent('plugin_behaviors_ticketwaiting', $ticket);
+            } else {
+               NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
+            }
          }
       }
    }
