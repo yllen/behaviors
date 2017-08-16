@@ -98,6 +98,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `add_notif` tinyint(1) NOT NULL default '0',
                      `use_lock` tinyint(1) NOT NULL default '0',
                      `single_tech_mode` int(11) NOT NULL default '0',
+                     `myasset` tinyint(1) NOT NULL default '0',
+                     `groupasset` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -152,6 +154,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // Version 1.3 - ticket location mandatory #5520
          $mig->addField($table, 'is_ticketlocation_mandatory', 'bool',
                         array('after' => 'is_ticketrealtime_mandatory'));
+
+         // Version 1.5 - show my asset #5530
+         $mig->addField($table, 'groupasset', 'bool', array('after' => 'single_tech_mode'));
+         $mig->addField($table, 'myasset', 'bool', array('after' => 'single_tech_mode'));
       }
 
       return true;
@@ -210,42 +216,48 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the associated item's group", "behaviors")."</td><td>";
       Dropdown::showYesNo("use_requester_item_group", $config->fields['use_requester_item_group']);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
-                                                                'behaviors');
-      echo "</td></tr>\n";
+      echo "<td>".__("Show my assets", "behaviors")."</td><td>";
+      Dropdown::showYesNo('myasset', $config->fields['myasset']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_requester_user_group', $yesnoall,
                               array('value' => $config->fields['use_requester_user_group']));
-      echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
-      Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
+      echo "<td>".__("Show assets of my groups", "behaviors")."</td><td>";
+      Dropdown::showYesNo('groupasset', $config->fields['groupasset']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group', $yesnoall,
                               array('value' => $config->fields['use_assign_user_group']));
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
-      echo "</td></tr>";
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
+            'behaviors');
+      echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Requester is mandatory", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
-      echo "</td><td rowspan='7' colspan='2' class='center'>";
-      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
-      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
-                             Html::convDateTime($config->fields["date_mod"]));
+      echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
+      Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td></tr>";
+      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory",
                           $config->fields['is_ticketrealtime_mandatory']);
-      echo "</tr>";
+      echo "</td><td rowspan='7' colspan='2' class='center'>";
+      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
+            Html::convDateTime($config->fields["date_mod"]));
+      echo "</td></tr>";
+
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
@@ -301,7 +313,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Problem - Update
-      echo "<td colspan='4' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
+      echo "<td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
@@ -331,5 +343,76 @@ class PluginBehaviorsConfig extends CommonDBTM {
          self::showConfigForm($item);
       }
       return true;
+   }
+
+
+   /**
+    * Restrict visibility rights
+    *
+    * @since 1.5.0
+    *
+    * @param  $item
+   **/
+   static function item_can($item) {
+      global $DB, $CFG_GLPI;
+
+      $itemtype = $item->getType();
+      if (in_array($item->getType(), $CFG_GLPI["asset_types"])
+          && !Session::haveRight($itemtype::$rightname, UPDATE)) {
+
+         $config = PluginBehaviorsConfig::getInstance();
+         if ($config->getField('myasset')
+             && ($item->fields['users_id'] > 0)
+             && ($item->fields['users_id'] <> Session::getLoginUserID())) {
+
+            if ($config->getField('groupasset')
+                && ($item->fields['groups_id'] > 0)
+                && !in_array($item->fields['groups_id'], $_SESSION["glpigroups"])) {
+               $item->right = '0';
+            }
+         }
+         if ($config->getField('groupasset')
+              && ($item->fields['groups_id'] > 0)
+              && !in_array($item->fields['groups_id'], $_SESSION["glpigroups"])) {
+
+            if ($config->getField('myasset')
+                && ($item->fields['users_id'] > 0)
+                && ($item->fields['users_id'] <> Session::getLoginUserID())) {
+               $item->right = '0';
+            }
+         }
+      }
+   }
+
+
+   /**
+    * Restrict visibility rights
+    *
+    * @since 1.5.0
+    *
+    * @param  $item
+   **/
+   static function add_default_where($item) {
+      global $DB, $CFG_GLPI;;
+
+
+      $condition = "";
+      list($itemtype, $condition) = $item;
+      if (in_array($itemtype, $CFG_GLPI["asset_types"])
+          && !Session::haveRight($itemtype::$rightname, UPDATE)) {
+
+         $config = PluginBehaviorsConfig::getInstance();
+         $table  = getTableForItemType($itemtype);
+         if ($config->getField('myasset')) {
+            $condition .= "(`".$table."`.`users_id` = ".Session::getLoginUserID().")";
+            if ($config->getField('groupasset')) {
+               $condition .= " OR ";
+            }
+         }
+         if ($config->getField('groupasset')) {
+            $condition .= " (`".$table."`.`groups_id` IN ('".implode("','", $_SESSION["glpigroups"])."'))";
+         }
+      }
+      return [$itemtype, $condition];
    }
 }
