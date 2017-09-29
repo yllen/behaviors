@@ -37,7 +37,7 @@ class PluginBehaviorsRule extends PluginBehaviorsCommon {
    static function postClone(Rule $clone, $oldid) {
       global $DB;
 
-      $fkey = getForeignKeyFieldForTable($clone->getTable());
+      $fkey = $DB->getForeignKeyFieldForTable($clone->getTable());
       $crit = array($fkey => $oldid);
 
       $criteria = new RuleCriteria();

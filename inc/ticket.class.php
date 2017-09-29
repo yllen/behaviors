@@ -108,7 +108,7 @@ class PluginBehaviorsTicket {
    static function getLastLinkedUserByType($type, $target) {
       global $DB, $CFG_GLPI;
 
-      $userlinktable = getTableForItemType($target->obj->userlinkclass);
+      $userlinktable = $DB->getTableForItemType($target->obj->userlinkclass);
       $fkfield       = $target->obj->getForeignKeyField();
 
       $last = "SELECT MAX(`id`) AS lastid
@@ -145,7 +145,7 @@ class PluginBehaviorsTicket {
 
             if (!empty($data['altemail'])
                 && ($data['altemail'] != $author_email)
-                && NotificationMail::isUserAddressValid($data['altemail'])) {
+                && NotificationMailing::isUserAddressValid($data['altemail'])) {
                $author_email = $data['altemail'];
             }
             if (empty($author_lang)) {
@@ -154,7 +154,7 @@ class PluginBehaviorsTicket {
             if (empty($author_id)) {
                $author_id = -1;
             }
-            $target->addToAddressesList(array('email'    => $author_email,
+            $target->addToRecipientsList(array('email'    => $author_email,
                                               'language' => $author_lang,
                                               'users_id' => $author_id));
          }
@@ -168,8 +168,8 @@ class PluginBehaviorsTicket {
                       AND `$userlinktable`.`use_notification` = 1
                       AND `$userlinktable`.`type` = '$type'";
       foreach ($DB->request($query) as $data) {
-         if (NotificationMail::isUserAddressValid($data['alternative_email'])) {
-            $target->addToAddressesList(array('email'    => $data['alternative_email'],
+         if (NotificationMailing::isUserAddressValid($data['alternative_email'])) {
+            $target->addToRecipientsList(array('email'    => $data['alternative_email'],
                                               'language' => $CFG_GLPI["language"],
                                               'users_id' => -1));
          }
@@ -180,7 +180,7 @@ class PluginBehaviorsTicket {
    static function getLastLinkedGroupByType($type, $target, $supervisor=0) {
       global $DB;
 
-      $grouplinktable = getTableForItemType($target->obj->grouplinkclass);
+      $grouplinktable = $DB->getTableForItemType($target->obj->grouplinkclass);
       $fkfield        = $target->obj->getForeignKeyField();
 
       $last = "SELECT MAX(`id`) AS lastid
@@ -205,7 +205,7 @@ class PluginBehaviorsTicket {
 
       foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
-         $target->getAddressesByGroup($supervisor, $data['groups_id']);
+         $target->addForGroup($supervisor, $data['groups_id']);
       }
    }
 
@@ -216,7 +216,7 @@ class PluginBehaviorsTicket {
       if (!$target->options['sendprivate']
           && $target->obj->countSuppliers(CommonITILActor::ASSIGN)) {
 
-         $supplierlinktable = getTableForItemType($target->obj->supplierlinkclass);
+         $supplierlinktable = $DB->getTableForItemType($target->obj->supplierlinkclass);
          $fkfield           = $target->obj->getForeignKeyField();
 
          $last = "SELECT MAX(`id`) AS lastid
@@ -240,7 +240,7 @@ class PluginBehaviorsTicket {
                          $querylast";
 
          foreach ($DB->request($query) as $data) {
-            $target->addToAddressesList($data);
+            $target->addToRecipientsList($data);
          }
       }
    }
@@ -291,7 +291,7 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
          foreach ($ticket->input['items_id'] as $type => $items) {
-            if (($item = getItemForItemtype($type))
+            if (($item = $DB->getItemForItemtype($type))
                 && (!isset($ticket->input['_groups_id_requester'])
                     || ($ticket->input['_groups_id_requester'] <= 0))) {
 
@@ -378,6 +378,7 @@ class PluginBehaviorsTicket {
 
 
    static function beforeUpdate(Ticket $ticket) {
+      global $DB;
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -404,7 +405,7 @@ class PluginBehaviorsTicket {
           && ($ticket->input['_read_date_mod'] != $ticket->fields['date_mod'])) {
 
          $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
-                           getUserName($ticket->fields['users_id_lastupdater']).', '.
+                           $DB->getUserName($ticket->fields['users_id_lastupdater']).', '.
                            Html::convDateTime($ticket->fields['date_mod']));
 
          Session::addMessageAfterRedirect($msg, true, ERROR);
@@ -496,7 +497,7 @@ class PluginBehaviorsTicket {
              && (is_array($ticket->input['items_id']))) {
             foreach ($ticket->input['items_id'] as $type => $items) {
                foreach ($items as $number => $id) {
-                  if (($item = getItemForItemtype($id))
+                  if (($item = $DB->getItemForItemtype($id))
                       && (!isset($ticket->input['_groups_id_requester'])
                           || ($ticket->input['_groups_id_requester'] <= 0))) {
 
@@ -643,7 +644,7 @@ class PluginBehaviorsTicket {
    static function postClone(Ticket $clone, $oldid) {
       global $DB;
 
-      $fkey = getForeignKeyFieldForTable($clone->getTable());
+      $fkey = $DB->getForeignKeyFieldForTable($clone->getTable());
       $crit = array($fkey => $oldid);
 
       // add items of tickets source
@@ -662,7 +663,7 @@ class PluginBehaviorsTicket {
                          'link'            => 1);
       $link->add($inputlink);
 
-      if (countElementsInTable("glpi_documents_items",
+      if ($DB->countElementsInTable("glpi_documents_items",
                                "`itemtype` = 'Ticket' AND `items_id` = $oldid")) {
          $docitem = new Document_Item();
          foreach ($DB->request("glpi_documents_items", array('itemtype' => 'Ticket',

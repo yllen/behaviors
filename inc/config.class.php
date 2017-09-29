@@ -77,7 +77,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       global $DB;
 
       $table = 'glpi_plugin_behaviors_configs';
-      if (!TableExists($table)) { //not installed
+      if (!$DB->tableExists($table)) { //not installed
 
          $query = "CREATE TABLE `". $table."`(
                      `id` int(11) NOT NULL,
@@ -167,7 +167,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static function uninstall() {
       global $DB;
 
-      if (TableExists('glpi_plugin_behaviors_configs')) { //not installed
+      if ($DB->tableExists('glpi_plugin_behaviors_configs')) { //not installed
 
          $query = "DROP TABLE `glpi_plugin_behaviors_configs`";
          $DB->queryOrDie($query, $DB->error());
@@ -208,7 +208,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
            echo __("Plugin \"Item's uninstallation\" not installed", "behaviors")."\n";
          }
          if (!$plugin->isActivated('ocsinventoryng')) {
-           _e("Plugin \"OCS Inventory NG\" not installed", "behaviors");
+           echo __("Plugin \"OCS Inventory NG\" not installed", "behaviors");
          }
       }
       echo "</td></tr>\n";
@@ -402,7 +402,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
           && !Session::haveRight($itemtype::$rightname, UPDATE)) {
 
          $config = PluginBehaviorsConfig::getInstance();
-         $table  = getTableForItemType($itemtype);
+         $table  = $DB->getTableForItemType($itemtype);
          if ($config->getField('myasset')) {
             $condition .= "(`".$table."`.`users_id` = ".Session::getLoginUserID().")";
             if ($config->getField('groupasset')) {

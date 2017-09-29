@@ -135,12 +135,13 @@ class PluginBehaviorsCommon {
 
 
    static function cloneItem(Array $param) {
+      global $DB;
 
       // Sanity check
       if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
           || !array_key_exists($param['itemtype'], self::$clone_types)
           || empty($param['name'])
-          || !($item = getItemForItemtype($param['itemtype']))) {
+          || !($item = $DB->getItemForItemtype($param['itemtype']))) {
          return false;
       }
 

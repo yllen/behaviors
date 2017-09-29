@@ -39,7 +39,7 @@ class PluginBehaviorsNotificationTemplate extends PluginBehaviorsCommon {
       global $DB;
 
       $trad = new NotificationTemplateTranslation();
-      $fkey = getForeignKeyFieldForTable($clone->getTable());
+      $fkey = $DB->getForeignKeyFieldForTable($clone->getTable());
       $crit = array($fkey => $oldid);
 
       foreach ($DB->request($trad->getTable(), $crit) as $data) {
