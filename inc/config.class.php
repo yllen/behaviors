@@ -158,6 +158,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // Version 1.5 - show my asset #5530
          $mig->addField($table, 'groupasset', 'bool', ['after' => 'single_tech_mode']);
          $mig->addField($table, 'myasset', 'bool', ['after' => 'single_tech_mode']);
+
+         // Version 1.5.1 - config for clone #5531
+         $mig->addField($table, 'clone', 'bool');
       }
 
       return true;
@@ -245,17 +248,17 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>"; // Ticket - Update
       echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
+      echo "</td><td class='tab_bg_2 b'>".__('Allow Clone', 'behaviors')."</td><td>";
+      Dropdown::showYesNo('clone', $config->fields['clone']);
       echo "</td></tr>";
 
+
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory",
                           $config->fields['is_ticketrealtime_mandatory']);
-      echo "</td><td rowspan='7' colspan='2' class='center'>";
-      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
-      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
-            Html::convDateTime($config->fields["date_mod"]));
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "</td></tr>";
 
 
@@ -263,7 +266,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory",
                           $config->fields['is_ticketcategory_mandatory']);
-      echo "</tr>";
+      echo "</td><td rowspan='7' colspan='2' class='center'>";
+      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
+      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
+            Html::convDateTime($config->fields["date_mod"]));
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Type of solution is mandatory before ticket is solved/closed', 'behaviors');
