@@ -77,7 +77,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       global $DB;
 
       $table = 'glpi_plugin_behaviors_configs';
-      if (!$DB->tableExists($table)) { //not installed
+      if (!TableExists($table)) { //not installed
 
          $query = "CREATE TABLE `". $table."`(
                      `id` int(11) NOT NULL,
@@ -153,11 +153,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // Version 1.3 - ticket location mandatory #5520
          $mig->addField($table, 'is_ticketlocation_mandatory', 'bool',
-                        array('after' => 'is_ticketrealtime_mandatory'));
+                        ['after' => 'is_ticketrealtime_mandatory']);
 
          // Version 1.5 - show my asset #5530
-         $mig->addField($table, 'groupasset', 'bool', array('after' => 'single_tech_mode'));
-         $mig->addField($table, 'myasset', 'bool', array('after' => 'single_tech_mode'));
+         $mig->addField($table, 'groupasset', 'bool', ['after' => 'single_tech_mode']);
+         $mig->addField($table, 'myasset', 'bool', ['after' => 'single_tech_mode']);
       }
 
       return true;
@@ -167,7 +167,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static function uninstall() {
       global $DB;
 
-      if ($DB->tableExists('glpi_plugin_behaviors_configs')) { //not installed
+      if (TableExists('glpi_plugin_behaviors_configs')) { //not installed
 
          $query = "DROP TABLE `glpi_plugin_behaviors_configs`";
          $DB->queryOrDie($query, $DB->error());
@@ -178,9 +178,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
    static function showConfigForm($item) {
 
-      $yesnoall = array(0 => __('No'),
-                        1 => __('First'),
-                        2 => __('All'));
+      $yesnoall = [0 => __('No'),
+                   1 => __('First'),
+                   2 => __('All')];
 
       $config = self::getInstance();
 
@@ -193,12 +193,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Ticket's number format", "behaviors")."</td><td width='20%'>";
-      $tab = array('NULL' => Dropdown::EMPTY_VALUE);
-      foreach (array('Y000001', 'Ym0001', 'Ymd01', 'ymd0001') as $fmt) {
+      $tab = ['NULL' => Dropdown::EMPTY_VALUE];
+      foreach (['Y000001', 'Ym0001', 'Ymd01', 'ymd0001'] as $fmt) {
          $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
       }
       Dropdown::showFromArray("tickets_id_format", $tab,
-                              array('value' => $config->fields['tickets_id_format']));
+                              ['value' => $config->fields['tickets_id_format']]);
       echo "<td>".__('Delete computer in OCSNG when purged from GLPI', 'behaviors')."</td><td>";
       $plugin = new Plugin();
       if ($plugin->isActivated('uninstall') && $plugin->isActivated('ocsinventoryng')) {
@@ -208,7 +208,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
            echo __("Plugin \"Item's uninstallation\" not installed", "behaviors")."\n";
          }
          if (!$plugin->isActivated('ocsinventoryng')) {
-           echo __("Plugin \"OCS Inventory NG\" not installed", "behaviors");
+           _e("Plugin \"OCS Inventory NG\" not installed", "behaviors");
          }
       }
       echo "</td></tr>\n";
@@ -223,7 +223,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_requester_user_group', $yesnoall,
-                              array('value' => $config->fields['use_requester_user_group']));
+                              ['value' => $config->fields['use_requester_user_group']]);
       echo "<td>".__("Show assets of my groups", "behaviors")."</td><td>";
       Dropdown::showYesNo('groupasset', $config->fields['groupasset']);
       echo "</td></tr>";
@@ -231,7 +231,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group', $yesnoall,
-                              array('value' => $config->fields['use_assign_user_group']));
+                              ['value' => $config->fields['use_assign_user_group']]);
       echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
             'behaviors');
       echo "</td></tr>\n";
@@ -305,11 +305,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
-      $tab = array(0 => __('No'),
-                   1 => __('Single user and single group', 'behaviors'),
-                   2 => __('Single user or group', 'behaviors'));
+      $tab = [0 => __('No'),
+              1 => __('Single user and single group', 'behaviors'),
+              2 => __('Single user or group', 'behaviors')];
       Dropdown::showFromArray('single_tech_mode', $tab,
-                              array('value' => $config->fields['single_tech_mode']));
+                              ['value' => $config->fields['single_tech_mode']]);
       echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Problem - Update
@@ -322,7 +322,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                           $config->fields['is_problemsolutiontype_mandatory']);
       echo "</td><td colspan='2'></td></tr>";
 
-      $config->showFormButtons(array('candel'=>false));
+      $config->showFormButtons(['candel'=>false]);
 
       return false;
    }
@@ -395,14 +395,14 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static function add_default_where($item) {
       global $DB, $CFG_GLPI;;
 
-
       $condition = "";
       list($itemtype, $condition) = $item;
+
+      $config = PluginBehaviorsConfig::getInstance();
       if (in_array($itemtype, $CFG_GLPI["asset_types"])
           && !Session::haveRight($itemtype::$rightname, UPDATE)) {
 
-         $config = PluginBehaviorsConfig::getInstance();
-         $table  = $DB->getTableForItemType($itemtype);
+         $table  = getTableForItemType($itemtype);
          if ($config->getField('myasset')) {
             $condition .= "(`".$table."`.`users_id` = ".Session::getLoginUserID().")";
             if ($config->getField('groupasset')) {
@@ -411,6 +411,28 @@ class PluginBehaviorsConfig extends CommonDBTM {
          }
          if ($config->getField('groupasset')) {
             $condition .= " (`".$table."`.`groups_id` IN ('".implode("','", $_SESSION["glpigroups"])."'))";
+         }
+      }
+
+      $filtre = [];
+      if ($itemtype == 'AllAssets') {
+         foreach ($CFG_GLPI[$CFG_GLPI["union_search_type"][$itemtype]] as $ctype) {
+            if (($citem = getItemForItemtype($ctype))
+                && !$citem->canUpdate()) {
+               $filtre[$ctype] = $ctype;
+            }
+         }
+
+         if (count($filtre)) {
+            if ($config->getField('myasset')) {
+               $condition .= " (`asset_types`.`users_id` = ".Session::getLoginUserID().")";
+               if ($config->getField('groupasset')) {
+                  $condition .= " OR ";
+               }
+            }
+            if ($config->getField('groupasset')) {
+               $condition .= " (`asset_types`.`groups_id` IN ('".implode("','", $_SESSION["glpigroups"])."'))";
+            }
          }
       }
       return [$itemtype, $condition];
