@@ -44,12 +44,12 @@ class PluginBehaviorsUser {
                 FROM `glpi_groups_users`
                 INNER JOIN `glpi_groups` ON (`glpi_groups`.`id` = `glpi_groups_users`.`groups_id`)
                 WHERE `glpi_groups_users`.`users_id` = '".$userid."'".
-                $DB->getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
+                getEntitiesRestrictRequest(' AND ', 'glpi_groups', '', $entity, true);
 
       if ($filter) {
          $query .= "AND (".$filter.")";
       }
-      $rep = array();
+      $rep = [];
       foreach ($DB->request($query) as $data) {
          if ($first) {
             return $data['id'];

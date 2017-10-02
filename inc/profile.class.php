@@ -48,7 +48,7 @@ class PluginBehaviorsProfile extends  PluginBehaviorsCommon {
       if (!isset($input['helpdesk_item_type'])
           || !is_array($input['helpdesk_item_type'])) {
 
-         $input['helpdesk_item_type'] = array();
+         $input['helpdesk_item_type'] = [];
       }
 
       return $input;

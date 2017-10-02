@@ -65,8 +65,8 @@ class PluginBehaviorsTicket_User {
       if (($config->getField('single_tech_mode') != 0)
           && ($item->input['type'] == CommonITILActor::ASSIGN)) {
 
-         $crit = array('tickets_id' => $item->input['tickets_id'],
-                       'type'       => CommonITILActor::ASSIGN);
+         $crit = ['tickets_id' => $item->input['tickets_id'],
+                  'type'       => CommonITILActor::ASSIGN];
 
          foreach ($DB->request('glpi_tickets_users', $crit) as $data) {
             if ($data['id'] != $item->getID()) {

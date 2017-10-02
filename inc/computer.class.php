@@ -45,8 +45,6 @@ class PluginBehaviorsComputer extends PluginBehaviorsCommon {
 
    static function beforePurge(Computer $comp) {
 
-      // Toolbox::logDebug("PluginBehaviorsComputer::beforePurge(), Computer=", $comp);
-
       $config = PluginBehaviorsConfig::getInstance();
 
       if (($config->getField('remove_from_ocs') > 0)
