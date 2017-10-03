@@ -81,8 +81,10 @@ class PluginBehaviorsCommon {
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
+      $config = PluginBehaviorsConfig::getInstance();
       if (array_key_exists($item->getType(), self::$clone_types)
-          && $item->canUpdate()) {
+          && $item->canUpdate()
+          && $config->getField('clone')) {
          return __('Clone', 'behaviors');
       }
       return '';
