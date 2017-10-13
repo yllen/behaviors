@@ -35,18 +35,6 @@
 class PluginBehaviorsSupplier_Ticket {
 
    static function afterAdd(Supplier_Ticket $item) {
-      global $DB;
-
-      $config = PluginBehaviorsConfig::getInstance();
-
-      if ($config->getField('add_notif')) {
-         if ($item->getField('type') == CommonITILActor::ASSIGN) {
-            $ticket = new Ticket();
-            if ($ticket->getFromDB($item->getField('tickets_id'))) {
-               NotificationEvent::raiseEvent('plugin_behaviors_ticketnewsupp', $ticket);
-            }
-         }
-      }
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))

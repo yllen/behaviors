@@ -39,7 +39,6 @@ class PluginBehaviorsMonitor extends PluginBehaviorsCommon {
       // Toolbox::logDebug("PluginBehaviorsMonitor::afterAdd(), Monitor=", $monitor);
    }
 
-
    static function afterUpdate(Monitor $monitor) {
       // Toolbox::logDebug("PluginBehaviorsMonitor::afterUpdate(), Monitor=", $monitor);
    }

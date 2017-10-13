@@ -39,7 +39,6 @@ class PluginBehaviorsPhone extends PluginBehaviorsCommon {
       // Toolbox::logDebug("PluginBehaviorsPhone::afterAdd(), Phone=", $phone);
    }
 
-
    static function afterUpdate(Phone $phone) {
       // Toolbox::logDebug("PluginBehaviorsPhone::afterUpdate(), Phone=", $phone);
    }

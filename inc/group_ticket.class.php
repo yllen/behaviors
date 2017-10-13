@@ -40,15 +40,6 @@ class PluginBehaviorsGroup_Ticket {
       //Toolbox::logDebug(__METHOD__, $item);
       $config = PluginBehaviorsConfig::getInstance();
 
-      if ($config->getField('add_notif')) {
-         if ($item->getField('type') == CommonITILActor::ASSIGN) {
-            $ticket = new Ticket();
-            if ($ticket->getFromDB($item->getField('tickets_id'))) {
-               NotificationEvent::raiseEvent('plugin_behaviors_ticketnewgrp', $ticket);
-            }
-         }
-      }
-
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
           || !Session::haveRight('ticket', Ticket::OWN)) {

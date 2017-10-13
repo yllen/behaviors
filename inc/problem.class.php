@@ -42,7 +42,6 @@ class PluginBehaviorsProblem {
          return false;
       }
 
-  //    Toolbox::logDebug("PluginBehaviorsProblem::beforeUpdate(), Problem=", $problem);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech

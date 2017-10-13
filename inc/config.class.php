@@ -77,7 +77,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       global $DB;
 
       $table = 'glpi_plugin_behaviors_configs';
-      if (!TableExists($table)) { //not installed
+      if (!$DB->tableExists($table)) { //not installed
 
          $query = "CREATE TABLE `". $table."`(
                      `id` int(11) NOT NULL,
@@ -100,6 +100,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `single_tech_mode` int(11) NOT NULL default '0',
                      `myasset` tinyint(1) NOT NULL default '0',
                      `groupasset` tinyint(1) NOT NULL default '0',
+                     `clone` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -147,7 +148,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'is_problemsolutiontype_mandatory', 'bool');
 
          // Version 0.90 - technician mandatory #5381
-         if (!FieldExists($table, 'is_tickettech_mandatory')) {
+         if (!$DB->fieldExists($table, 'is_tickettech_mandatory')) {
             $mig->addField($table, 'is_tickettech_mandatory', 'bool');
          }
 
@@ -161,6 +162,27 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // Version 1.5.1 - config for clone #5531
          $mig->addField($table, 'clone', 'bool');
+
+         // Version 1.6.0 - delete newtech, newgroup dans newsupplier for notif. Now there are in the core
+         $query = "UPDATE `glpi_notifications`
+                   SET `event` = 'assign_user'
+                   WHERE `event` = 'plugin_behaviors_ticketnewtech'";
+         $DB->queryOrDie($query, "9.2 change notification assign user to core one");
+
+         $query = "UPDATE `glpi_notifications`
+                   SET `event` = 'assign_group'
+                   WHERE `event` = 'plugin_behaviors_ticketnewgrp'";
+         $DB->queryOrDie($query, "9.2 change notification assign group to core one");
+
+         $query = "UPDATE `glpi_notifications`
+                   SET `event` = 'assign_supplier'
+                   WHERE `event` = 'plugin_behaviors_ticketnewsupp'";
+         $DB->queryOrDie($query, "9.2 change notification assign supplier to core one");
+
+         $query = "UPDATE `glpi_notifications`
+                   SET `event` = 'observer_user'
+                   WHERE `event` = 'plugin_behaviors_ticketnewwatch'";
+         $DB->queryOrDie($query, "9.2 change notification add watcher to core one");
       }
 
       return true;
@@ -170,7 +192,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
    static function uninstall() {
       global $DB;
 
-      if (TableExists('glpi_plugin_behaviors_configs')) { //not installed
+      if ($DB->tableExists('glpi_plugin_behaviors_configs')) { //not installed
 
          $query = "DROP TABLE `glpi_plugin_behaviors_configs`";
          $DB->queryOrDie($query, $DB->error());
@@ -211,7 +233,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
            echo __("Plugin \"Item's uninstallation\" not installed", "behaviors")."\n";
          }
          if (!$plugin->isActivated('ocsinventoryng')) {
-           _e("Plugin \"OCS Inventory NG\" not installed", "behaviors");
+            echo __("Plugin \"OCS Inventory NG\" not installed", "behaviors");
          }
       }
       echo "</td></tr>\n";
@@ -405,18 +427,23 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $condition = "";
       list($itemtype, $condition) = $item;
 
+      $dbu = new DbUtils();
+
       $config = PluginBehaviorsConfig::getInstance();
       if (in_array($itemtype, $CFG_GLPI["asset_types"])
           && !Session::haveRight($itemtype::$rightname, UPDATE)) {
 
-         $table  = getTableForItemType($itemtype);
+         $dbu = new DbUtils();
+         $table  = $dbu->getTableForItemType($itemtype);
          if ($config->getField('myasset')) {
             $condition .= "(`".$table."`.`users_id` = ".Session::getLoginUserID().")";
-            if ($config->getField('groupasset')) {
+            if ($config->getField('groupasset')
+                && count($_SESSION["glpigroups"])) {
                $condition .= " OR ";
             }
          }
-         if ($config->getField('groupasset')) {
+         if ($config->getField('groupasset')
+             && count($_SESSION["glpigroups"])) {
             $condition .= " (`".$table."`.`groups_id` IN ('".implode("','", $_SESSION["glpigroups"])."'))";
          }
       }
@@ -424,7 +451,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $filtre = [];
       if ($itemtype == 'AllAssets') {
          foreach ($CFG_GLPI[$CFG_GLPI["union_search_type"][$itemtype]] as $ctype) {
-            if (($citem = getItemForItemtype($ctype))
+            if (($citem = $dbu->getItemForItemtype($ctype))
                 && !$citem->canUpdate()) {
                $filtre[$ctype] = $ctype;
             }
@@ -433,11 +460,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
          if (count($filtre)) {
             if ($config->getField('myasset')) {
                $condition .= " (`asset_types`.`users_id` = ".Session::getLoginUserID().")";
-               if ($config->getField('groupasset')) {
+               if ($config->getField('groupasset')
+                   && count($_SESSION["glpigroups"])) {
                   $condition .= " OR ";
                }
             }
-            if ($config->getField('groupasset')) {
+            if ($config->getField('groupasset')
+                && count($_SESSION["glpigroups"])) {
                $condition .= " (`asset_types`.`groups_id` IN ('".implode("','", $_SESSION["glpigroups"])."'))";
             }
          }
