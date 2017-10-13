@@ -399,6 +399,7 @@ class PluginBehaviorsTicket {
 
 
    static function beforeUpdate(Ticket $ticket) {
+      global $DB;
 
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
@@ -412,7 +413,7 @@ class PluginBehaviorsTicket {
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
-          || !Session::haveRight('ticket', Ticket::OWN)) {
+          || !Session::haveRight('ticket', UPDATE)) {
          return false; // No check
       }
 
@@ -534,7 +535,21 @@ class PluginBehaviorsTicket {
                }
             }
          }
+      }
 
+      if ($config->getField('is_tickettasktodo')
+            && isset($ticket->input['status'])
+            && ($ticket->input['status'] == Ticket::CLOSED)) {
+
+         foreach($DB->request(['FROM'  => 'glpi_tickettasks',
+                               'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+
+            if ($task['state'] == 1) {
+               Session::addMessageAfterRedirect(__("You cannot close a ticket with task do to",
+                                                'behaviors'), true, ERROR);
+               unset($ticket->input['status']);
+            }
+         }
       }
    }
 

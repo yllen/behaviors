@@ -101,6 +101,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `myasset` tinyint(1) NOT NULL default '0',
                      `groupasset` tinyint(1) NOT NULL default '0',
                      `clone` tinyint(1) NOT NULL default '0',
+                     `is_tickettasktodo` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -161,7 +162,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'myasset', 'bool', ['after' => 'single_tech_mode']);
 
          // Version 1.5.1 - config for clone #5531
-         $mig->addField($table, 'clone', 'bool');
+         $mig->addField($table, 'clone', 'bool', ['after' => 'groupasset']);
 
          // Version 1.6.0 - delete newtech, newgroup dans newsupplier for notif. Now there are in the core
          $query = "UPDATE `glpi_notifications`
@@ -183,6 +184,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
                    SET `event` = 'observer_user'
                    WHERE `event` = 'plugin_behaviors_ticketnewwatch'";
          $DB->queryOrDie($query, "9.2 change notification add watcher to core one");
+
+         $mig->addField($table, 'is_tickettasktodo', 'bool', ['after' => 'clone']);
+
       }
 
       return true;
@@ -274,8 +278,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
       Dropdown::showYesNo('clone', $config->fields['clone']);
       echo "</td></tr>";
 
-
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory",
@@ -340,6 +342,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       Dropdown::showFromArray('single_tech_mode', $tab,
                               ['value' => $config->fields['single_tech_mode']]);
       echo "</td><td colspan='2'></td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Block the closing of a the ticket if task do to', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>"; // Problem - Update
       echo "<td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-16 17:25+0200\n"
-"PO-Revision-Date: 2017-08-16 15:22+0000\n"
+"POT-Creation-Date: 2017-10-13 17:09+0200\n"
+"PO-Revision-Date: 2017-10-13 15:04+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -19,125 +19,133 @@ msgstr ""
 "Language: it_IT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: setup.php:110 inc/config.class.php:57
+#: setup.php:106 inc/config.class.php:57
 msgid "Behaviours"
 msgstr "Comportamento"
 
-#: inc/common.class.php:86 inc/common.class.php:98 inc/common.class.php:118
+#: inc/common.class.php:88 inc/common.class.php:100 inc/common.class.php:120
 msgid "Clone"
 msgstr "Clona"
 
-#: inc/common.class.php:109 inc/common.class.php:188
+#: inc/common.class.php:111 inc/common.class.php:190
 msgid "Clone of"
 msgstr "Clone di"
 
-#: inc/config.class.php:107
+#: inc/config.class.php:109
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr "Errore durante la creazione di glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:113
+#: inc/config.class.php:115
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr "Errore durante l'aggiornamento di glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:191
+#: inc/config.class.php:220
 msgid "Inventory"
 msgstr "Inventario"
 
-#: inc/config.class.php:195
+#: inc/config.class.php:224
 msgid "Ticket's number format"
 msgstr "Formato del numero delle chiamate"
 
-#: inc/config.class.php:202
+#: inc/config.class.php:231
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr "Elimina computer in OCSNG quando eliminato da GLPI"
 
-#: inc/config.class.php:208
+#: inc/config.class.php:237
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr "Plugin \"Item's uninstallation\" non installato"
 
-#: inc/config.class.php:211
+#: inc/config.class.php:240
 msgid "Plugin \"OCS Inventory NG\" not installed"
 msgstr ""
 
-#: inc/config.class.php:217
+#: inc/config.class.php:246
 msgid "Use the associated item's group"
 msgstr "Usa il gruppo degli elementi associati"
 
-#: inc/config.class.php:219
+#: inc/config.class.php:248
 msgid "Show my assets"
 msgstr ""
 
-#: inc/config.class.php:224
+#: inc/config.class.php:253
 msgid "Use the requester's group"
 msgstr "Usa il gruppo dei richiedenti"
 
-#: inc/config.class.php:227
+#: inc/config.class.php:256
 msgid "Show assets of my groups"
 msgstr ""
 
-#: inc/config.class.php:232
+#: inc/config.class.php:261
 msgid "Use the technician's group"
 msgstr "Usa il gruppo dei tecnici"
 
-#: inc/config.class.php:235
+#: inc/config.class.php:264
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] "Notifiche"
 msgstr[1] "Notifiche"
 
-#: inc/config.class.php:240 inc/ticket.class.php:284
+#: inc/config.class.php:269 inc/ticket.class.php:306
 msgid "Requester is mandatory"
 msgstr "Il richiedente è obbligatorio"
 
-#: inc/config.class.php:242
+#: inc/config.class.php:271
 msgid "Additional notifications"
 msgstr "Notifiche aggiuntive"
 
-#: inc/config.class.php:252 inc/ticket.class.php:443
+#: inc/config.class.php:277
+msgid "Allow Clone"
+msgstr ""
+
+#: inc/config.class.php:282 inc/ticket.class.php:467
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "La durata è obbligatoria prima che la chiamata venga risolta/chiusa"
 
-#: inc/config.class.php:263 inc/ticket.class.php:470
+#: inc/config.class.php:290 inc/ticket.class.php:494
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr "La categoria è obbligatoria prima che la chiamata venga risolta/chiusa"
 
-#: inc/config.class.php:269 inc/ticket.class.php:452
+#: inc/config.class.php:300 inc/ticket.class.php:476
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Il tipo di soluzione è obbligatorio prima che la chiamata venga risolta/chiusa"
 
-#: inc/config.class.php:276 inc/ticket.class.php:461
+#: inc/config.class.php:307 inc/ticket.class.php:485
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "La descrizione della soluzione è obbligatoria prima che la chiamata venga risolta/chiusa"
 
-#: inc/config.class.php:283 inc/ticket.class.php:480
+#: inc/config.class.php:314 inc/ticket.class.php:504
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr "L'assegnazione ad un tecnico è obbligatoria prima che la chiamata venga risolta/chiusa"
 
-#: inc/config.class.php:290 inc/ticket.class.php:489
+#: inc/config.class.php:321 inc/ticket.class.php:513
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:297
+#: inc/config.class.php:328
 msgid "Deny change of ticket's creation date"
 msgstr "Nega la possibilitù di cambiare la data di creazione della chiamata"
 
-#: inc/config.class.php:302
+#: inc/config.class.php:333
 msgid "Protect from simultaneous update"
 msgstr "Attiva protezione da inserimenti simultanei"
 
-#: inc/config.class.php:307
+#: inc/config.class.php:338
 msgid "Single technician and group"
 msgstr "Singolo tecnico e gruppo"
 
-#: inc/config.class.php:309
+#: inc/config.class.php:340
 msgid "Single user and single group"
 msgstr "Singolo utente e singolo gruppo"
 
-#: inc/config.class.php:310
+#: inc/config.class.php:341
 msgid "Single user or group"
 msgstr "Singolo utente o gruppo"
 
-#: inc/config.class.php:319
+#: inc/config.class.php:347
+msgid "Block the closing of a the ticket if task do to"
+msgstr ""
+
+#: inc/config.class.php:356
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Il tipo di soluzione è obbligatorio prima che la chiamata venga risolta/chiusa"
 
@@ -149,35 +157,19 @@ msgstr "Aggiungi un documento alla chiamata"
 msgid "Delete document to ticket"
 msgstr "Elimina il documento dalla chiamata"
 
-#: inc/problem.class.php:72
+#: inc/problem.class.php:71
 msgid "You cannot close a problem without solution type"
 msgstr "Non puoi chiudere una chiamata senza un tipo di soluzione"
 
-#: inc/ticket.class.php:52
-msgid "Assign to a technician"
-msgstr "Assegnato ad un tecnico"
-
 #: inc/ticket.class.php:53
-msgid "Assign to a group"
-msgstr "Assegnato ad un gruppo"
-
-#: inc/ticket.class.php:54
-msgid "Assign to a supplier"
-msgstr "Assegnato ad un fornitore"
-
-#: inc/ticket.class.php:55
-msgid "Add a watcher"
-msgstr ""
-
-#: inc/ticket.class.php:56
 msgid "Reopen ticket"
 msgstr "Chiamata riaperta"
 
-#: inc/ticket.class.php:57
+#: inc/ticket.class.php:55
 msgid "Change status"
 msgstr ""
 
-#: inc/ticket.class.php:58
+#: inc/ticket.class.php:57
 msgid "Ticket waiting"
 msgstr ""
 
@@ -185,26 +177,30 @@ msgstr ""
 msgid "Last technician assigned"
 msgstr ""
 
-#: inc/ticket.class.php:67
+#: inc/ticket.class.php:69
 msgid "Last group assigned"
 msgstr ""
 
-#: inc/ticket.class.php:68
+#: inc/ticket.class.php:72
 msgid "Last supplier assigned"
 msgstr ""
 
-#: inc/ticket.class.php:69
+#: inc/ticket.class.php:75
 msgid "Last watcher added"
 msgstr ""
 
-#: inc/ticket.class.php:71
+#: inc/ticket.class.php:78
 msgid "Supervisor of last group assigned"
 msgstr ""
 
-#: inc/ticket.class.php:73
+#: inc/ticket.class.php:82
 msgid "Last group assigned without supersivor"
 msgstr ""
 
-#: inc/ticket.class.php:406
+#: inc/ticket.class.php:430
 msgid "Can't save, item have been updated"
 msgstr "Impossibile salvare! L'elemento è stato aggiornato"
+
+#: inc/ticket.class.php:548
+msgid "You cannot close a ticket with task do to"
+msgstr ""
