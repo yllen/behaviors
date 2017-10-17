@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 17:09+0200\n"
+"POT-Creation-Date: 2017-10-17 16:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,7 +140,7 @@ msgid "Single user or group"
 msgstr ""
 
 #: inc/config.class.php:347
-msgid "Block the closing of a the ticket if task do to"
+msgid "Block the solving/closing of a the ticket if task do to"
 msgstr ""
 
 #: inc/config.class.php:356
@@ -199,6 +199,6 @@ msgstr ""
 msgid "Can't save, item have been updated"
 msgstr ""
 
-#: inc/ticket.class.php:548
-msgid "You cannot close a ticket with task do to"
+#: inc/ticket.class.php:549
+msgid "You cannot solve/close a ticket with task do to"
 msgstr ""

@@ -344,7 +344,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Block the closing of a the ticket if task do to', 'behaviors');
+      echo "<td>".__('Block the solving/closing of a the ticket if task do to', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
       echo "</td></tr>";

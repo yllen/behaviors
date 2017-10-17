@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 17:09+0200\n"
-"PO-Revision-Date: 2017-10-13 15:06+0000\n"
+"POT-Creation-Date: 2017-10-17 16:59+0200\n"
+"PO-Revision-Date: 2017-10-17 14:58+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -141,8 +141,8 @@ msgid "Single user or group"
 msgstr "Utilisateur ou groupe unique"
 
 #: inc/config.class.php:347
-msgid "Block the closing of a the ticket if task do to"
-msgstr "Empecher la fermeture d'un ticket avec des tâches au statut A faire"
+msgid "Block the solving/closing of a the ticket if task do to"
+msgstr "Empecher la résolution/fermeture d'un ticket avec des tâches au statut A faire"
 
 #: inc/config.class.php:356
 msgid "Type of solution is mandatory before problem is solved/closed"
@@ -200,6 +200,6 @@ msgstr "Dernier groupe chargé du ticket sans superviseur"
 msgid "Can't save, item have been updated"
 msgstr "Enregistrement impossible, l'élément a été modifié"
 
-#: inc/ticket.class.php:548
-msgid "You cannot close a ticket with task do to"
-msgstr "Impossible de fermer un ticket avec des tâches à faire"
+#: inc/ticket.class.php:549
+msgid "You cannot solve/close a ticket with task do to"
+msgstr "Impossible de résoudre/fermer un ticket avec des tâches au statut A faire"
