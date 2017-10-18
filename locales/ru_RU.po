@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 17:09+0200\n"
-"PO-Revision-Date: 2017-10-13 15:04+0000\n"
+"POT-Creation-Date: 2017-10-17 16:59+0200\n"
+"PO-Revision-Date: 2017-10-17 14:55+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "Использовать группу связанного оборуд�
 
 #: inc/config.class.php:248
 msgid "Show my assets"
-msgstr ""
+msgstr "Показать мои активы"
 
 #: inc/config.class.php:253
 msgid "Use the requester's group"
@@ -72,7 +72,7 @@ msgstr "Использовать группу заказчика"
 
 #: inc/config.class.php:256
 msgid "Show assets of my groups"
-msgstr ""
+msgstr "Показать активы моей группы"
 
 #: inc/config.class.php:261
 msgid "Use the technician's group"
@@ -96,7 +96,7 @@ msgstr "Дополнительные уведомления"
 
 #: inc/config.class.php:277
 msgid "Allow Clone"
-msgstr ""
+msgstr "Разрешить клонирование"
 
 #: inc/config.class.php:282 inc/ticket.class.php:467
 msgid "Duration is mandatory before ticket is solved/closed"
@@ -120,7 +120,7 @@ msgstr "Назначение специалиста обязательно дл�
 
 #: inc/config.class.php:321 inc/ticket.class.php:513
 msgid "Location is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Расположение обязательно для решения/закрытия заявки"
 
 #: inc/config.class.php:328
 msgid "Deny change of ticket's creation date"
@@ -143,7 +143,7 @@ msgid "Single user or group"
 msgstr "Один пользователь или группа"
 
 #: inc/config.class.php:347
-msgid "Block the closing of a the ticket if task do to"
+msgid "Block the solving/closing of a the ticket if task do to"
 msgstr ""
 
 #: inc/config.class.php:356
@@ -168,40 +168,40 @@ msgstr "Открыть заявку заново"
 
 #: inc/ticket.class.php:55
 msgid "Change status"
-msgstr ""
+msgstr "Изменить статус"
 
 #: inc/ticket.class.php:57
 msgid "Ticket waiting"
-msgstr ""
+msgstr "Заявки в ожидании"
 
 #: inc/ticket.class.php:66
 msgid "Last technician assigned"
-msgstr ""
+msgstr "Последний назначенный специалист"
 
 #: inc/ticket.class.php:69
 msgid "Last group assigned"
-msgstr ""
+msgstr "Последняя назначенная группа"
 
 #: inc/ticket.class.php:72
 msgid "Last supplier assigned"
-msgstr ""
+msgstr "Последний назначенный поставщик"
 
 #: inc/ticket.class.php:75
 msgid "Last watcher added"
-msgstr ""
+msgstr "Последний назначенный наблюдатель"
 
 #: inc/ticket.class.php:78
 msgid "Supervisor of last group assigned"
-msgstr ""
+msgstr "Руководитель назначенной группы"
 
 #: inc/ticket.class.php:82
 msgid "Last group assigned without supersivor"
-msgstr ""
+msgstr "Последняя назначенная группа без руководителя"
 
 #: inc/ticket.class.php:430
 msgid "Can't save, item have been updated"
 msgstr "Невозможно сохранить, "
 
-#: inc/ticket.class.php:548
-msgid "You cannot close a ticket with task do to"
+#: inc/ticket.class.php:549
+msgid "You cannot solve/close a ticket with task do to"
 msgstr ""

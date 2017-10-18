@@ -104,13 +104,13 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '1.6.0',
+           'version'        => '2.0.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
            'minGlpiVersion' => '9.2',
            'requirements'   => ['glpi' => ['min' => '9.2',
-                                            'max' => '9.3']]];
+                                           'max' => '9.3']]];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
