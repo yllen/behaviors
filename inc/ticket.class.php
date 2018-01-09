@@ -514,6 +514,18 @@ class PluginBehaviorsTicket {
                                                    'behaviors'), true, ERROR);
             }
          }
+         if ($config->getField('is_tickettasktodo')) {
+            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
+                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+               if ($task['state'] == 1) {
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                   'behaviors'), true, ERROR);
+                  unset($ticket->input['status']);
+                  unset($ticket->input['solution']);
+                  unset($ticket->input['solutiontypes_id']);
+               }
+            }
+         }
       }
 
       if ($config->getField('use_requester_item_group')
@@ -533,18 +545,6 @@ class PluginBehaviorsTicket {
                      }
                   }
                }
-            }
-         }
-       }
-      if ($config->getField('is_tickettasktodo')) {
-         foreach($DB->request(['FROM'  => 'glpi_tickettasks',
-                               'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
-             if ($task['state'] == 1) {
-               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
-                                                'behaviors'), true, ERROR);
-               unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
             }
          }
       }
