@@ -514,38 +514,37 @@ class PluginBehaviorsTicket {
                                                    'behaviors'), true, ERROR);
             }
          }
+      }
 
-         if ($config->getField('use_requester_item_group')
-             && isset($ticket->input['items_id'])
-             && (is_array($ticket->input['items_id']))) {
-            foreach ($ticket->input['items_id'] as $type => $items) {
-               foreach ($items as $number => $id) {
-                  if (($item = $dbu->getItemForItemtype($id))
-                      && (!isset($ticket->input['_groups_id_requester'])
-                          || ($ticket->input['_groups_id_requester'] <= 0))) {
-
-                     if ($item->isField('groups_id')) {
-                        foreach ($items as $itemid) {
-                           if ($item->getFromDB($itemid)) {
-                              $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
-                           }
+      if ($config->getField('use_requester_item_group')
+          && isset($ticket->input['items_id'])
+          && (is_array($ticket->input['items_id']))) {
+         foreach ($ticket->input['items_id'] as $type => $items) {
+            foreach ($items as $number => $id) {
+               if (($item = $dbu->getItemForItemtype($type))
+                   && !isset($ticket->input['_itil_requester']['groups_id'])) {
+                  if ($item->isField('groups_id')) {
+                     foreach ($items as $itemid) {
+                        if ($item->getFromDB($itemid)) {
+                           $ticket->input['_itil_requester']
+                                 = ['_type' => 'group',
+                                    'groups_id' => $item->getField('groups_id')];
                         }
                      }
                   }
                }
             }
          }
-         if ($config->getField('is_tickettasktodo')) {
-            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
-                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
-
-               if ($task['state'] == 1) {
-                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
-                                                   'behaviors'), true, ERROR);
-                  unset($ticket->input['status']);
-                  unset($ticket->input['solution']);
-                  unset($ticket->input['solutiontypes_id']);
-               }
+       }
+      if ($config->getField('is_tickettasktodo')) {
+         foreach($DB->request(['FROM'  => 'glpi_tickettasks',
+                               'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+             if ($task['state'] == 1) {
+               Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                'behaviors'), true, ERROR);
+               unset($ticket->input['status']);
+               unset($ticket->input['solution']);
+               unset($ticket->input['solutiontypes_id']);
             }
          }
       }
