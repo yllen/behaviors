@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Nelly Mahu-Lasson <nini.lasson@orange.fr>, 2016-2017
+# Nelly Mahu-Lasson <nini.lasson@orange.fr>, 2016-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-17 16:59+0200\n"
-"PO-Revision-Date: 2017-10-17 14:58+0000\n"
+"PO-Revision-Date: 2018-02-01 13:44+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "Notifications supplémentaires"
 
 #: inc/config.class.php:277
 msgid "Allow Clone"
-msgstr "Bloquer la fermeture d'un ticket si tâches au statut A faire"
+msgstr "Autoriser le clonage"
 
 #: inc/config.class.php:282 inc/ticket.class.php:467
 msgid "Duration is mandatory before ticket is solved/closed"
