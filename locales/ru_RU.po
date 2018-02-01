@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Alexey Petukhov <lexx015@gmail.com>, 2014,2017
+# Nikolay <techobsl@yandex.ru>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-17 16:59+0200\n"
-"PO-Revision-Date: 2017-10-19 13:13+0000\n"
-"Last-Translator: Alexey Petukhov <lexx015@gmail.com>\n"
+"PO-Revision-Date: 2018-01-12 12:17+0000\n"
+"Last-Translator: Nikolay <techobsl@yandex.ru>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,15 @@ msgstr ""
 
 #: setup.php:106 inc/config.class.php:57
 msgid "Behaviours"
-msgstr "Взаимодействия"
+msgstr "Поведения"
 
 #: inc/common.class.php:88 inc/common.class.php:100 inc/common.class.php:120
 msgid "Clone"
-msgstr "Копирование"
+msgstr "Клонирование"
 
 #: inc/common.class.php:111 inc/common.class.php:190
 msgid "Clone of"
-msgstr "Копия"
+msgstr "Клон"
 
 #: inc/config.class.php:109
 msgid "Error in creating glpi_plugin_behaviors_configs"
@@ -52,15 +53,15 @@ msgstr "Удалить комппьютер из OCSNG при удалении �
 
 #: inc/config.class.php:237
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr "Дополнение \"Удаление объектов\" не установлено"
+msgstr "Плагин \"Удаление объектов\" не установлено"
 
 #: inc/config.class.php:240
 msgid "Plugin \"OCS Inventory NG\" not installed"
-msgstr "Дополнение \"OCS Inventory NG\" не установлено"
+msgstr "Плагин \"OCS Inventory NG\" не установлено"
 
 #: inc/config.class.php:246
 msgid "Use the associated item's group"
-msgstr "Использовать группу связанного оборудования"
+msgstr "Использовать группу связанных элементов"
 
 #: inc/config.class.php:248
 msgid "Show my assets"
