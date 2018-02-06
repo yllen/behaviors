@@ -62,26 +62,29 @@ class PluginBehaviorsTicket {
 
    static function addTargets(NotificationTargetTicket $target) {
 
-      $target->addTarget(self::LAST_TECH_ASSIGN ,
-                         sprintf(__('%1$s (%2$s)'), __('Last technician assigned', 'behaviors'),
-                                 __('Behaviors')));
-      $target->addTarget(self::LAST_GROUP_ASSIGN ,
-                         sprintf(__('%1$s (%2$s)'), __('Last group assigned', 'behaviors'),
-                                 __('Behaviors')));
-      $target->addTarget(self::LAST_SUPPLIER_ASSIGN ,
-                         sprintf(__('%1$s (%2$s)'), __('Last supplier assigned', 'behaviors'),
-                                 __('Behaviors')));
-      $target->addTarget(self::LAST_WATCHER_ADDED ,
-                         sprintf(__('%1$s (%2$s)'), __('Last watcher added', 'behaviors'),
-                                 __('Behaviors')));
-      $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
-                         sprintf(__('%1$s (%2$s)'), __('Supervisor of last group assigned', 'behaviors'),
-                                 __('Behaviors')));
-      $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
-                         sprintf(__('%1$s (%2$s)'),
-                                 __('Last group assigned without supersivor', 'behaviors'),
-                                 __('Behaviors')));
-
+      // No new recipients for globals notifications
+      $alert = ['alertnotclosed', 'recall', 'recall_ola'];
+      if (!in_array($target->raiseevent, $alert)) {
+         $target->addTarget(self::LAST_TECH_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last technician assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_GROUP_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last group assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_SUPPLIER_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last supplier assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_WATCHER_ADDED ,
+                            sprintf(__('%1$s (%2$s)'), __('Last watcher added', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
+                            sprintf(__('%1$s (%2$s)'), __('Supervisor of last group assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
+                            sprintf(__('%1$s (%2$s)'),
+                                    __('Last group assigned without supersivor', 'behaviors'),
+                                    __('Behaviors')));
+      }
    }
 
 
