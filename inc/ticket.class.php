@@ -338,9 +338,11 @@ class PluginBehaviorsTicket {
       }
 
       if ($config->getField('use_requester_user_group')
-          && isset($ticket->input['_users_id_requester'])
-          && ($ticket->input['_users_id_requester'] > 0)
-          && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
+          && (isset($ticket->input['_users_id_requester'])
+              && ($ticket->input['_users_id_requester'] > 0))
+          && (!isset($ticket->input['_groups_id_requester'])
+              || ($ticket->input['_groups_id_requester'] <= 0)
+              ||  empty($ticket->input['_groups_id_requester']))) {
 
             if ($config->getField('use_requester_user_group') == 1) {
                // First group
