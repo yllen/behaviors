@@ -206,12 +206,13 @@ class PluginBehaviorsTicket {
                WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                      AND `$grouplinktable`.`type` = '$type'";
       $result = $DB->request($last);
-      $data   = $result->next();
 
       $querylast = '';
-      $object    = new $target->obj->grouplinkclass();
-      if ($object->getFromDB($data['lastid'])) {
-         $querylast = "'groups_id' => $object->fields['groups_id']";
+      if ($data = $result->next()) {
+         $object    = new $target->obj->grouplinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $querylast = " AND 'groups_id' = '".$object->fields['groups_id']."'";
+         }
       }
 
       //Look for the user by his id
@@ -221,13 +222,9 @@ class PluginBehaviorsTicket {
                       AND `$grouplinktable`.`type` = '$type'
                       $querylast";
 
-      foreach ($DB->request(['SELECT' => 'groups_id',
-                             'FROM'   => $grouplinktable,
-                             'WHERE'  => [$fkfield => $target->obj->fields["id"],
-                                          'type' => $type,
-                                          $querylast]]) as $data) {
+      foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
-         self::addForGroup($supervisor, $data['groups_id']);
+         self::addForGroup($supervisor, $object->fields['groups_id']);
       }
    }
 
