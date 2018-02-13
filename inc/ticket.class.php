@@ -211,7 +211,7 @@ class PluginBehaviorsTicket {
       if ($data = $result->next()) {
          $object    = new $target->obj->grouplinkclass();
          if ($object->getFromDB($data['lastid'])) {
-            $querylast = " AND 'groups_id' = '".$object->fields['groups_id']."'";
+            $querylast = " AND `groups_id` = '".$object->fields['groups_id']."'";
          }
       }
 
@@ -224,7 +224,7 @@ class PluginBehaviorsTicket {
 
       foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
-         self::addForGroup($supervisor, $object->fields['groups_id']);
+         self::addForGroup($supervisor, $object->fields['groups_id'], $target);
       }
    }
 
@@ -717,7 +717,7 @@ class PluginBehaviorsTicket {
    }
 
 
-   static function addForGroup($manager, $group_id) {
+   static function addForGroup($manager, $group_id, $target) {
       global $DB;
 
       // members/managers of the group allowed on object entity
@@ -729,7 +729,7 @@ class PluginBehaviorsTicket {
                INNER JOIN `glpi_profiles_users`
                ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
                      getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
-                     $this->getEntity(), true).")
+                     $target->getEntity(), true).")
                INNER JOIN `glpi_groups` ON (`glpi_groups_users`.`groups_id` = `glpi_groups`.`id`)
                WHERE `glpi_groups_users`.`groups_id` = '$group_id'
                AND `glpi_groups`.`is_notify`";
@@ -741,7 +741,7 @@ class PluginBehaviorsTicket {
                }
 
                foreach ($DB->request($query) as $data) {
-                  $this->addToRecipientsList($data);
+                  $target->addToRecipientsList($data);
                }
    }
 
