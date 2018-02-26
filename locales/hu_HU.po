@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 17:09+0200\n"
-"PO-Revision-Date: 2017-10-13 15:04+0000\n"
+"POT-Creation-Date: 2017-10-17 16:59+0200\n"
+"PO-Revision-Date: 2017-10-17 14:55+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -141,7 +141,7 @@ msgid "Single user or group"
 msgstr "Egyszeri felhasználó vagy csoport"
 
 #: inc/config.class.php:347
-msgid "Block the closing of a the ticket if task do to"
+msgid "Block the solving/closing of a the ticket if task do to"
 msgstr ""
 
 #: inc/config.class.php:356
@@ -200,6 +200,6 @@ msgstr ""
 msgid "Can't save, item have been updated"
 msgstr "Nem menthető , tétel frissítve"
 
-#: inc/ticket.class.php:548
-msgid "You cannot close a ticket with task do to"
+#: inc/ticket.class.php:549
+msgid "You cannot solve/close a ticket with task do to"
 msgstr ""
