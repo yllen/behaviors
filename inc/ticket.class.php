@@ -148,7 +148,7 @@ class PluginBehaviorsTicket {
                 LEFT JOIN `glpi_users` ON (`$userlinktable`.`users_id` = `glpi_users`.`id`)
                 INNER JOIN `glpi_profiles_users`
                 ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
-                     getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
+                     $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
                            $target->getEntity(), true).")
                 WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                       AND `$userlinktable`.`type` = '$type'
@@ -720,6 +720,8 @@ class PluginBehaviorsTicket {
    static function addForGroup($manager, $group_id, $target) {
       global $DB;
 
+      $dbu= new DbUtils();
+
       // members/managers of the group allowed on object entity
       // filter group with 'is_assign' (attribute can be unset after notification)
       $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id,
@@ -728,8 +730,8 @@ class PluginBehaviorsTicket {
                INNER JOIN `glpi_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)
                INNER JOIN `glpi_profiles_users`
                ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
-                     getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
-                     $target->getEntity(), true).")
+                   $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
+                                                    $target->getEntity(), true).")
                INNER JOIN `glpi_groups` ON (`glpi_groups_users`.`groups_id` = `glpi_groups`.`id`)
                WHERE `glpi_groups_users`.`groups_id` = '$group_id'
                AND `glpi_groups`.`is_notify`";
