@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2017 Behaviors plugin team
+ @copyright Copyright (c) 2010-2018 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -34,16 +34,16 @@
 
 class PluginBehaviorsCommon {
 
-   static $clone_types = array('NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
-                               'Profile'               => 'PluginBehaviorsProfile',
-                               'RuleImportComputer'    => 'PluginBehaviorsRule',
-                               'RuleImportEntity'      => 'PluginBehaviorsRule',
-                               'RuleMailCollector'     => 'PluginBehaviorsRule',
-                               'RuleRight'             => 'PluginBehaviorsRule',
-                               'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
-                               'RuleTicket'            => 'PluginBehaviorsRule',
-                               'Transfer'              => 'PluginBehaviorsCommon',
-                               'Ticket'                => 'PluginBehaviorsTicket');
+   static $clone_types = ['NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
+                          'Profile'               => 'PluginBehaviorsProfile',
+                          'RuleImportComputer'    => 'PluginBehaviorsRule',
+                          'RuleImportEntity'      => 'PluginBehaviorsRule',
+                          'RuleMailCollector'     => 'PluginBehaviorsRule',
+                          'RuleRight'             => 'PluginBehaviorsRule',
+                          'RuleSoftwareCategory'  => 'PluginBehaviorsRule',
+                          'RuleTicket'            => 'PluginBehaviorsRule',
+                          'Transfer'              => 'PluginBehaviorsCommon',
+                          'Ticket'                => 'PluginBehaviorsTicket'];
 
 
    static function getCloneTypes() {
@@ -73,7 +73,7 @@ class PluginBehaviorsCommon {
    static function postInit() {
 
       Plugin::registerClass('PluginBehaviorsCommon',
-                            array('addtabon' => array_keys(PluginBehaviorsCommon::getCloneTypes())));
+                            ['addtabon' => array_keys(PluginBehaviorsCommon::getCloneTypes())]);
 
       PluginBehaviorsTicket::onNewTicket();
    }
@@ -81,8 +81,10 @@ class PluginBehaviorsCommon {
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
+      $config = PluginBehaviorsConfig::getInstance();
       if (array_key_exists($item->getType(), self::$clone_types)
-          && $item->canUpdate()) {
+          && $item->canUpdate()
+          && $config->getField('clone')) {
          return __('Clone', 'behaviors');
       }
       return '';
@@ -108,8 +110,8 @@ class PluginBehaviorsCommon {
 
       $name = sprintf(__('%1$s %2$s'), __('Clone of', 'behaviors'), $item->getName());
       echo "<tr class='tab_bg_1'><td class='center'>".sprintf(__('%1$s: %2$s'), __('Name'), $name);
-      Html::autocompletionTextField($item, 'name', array('value' => $name,
-                                                         'size'  => 60));
+      Html::autocompletionTextField($item, 'name', ['value' => $name,
+                                                    'size'  => 60]);
       echo "<input type='hidden' name='itemtype' value='".$item->getType()."'>";
       echo "<input type='hidden' name='id'       value='".$item->getID()."'>";
       echo "</td></tr>";
@@ -135,13 +137,13 @@ class PluginBehaviorsCommon {
 
 
    static function cloneItem(Array $param) {
-      global $DB;
 
+      $dbu = new DbUtils();
       // Sanity check
       if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
           || !array_key_exists($param['itemtype'], self::$clone_types)
           || empty($param['name'])
-          || !($item = $DB->getItemForItemtype($param['itemtype']))) {
+          || !($item = $dbu->getItemForItemtype($param['itemtype']))) {
          return false;
       }
 
@@ -166,7 +168,7 @@ class PluginBehaviorsCommon {
 
       // Specific to itemtype - before clone
       if (method_exists(self::$clone_types[$param['itemtype']], 'preClone')) {
-         $input = call_user_func(array(self::$clone_types[$param['itemtype']], 'preClone'),
+         $input = call_user_func([self::$clone_types[$param['itemtype']], 'preClone'],
                                  $item, $input);
       }
 
@@ -177,8 +179,7 @@ class PluginBehaviorsCommon {
 
       // Specific to itemtype - after clone
       if (method_exists(self::$clone_types[$param['itemtype']], 'postClone')) {
-         call_user_func(array(self::$clone_types[$param['itemtype']], 'postClone'),
-                        $clone, $param['id']);
+         call_user_func([self::$clone_types[$param['itemtype']], 'postClone'], $clone, $param['id']);
       }
       Plugin::doHook('item_clone', $clone);
 

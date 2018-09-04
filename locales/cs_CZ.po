@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# David Stepan <stepand@tiscali.cz>, 2017
 # hanzz <hanzz.k@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-16 17:25+0200\n"
-"PO-Revision-Date: 2017-08-16 15:22+0000\n"
-"Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
+"POT-Creation-Date: 2017-10-17 16:59+0200\n"
+"PO-Revision-Date: 2017-10-19 18:52+0000\n"
+"Last-Translator: David Stepan <stepand@tiscali.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,126 +19,134 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: setup.php:110 inc/config.class.php:57
+#: setup.php:106 inc/config.class.php:57
 msgid "Behaviours"
 msgstr "Chování"
 
-#: inc/common.class.php:86 inc/common.class.php:98 inc/common.class.php:118
+#: inc/common.class.php:88 inc/common.class.php:100 inc/common.class.php:120
 msgid "Clone"
 msgstr "Klon"
 
-#: inc/common.class.php:109 inc/common.class.php:188
+#: inc/common.class.php:111 inc/common.class.php:190
 msgid "Clone of"
 msgstr "Klon"
 
-#: inc/config.class.php:107
+#: inc/config.class.php:109
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr "Chyba při vytváření glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:113
+#: inc/config.class.php:115
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr "Chyba při aktualizaci glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:191
+#: inc/config.class.php:220
 msgid "Inventory"
 msgstr "Inventář"
 
-#: inc/config.class.php:195
+#: inc/config.class.php:224
 msgid "Ticket's number format"
 msgstr "Formát čísla záznamu"
 
-#: inc/config.class.php:202
+#: inc/config.class.php:231
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr "Smazat počítač v OCSNG po smazání z GLPI"
 
-#: inc/config.class.php:208
+#: inc/config.class.php:237
 msgid "Plugin \"Item's uninstallation\" not installed"
-msgstr ""
+msgstr "Plugin \"Odinstalace položek\" není nainstalován"
 
-#: inc/config.class.php:211
+#: inc/config.class.php:240
 msgid "Plugin \"OCS Inventory NG\" not installed"
-msgstr ""
+msgstr "Není nainstalován plugin \"OCS Inventory NG\""
 
-#: inc/config.class.php:217
+#: inc/config.class.php:246
 msgid "Use the associated item's group"
-msgstr ""
+msgstr "Použít položky přiřazené skupiny"
 
-#: inc/config.class.php:219
+#: inc/config.class.php:248
 msgid "Show my assets"
-msgstr ""
+msgstr "Zobrazit moje položky"
 
-#: inc/config.class.php:224
+#: inc/config.class.php:253
 msgid "Use the requester's group"
 msgstr "Použít skupinu žadatele"
 
-#: inc/config.class.php:227
+#: inc/config.class.php:256
 msgid "Show assets of my groups"
-msgstr ""
+msgstr "Zobrazit položky mé skupiny"
 
-#: inc/config.class.php:232
+#: inc/config.class.php:261
 msgid "Use the technician's group"
 msgstr "Použijte technikovu skupinu"
 
-#: inc/config.class.php:235
+#: inc/config.class.php:264
 msgid "Notification"
 msgid_plural "Notifications"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Upozornění"
+msgstr[1] "Upozornění"
+msgstr[2] "Upozornění"
 
-#: inc/config.class.php:240 inc/ticket.class.php:284
+#: inc/config.class.php:269 inc/ticket.class.php:306
 msgid "Requester is mandatory"
-msgstr ""
+msgstr "Žadatel je povinný"
 
-#: inc/config.class.php:242
+#: inc/config.class.php:271
 msgid "Additional notifications"
-msgstr ""
+msgstr "Doplňující zprávy"
 
-#: inc/config.class.php:252 inc/ticket.class.php:443
+#: inc/config.class.php:277
+msgid "Allow Clone"
+msgstr "Povolit klonování"
+
+#: inc/config.class.php:282 inc/ticket.class.php:467
 msgid "Duration is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Doba trvání je povinná před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:263 inc/ticket.class.php:470
+#: inc/config.class.php:290 inc/ticket.class.php:494
 msgid "Category is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Kategorie je povinná před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:269 inc/ticket.class.php:452
+#: inc/config.class.php:300 inc/ticket.class.php:476
 msgid "Type of solution is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Typ řešení je povinné před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:276 inc/ticket.class.php:461
+#: inc/config.class.php:307 inc/ticket.class.php:485
 msgid "Description of solution is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Popis řešení je povinný před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:283 inc/ticket.class.php:480
+#: inc/config.class.php:314 inc/ticket.class.php:504
 msgid "Technician assigned is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Přiřazení technika je povinné před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:290 inc/ticket.class.php:489
+#: inc/config.class.php:321 inc/ticket.class.php:513
 msgid "Location is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "Umístění je povinné před vyřešením/uzavřením požadavku"
 
-#: inc/config.class.php:297
+#: inc/config.class.php:328
 msgid "Deny change of ticket's creation date"
 msgstr "Zakázat změnu data vytvoření záznamu"
 
-#: inc/config.class.php:302
+#: inc/config.class.php:333
 msgid "Protect from simultaneous update"
 msgstr "Ochránit před souběžnou aktualizací"
 
-#: inc/config.class.php:307
+#: inc/config.class.php:338
 msgid "Single technician and group"
 msgstr "Jeden technik a skupina"
 
-#: inc/config.class.php:309
+#: inc/config.class.php:340
 msgid "Single user and single group"
 msgstr "Jeden uživatel a jedna skupina"
 
-#: inc/config.class.php:310
+#: inc/config.class.php:341
 msgid "Single user or group"
 msgstr "Jeden uživatel nebo skupa"
 
-#: inc/config.class.php:319
+#: inc/config.class.php:347
+msgid "Block the solving/closing of a the ticket if task do to"
+msgstr "Blokování řešení požadavku než je dokončen úkol"
+
+#: inc/config.class.php:356
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Typ řešení je povinný před vyřešením/uzavřením problému"
 
@@ -149,62 +158,50 @@ msgstr "Přiřadit k záznamu dokument"
 msgid "Delete document to ticket"
 msgstr "Odstranit ze záznamu dokument"
 
-#: inc/problem.class.php:72
+#: inc/problem.class.php:71
 msgid "You cannot close a problem without solution type"
 msgstr "Problém nemuže být uzavřen bez typu řešení"
 
-#: inc/ticket.class.php:52
-msgid "Assign to a technician"
-msgstr "Přiřadit technikovi"
-
 #: inc/ticket.class.php:53
-msgid "Assign to a group"
-msgstr "Přiřadit skupině"
-
-#: inc/ticket.class.php:54
-msgid "Assign to a supplier"
-msgstr ""
-
-#: inc/ticket.class.php:55
-msgid "Add a watcher"
-msgstr ""
-
-#: inc/ticket.class.php:56
 msgid "Reopen ticket"
 msgstr "Otevřít záznam znova"
 
-#: inc/ticket.class.php:57
+#: inc/ticket.class.php:55
 msgid "Change status"
-msgstr ""
+msgstr "Změnit stav"
 
-#: inc/ticket.class.php:58
+#: inc/ticket.class.php:57
 msgid "Ticket waiting"
-msgstr ""
+msgstr "Čekání požadavku"
 
 #: inc/ticket.class.php:66
 msgid "Last technician assigned"
-msgstr ""
-
-#: inc/ticket.class.php:67
-msgid "Last group assigned"
-msgstr ""
-
-#: inc/ticket.class.php:68
-msgid "Last supplier assigned"
-msgstr ""
+msgstr "Poslední přiřazený technik"
 
 #: inc/ticket.class.php:69
+msgid "Last group assigned"
+msgstr "Poslední přiřazená skupina"
+
+#: inc/ticket.class.php:72
+msgid "Last supplier assigned"
+msgstr "Poslední přiřazený dodavatel"
+
+#: inc/ticket.class.php:75
 msgid "Last watcher added"
-msgstr ""
+msgstr "Poslední přiřazený pozorovatel"
 
-#: inc/ticket.class.php:71
+#: inc/ticket.class.php:78
 msgid "Supervisor of last group assigned"
-msgstr ""
+msgstr "Kontrolor poslední přiřazení skupiny"
 
-#: inc/ticket.class.php:73
+#: inc/ticket.class.php:82
 msgid "Last group assigned without supersivor"
-msgstr ""
+msgstr "Poslední přiřazená skupina bez kontrolora"
 
-#: inc/ticket.class.php:406
+#: inc/ticket.class.php:430
 msgid "Can't save, item have been updated"
 msgstr "Položku nelze uložit, byla aktualizována"
+
+#: inc/ticket.class.php:549
+msgid "You cannot solve/close a ticket with task do to"
+msgstr "Nemůžete vyřešit/uzavřít požadavek s nedokončeným úkolem"
