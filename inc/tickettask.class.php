@@ -36,7 +36,7 @@ class PluginBehaviorsTicketTask {
 
 
    static function beforeAdd(TicketTask $taskticket) {
-toolbox::logdebug("tache", $taskticket);
+
       if (!is_array($taskticket->input) || !count($taskticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -64,7 +64,7 @@ toolbox::logdebug("tache", $taskticket);
 
 
    static function beforeUpdate(TicketTask $taskticket) {
-      toolbox::logdebug("update tache", $taskticket);
+
       if (!is_array($taskticket->input) || !count($taskticket->input)) {
          // Already cancel by another plugin
          return false;
