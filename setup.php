@@ -62,14 +62,18 @@ function plugin_init_behaviors() {
        'TicketSatisfaction' => ['PluginBehaviorsTicketSatisfaction', 'afterUpdate']];
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] =
-      ['Ticket'             => ['PluginBehaviorsTicket', 'beforeAdd']];
+      ['Ticket'             => ['PluginBehaviorsTicket',       'beforeAdd'],
+       'ITILSolution'       => ['PluginBehaviorsITILSolution', 'beforeAdd'],
+       'TicketTask'         => ['PluginBehaviorsTickettask',   'beforeAdd']];
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket', 'afterPrepareAdd']];
 
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] =
-      ['Problem'            => ['PluginBehaviorsProblem', 'beforeUpdate'],
-       'Ticket'             => ['PluginBehaviorsTicket',  'beforeUpdate']];
+      ['Problem'            => ['PluginBehaviorsProblem',       'beforeUpdate'],
+       'Ticket'             => ['PluginBehaviorsTicket',        'beforeUpdate'],
+       'ITILSolution'       => ['PluginBehaviorsITILSolution',  'beforeUpdate'],
+       'TicketTask'         => ['PluginBehaviorsTickettask',    'beforeUpdate']];
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] =
       ['Computer'           => ['PluginBehaviorsComputer',  'beforePurge']];
