@@ -104,21 +104,21 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.0.3',
+           'version'        => '2.1.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-           'minGlpiVersion' => '9.2',
-           'requirements'   => ['glpi' => ['min' => '9.2',
-                                           'max' => '9.3']]];
+           'minGlpiVersion' => '9.3',
+           'requirements'   => ['glpi' => ['min' => '9.3',
+                                           'max' => '9.4']]];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'9.2','lt') || version_compare(GLPI_VERSION,'9.3','ge')) {
-      echo "This plugin requires GLPI >= 9.2";
+   if (version_compare(GLPI_VERSION,'9.3','lt') || version_compare(GLPI_VERSION,'9.4','ge')) {
+      echo "This plugin requires GLPI >= 9.3";
       return false;
    }
    return true;

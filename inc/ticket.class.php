@@ -430,69 +430,55 @@ class PluginBehaviorsTicket {
           && ($ticket->input['_read_date_mod'] != $ticket->fields['date_mod'])) {
 
          $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
-                           getUserName($ticket->fields['users_id_lastupdater']).', '.
+                           $dbu->getUserName($ticket->fields['users_id_lastupdater']).', '.
                            Html::convDateTime($ticket->fields['date_mod']));
 
          Session::addMessageAfterRedirect($msg, true, ERROR);
          return $ticket->input = false;
       }
 
-      $soltyp  = (isset($ticket->input['solutiontypes_id'])
-                        ? $ticket->input['solutiontypes_id']
-                        : $ticket->fields['solutiontypes_id']);
-      $dur     = (isset($ticket->input['actiontime'])
+      if (isset($ticket->input['status'])
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getclosedStatusArray()))) {
+
+         $soluce = $DB->request(['FROM'    => 'glpi_itilsolutions',
+                                 'WHERE'   => ['itemtype'   => 'Ticket',
+                                 'items_id'   => $ticket->input['id']]]);
+
+         if ($config->getField('is_ticketsolutiontype_mandatory')
+             && !count($soluce)) {
+            unset($ticket->input['status']);
+            Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
+         }
+         if ($config->getField('is_ticketsolution_mandatory')
+             && !count($soluce)) {
+            unset($ticket->input['status']);
+            Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
+         }
+
+         $dur     = (isset($ticket->input['actiontime'])
                         ? $ticket->input['actiontime']
                         : $ticket->fields['actiontime']);
-      $soldesc = (isset($ticket->input['solution'])
-                        ? $ticket->input['solution']
-                        : $ticket->fields['solution']);
-      $cat    = (isset($ticket->input['itilcategories_id'])
+         $cat    = (isset($ticket->input['itilcategories_id'])
                         ? $ticket->input['itilcategories_id']
                         : $ticket->fields['itilcategories_id']);
-      $loc    = (isset($ticket->input['locations_id'])
+         $loc    = (isset($ticket->input['locations_id'])
                         ? $ticket->input['locations_id']
                         : $ticket->fields['locations_id']);
 
-      // Wand to solve/close the ticket
-      if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
-          || (isset($ticket->input['solution']) && $ticket->input['solution'])
-          || (isset($ticket->input['status'])
-              && in_array($ticket->input['status'],
-                          array_merge(Ticket::getSolvedStatusArray(),
-                                      Ticket::getclosedStatusArray())))) {
-
+         // Wand to solve/close the ticket
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
-         if ($config->getField('is_ticketsolutiontype_mandatory')) {
-            if (!$soltyp) {
-               unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
-                                                   'behaviors'), true, ERROR);
-            }
-         }
-         if ($config->getField('is_ticketsolution_mandatory')) {
-            if (!$soldesc) {
-               unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
-                                                   'behaviors'), true, ERROR);
-            }
-         }
-         if ($config->getField('is_ticketcategory_mandatory')) {
+       if ($config->getField('is_ticketcategory_mandatory')) {
             if (!$cat) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
@@ -501,8 +487,6 @@ class PluginBehaviorsTicket {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
                   && !isset($input["_itil_assign"]['users_id'])) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
@@ -510,8 +494,6 @@ class PluginBehaviorsTicket {
          if ($config->getField('is_ticketlocation_mandatory')) {
             if (!$loc) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Location is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
@@ -523,8 +505,6 @@ class PluginBehaviorsTicket {
                   Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
                                                    'behaviors'), true, ERROR);
                   unset($ticket->input['status']);
-                  unset($ticket->input['solution']);
-                  unset($ticket->input['solutiontypes_id']);
                }
             }
          }
