@@ -55,7 +55,7 @@ class PluginBehaviorsTicketTask {
       if ($config->getField('is_tickettaskcategory_mandatory')) {
          if ($taskticket->input['taskcategories_id'] == 0) {
             $taskticket->input = false;
-            Session::addMessageAfterRedirect(__("Category of task is mandatory",
+            Session::addMessageAfterRedirect(__("Task category is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
             return;
          }
@@ -83,7 +83,7 @@ class PluginBehaviorsTicketTask {
       if ($config->getField('is_tickettaskcategory_mandatory')) {
          if (empty($taskticket->input['taskcategories_id'])) {
             $taskticket->input = false;
-            Session::addMessageAfterRedirect(__("Category of task is mandatory",
+            Session::addMessageAfterRedirect(__("Task category is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
             return;
          }
