@@ -88,6 +88,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_ticketcategory_mandatory` tinyint(1) NOT NULL default '0',
                      `is_tickettaskcategory_mandatory` tinyint(1) NOT NULL default '0',
                      `is_tickettech_mandatory` tinyint(1) NOT NULL default '0',
+                     `is_tickettechgroup_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketlocation_mandatory` tinyint(1) NOT NULL default '0',
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
@@ -189,6 +190,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // version 2.1.0
          $mig->addField($table, 'is_tickettaskcategory_mandatory', 'bool',
                         ['after' => 'is_ticketcategory_mandatory']);
+         $mig->addField($table, 'is_tickettechgroup_mandatory', 'bool',
+                        ['after' => 'is_tickettech_mandatory']);
       }
 
    }
@@ -312,6 +315,13 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Group of technicians assigned is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_tickettechgroup_mandatory",
+                          $config->fields['is_tickettechgroup_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
       echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
             Html::convDateTime($config->fields["date_mod"]));
       echo "</td></tr>";
@@ -324,11 +334,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->fields['is_ticketlocation_mandatory']);
       echo "</td></tr>";
 
-
       echo "</td><td>".__('Task category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_tickettaskcategory_mandatory",
       $config->fields['is_tickettaskcategory_mandatory']);
-
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";

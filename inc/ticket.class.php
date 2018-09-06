@@ -476,7 +476,7 @@ class PluginBehaviorsTicket {
                                                    'behaviors'), true, ERROR);
             }
          }
-       if ($config->getField('is_ticketcategory_mandatory')) {
+         if ($config->getField('is_ticketcategory_mandatory')) {
             if (!$cat) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
@@ -485,10 +485,18 @@ class PluginBehaviorsTicket {
          }
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                  && !isset($input["_itil_assign"]['users_id'])) {
+                && !isset($input["_itil_assign"]['users_id'])) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
+            }
+         }
+         if ($config->getField('is_tickettechgroup_mandatory')) {
+            if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
+                && !isset($input["_itil_assign"]['groups_id'])) {
+               unset($ticket->input['status']);
+               Session::addMessageAfterRedirect(__("Group of technicians assigned is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
             }
          }
          if ($config->getField('is_ticketlocation_mandatory')) {

@@ -54,7 +54,7 @@ class PluginBehaviorsITILSolution {
       // Wand to solve/close the ticket
       if ($config->getField('is_ticketsolutiontype_mandatory')) {
          if ($soluce->input['solutiontypes_id'] == 0) {
-            unset($soluce->input['add']);
+            $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
             return;
@@ -62,10 +62,61 @@ class PluginBehaviorsITILSolution {
       }
       if ($config->getField('is_ticketsolution_mandatory')) {
          if (empty($soluce->input['content'])) {
-            unset($soluce->input['add']);
+            $soluce->input = false;
             Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
             return;
+         }
+      }
+toolbox::logdebug("ésoluce", $soluce);
+      $ticket = new Ticket();
+      if ($ticket->getFromDB($soluce->input['items_id'])) {
+
+         if ($config->getField('is_ticketrealtime_mandatory')
+             && ($ticket->fields['actiontime'] == 0)) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
+                                             'behaviors'), true, ERROR);
+            return;
+         }
+         if ($config->getField('is_ticketcategory_mandatory')
+             && ($ticket->fields['itilcategories_id'] ==0)) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
+                                             'behaviors'), true, ERROR);
+            return;
+         }
+         if ($config->getField('is_tickettech_mandatory')
+             && ($ticket->countUsers(CommonITILActor::ASSIGN) == 0)) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
+                                             'behaviors'), true, ERROR);
+            return;
+         }
+         if ($config->getField('is_tickettechgroup_mandatory')
+             && ($ticket->countGroups(CommonITILActor::ASSIGN) == 0)) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Group of technicians assigned is mandatory before ticket is solved/closed",
+                                             'behaviors'), true, ERROR);
+            return;
+         }
+         if ($config->getField('is_ticketlocation_mandatory')
+             && ($ticket->fields['locations_id'] == 0)) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Location is mandatory before ticket is solved/closed",
+                                             'behaviors'), true, ERROR);
+            return;
+         }
+         if ($config->getField('is_tickettasktodo')) {
+            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
+                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+               if ($task['state'] == 1) {
+                  $soluce->input = false;
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                   'behaviors'), true, ERROR);
+                  return;
+               }
+            }
          }
       }
    }
