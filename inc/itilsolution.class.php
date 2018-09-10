@@ -36,6 +36,7 @@ class PluginBehaviorsITILSolution {
 
 
    static function beforeAdd(ITILSolution $soluce) {
+      global $DB;
 
       if (!is_array($soluce->input) || !count($soluce->input)) {
          // Already cancel by another plugin
@@ -68,7 +69,6 @@ class PluginBehaviorsITILSolution {
             return;
          }
       }
-toolbox::logdebug("ésoluce", $soluce);
       $ticket = new Ticket();
       if ($ticket->getFromDB($soluce->input['items_id'])) {
 
