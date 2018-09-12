@@ -5,14 +5,14 @@
 # Translators:
 # Marco Biasco <marco.biasco@gmail.com>, 2016
 # Nelly Mahu-Lasson <nini.lasson@orange.fr>, 2014
-# Pierfrancesco Passerini <p.passerini@gmail.com>, 2017
+# Pierfrancesco Passerini <p.passerini@gmail.com>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-06 14:43+0200\n"
-"PO-Revision-Date: 2018-09-06 12:37+0000\n"
-"Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
+"PO-Revision-Date: 2018-09-08 19:09+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "Formato del numero delle chiamate"
 
 #: inc/config.class.php:228
 msgid "Delete computer in OCSNG when purged from GLPI"
-msgstr "Elimina computer in OCSNG quando eliminato da GLPI"
+msgstr "Elimina computer in OCS-NG quando eliminato da GLPI"
 
 #: inc/config.class.php:234
 msgid "Plugin \"Item's uninstallation\" not installed"
@@ -132,7 +132,7 @@ msgstr "L'assegnazione ad un tecnico è obbligatoria prima che la chiamata venga
 #: inc/ticket.class.php:498
 msgid ""
 "Group of technicians assigned is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "L'assegnazione al gruppo dei tecnico è obbligatoria prima che la chiamata venga risolta/chiusa"
 
 #: inc/config.class.php:331 inc/itilsolution.class.php:106
 #: inc/ticket.class.php:505
@@ -142,7 +142,7 @@ msgstr "La posizione è obbligatoria prima che la chiamata venga risolta/chiusa"
 #: inc/config.class.php:337 inc/tickettask.class.php:58
 #: inc/tickettask.class.php:86
 msgid "Task category is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "La categoria dell'attività è obbligatoria prima che il ticket sia risolto/chiuso"
 
 #: inc/config.class.php:342
 msgid "Deny change of ticket's creation date"
@@ -150,7 +150,7 @@ msgstr "Nega la possibilitù di cambiare la data di creazione della chiamata"
 
 #: inc/config.class.php:347
 msgid "Protect from simultaneous update"
-msgstr "Attiva protezione da inserimenti simultanei"
+msgstr "Attiva la protezione da aggiornamenti simultanei"
 
 #: inc/config.class.php:352
 msgid "Single technician and group"
@@ -222,4 +222,4 @@ msgstr "Ultimo gruppo assegnato senza supervisore"
 
 #: inc/ticket.class.php:432
 msgid "Can't save, item have been updated"
-msgstr "Impossibile salvare! L'elemento è stato aggiornato"
+msgstr "Impossibile salvare, l'elemento è stato aggiornato"
