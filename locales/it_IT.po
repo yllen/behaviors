@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-06 14:43+0200\n"
-"PO-Revision-Date: 2018-09-08 19:09+0000\n"
+"PO-Revision-Date: 2018-09-14 15:16+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -22,15 +22,15 @@ msgstr ""
 
 #: setup.php:110 inc/config.class.php:57
 msgid "Behaviours"
-msgstr "Comportamento"
+msgstr "Comportamenti"
 
 #: inc/common.class.php:88 inc/common.class.php:100 inc/common.class.php:120
 msgid "Clone"
-msgstr "Clona"
+msgstr "Duplica"
 
 #: inc/common.class.php:111 inc/common.class.php:190
 msgid "Clone of"
-msgstr "Clone di"
+msgstr "Duplicato di"
 
 #: inc/config.class.php:111
 msgid "Error in creating glpi_plugin_behaviors_configs"
@@ -96,7 +96,7 @@ msgstr "Notifiche aggiuntive"
 
 #: inc/config.class.php:274
 msgid "Allow Clone"
-msgstr "Consenti clone"
+msgstr "Consenti clonazione"
 
 #: inc/config.class.php:279 inc/itilsolution.class.php:78
 #: inc/ticket.class.php:475
