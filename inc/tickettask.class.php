@@ -89,9 +89,9 @@ class PluginBehaviorsTicketTask {
          }
       }
       if ($config->getField('is_ticketsolution_mandatory')) {
-         if (empty($soluce->input['content'])) {
-            $soluce->input['content'] = $soluce->fields['content'];
-            $soluce->input['solutiontypes_id'] = $soluce->fields['solutiontypes_id'];
+         if (empty($taskticket->input['content'])) {
+            $taskticketuce->input['content'] = $taskticket->fields['content'];
+            $taskticketce->input['solutiontypes_id'] = $taskticket->fields['solutiontypes_id'];
             Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
          }
