@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-06 14:43+0200\n"
-"PO-Revision-Date: 2018-09-06 12:37+0000\n"
+"POT-Creation-Date: 2018-11-02 11:28+0100\n"
+"PO-Revision-Date: 2018-11-02 10:23+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -101,23 +101,22 @@ msgstr "Autoriser le clonage"
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "Durée obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:285 inc/itilsolution.class.php:85
-#: inc/ticket.class.php:482
-msgid "Category is mandatory before ticket is solved/closed"
-msgstr "Catégorie obligatoire pour résoudre/fermer un ticket"
+#: inc/config.class.php:285 inc/tickettask.class.php:58
+#: inc/tickettask.class.php:86
+msgid "Task category is mandatory in a task"
+msgstr "Catégorie obligatoire dans une tâche"
 
 #: inc/config.class.php:288
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Type de solution obligatoire pour résoudre/fermer un problème"
 
-#: inc/config.class.php:295 inc/itilsolution.class.php:58
+#: inc/config.class.php:295 inc/itilsolution.class.php:59
 #: inc/itilsolution.class.php:146 inc/ticket.class.php:451
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Type de solution obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:302 inc/itilsolution.class.php:66
+#: inc/config.class.php:302 inc/itilsolution.class.php:67
 #: inc/itilsolution.class.php:154 inc/ticket.class.php:457
-#: inc/tickettask.class.php:95
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "Description de la solution obligatoire pour résoudre/fermer un ticket"
 
@@ -137,8 +136,7 @@ msgstr "Groupe de techniciens obligatoire pour résoudre/fermer un ticket"
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr "Lieu obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:337 inc/tickettask.class.php:58
-#: inc/tickettask.class.php:86
+#: inc/config.class.php:337
 msgid "Task category is mandatory before ticket is solved/closed"
 msgstr "Catégorie de tâche obligatoire pour résoudre/fermer un ticket"
 
@@ -173,6 +171,10 @@ msgstr "Ajout d'un document au ticket"
 #: inc/document_item.class.php:47
 msgid "Delete document to ticket"
 msgstr "Suppression d'un document du ticket"
+
+#: inc/itilsolution.class.php:85 inc/ticket.class.php:482
+msgid "Category is mandatory before ticket is solved/closed"
+msgstr "Catégorie obligatoire pour résoudre/fermer un ticket"
 
 #: inc/itilsolution.class.php:115 inc/ticket.class.php:513
 msgid "You cannot solve/close a ticket with task do to"

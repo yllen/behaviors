@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-06 14:43+0200\n"
+"POT-Creation-Date: 2018-11-02 11:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,23 +100,22 @@ msgstr ""
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:285 inc/itilsolution.class.php:85
-#: inc/ticket.class.php:482
-msgid "Category is mandatory before ticket is solved/closed"
+#: inc/config.class.php:285 inc/tickettask.class.php:58
+#: inc/tickettask.class.php:86
+msgid "Task category is mandatory in a task"
 msgstr ""
 
 #: inc/config.class.php:288
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:295 inc/itilsolution.class.php:58
+#: inc/config.class.php:295 inc/itilsolution.class.php:59
 #: inc/itilsolution.class.php:146 inc/ticket.class.php:451
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:302 inc/itilsolution.class.php:66
+#: inc/config.class.php:302 inc/itilsolution.class.php:67
 #: inc/itilsolution.class.php:154 inc/ticket.class.php:457
-#: inc/tickettask.class.php:95
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
@@ -136,8 +135,7 @@ msgstr ""
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:337 inc/tickettask.class.php:58
-#: inc/tickettask.class.php:86
+#: inc/config.class.php:337
 msgid "Task category is mandatory before ticket is solved/closed"
 msgstr ""
 
@@ -171,6 +169,10 @@ msgstr ""
 
 #: inc/document_item.class.php:47
 msgid "Delete document to ticket"
+msgstr ""
+
+#: inc/itilsolution.class.php:85 inc/ticket.class.php:482
+msgid "Category is mandatory before ticket is solved/closed"
 msgstr ""
 
 #: inc/itilsolution.class.php:115 inc/ticket.class.php:513
