@@ -55,7 +55,7 @@ class PluginBehaviorsTicketTask {
       if ($config->getField('is_tickettaskcategory_mandatory')) {
          if ($taskticket->input['taskcategories_id'] == 0) {
             $taskticket->input = false;
-            Session::addMessageAfterRedirect(__("Task category is mandatory before ticket is solved/closed",
+            Session::addMessageAfterRedirect(__("Task category is mandatory in a task",
                                                 'behaviors'), true, ERROR);
             return;
          }
@@ -83,17 +83,9 @@ class PluginBehaviorsTicketTask {
       if ($config->getField('is_tickettaskcategory_mandatory')) {
          if (empty($taskticket->input['taskcategories_id'])) {
             $taskticket->input = false;
-            Session::addMessageAfterRedirect(__("Task category is mandatory before ticket is solved/closed",
+            Session::addMessageAfterRedirect(__("Task category is mandatory in a task",
                                                 'behaviors'), true, ERROR);
             return;
-         }
-      }
-      if ($config->getField('is_ticketsolution_mandatory')) {
-         if (empty($taskticket->input['content'])) {
-            $taskticketuce->input['content'] = $taskticket->fields['content'];
-            $taskticketce->input['solutiontypes_id'] = $taskticket->fields['solutiontypes_id'];
-            Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
-                                                'behaviors'), true, ERROR);
          }
       }
    }

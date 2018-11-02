@@ -282,7 +282,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      echo "<td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory",
                           $config->fields['is_ticketcategory_mandatory']);
       echo "</td><td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
