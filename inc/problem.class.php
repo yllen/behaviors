@@ -36,6 +36,7 @@ class PluginBehaviorsProblem {
 
 
    static function beforeUpdate(Problem $problem) {
+      global $DB;
 
       if (!is_array($problem->input) || !count($problem->input)) {
          // Already cancel by another plugin
@@ -50,27 +51,19 @@ class PluginBehaviorsProblem {
          return false; // No check
       }
 
+      if (isset($problem->input['status'])
+          && in_array($problem->input['status'], array_merge(Problem::getSolvedStatusArray(),
+                                                             Problem::getclosedStatusArray()))) {
 
-      $soltyp  = (isset($problem->input['solutiontypes_id'])
-                        ? $problem->input['solutiontypes_id']
-                        : $problem->fields['solutiontypes_id']);
+         $soluce = $DB->request(['FROM'    => 'glpi_itilsolutions',
+                                 'WHERE'   => ['itemtype'   => 'Problem',
+                                               'items_id'   => $problem->input['id']]]);
 
-      // Wand to solve/close the problem
-      if ((isset($problem->input['solutiontypes_id']) && $problem->input['solutiontypes_id'])
-          || (isset($problem->input['solution']) && $problem->input['solution'])
-          || (isset($problem->input['status'])
-              && in_array($problem->input['status'],
-                          array_merge(Problem::getSolvedStatusArray(),
-                                      Problem::getClosedStatusArray())))) {
-
-         if ($config->getField('is_problemsolutiontype_mandatory')) {
-            if (!$soltyp) {
-               unset($problem->input['status']);
-               unset($problem->input['solution']);
-               unset($problem->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot close a problem without solution type',
-                                                   'behaviors'), true, ERROR);
-            }
+         if ($config->getField('is_problemsolutiontype_mandatory')
+             && !count($soluce)) {
+            unset($problem->input['status']);
+            Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
+                                                'behaviors'), true, ERROR);
          }
       }
    }

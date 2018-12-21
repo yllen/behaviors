@@ -80,7 +80,7 @@ class PluginBehaviorsITILSolution {
             return;
          }
          if ($config->getField('is_ticketcategory_mandatory')
-             && ($ticket->fields['itilcategories_id'] ==0)) {
+             && ($ticket->fields['itilcategories_id'] == 0)) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
                                              'behaviors'), true, ERROR);
@@ -117,6 +117,16 @@ class PluginBehaviorsITILSolution {
                   return;
                }
             }
+         }
+      }
+
+      // Wand to solve/close a problem
+      if ($config->getField('is_problemsolutiontype_mandatory')) {
+         if ($soluce->input['solutiontypes_id'] == 0) {
+            $soluce->input = false;
+            Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
+                                                'behaviors'), true, ERROR);
+            return;
          }
       }
    }
