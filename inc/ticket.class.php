@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2017 Behaviors plugin team
+ @copyright Copyright (c) 2010-2019 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -49,13 +49,12 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
-         $target->events['plugin_behaviors_ticketnewtech']  = __('Assign to a technician', 'behaviors');
-         $target->events['plugin_behaviors_ticketnewgrp']   = __('Assign to a group', 'behaviors');
-         $target->events['plugin_behaviors_ticketnewsupp']  = __('Assign to a supplier', 'behaviors');
-         $target->events['plugin_behaviors_ticketnewwatch'] = __('Add a watcher', 'behaviors');
-         $target->events['plugin_behaviors_ticketreopen']   = __('Reopen ticket', 'behaviors');
-         $target->events['plugin_behaviors_ticketstatus']   = __('Change status', 'behaviors');
-         $target->events['plugin_behaviors_ticketwaiting']  = __('Ticket waiting', 'behaviors');
+         $target->events['plugin_behaviors_ticketreopen']
+         = sprintf(__('%1$s (%2$s)'), __('Reopen ticket', 'behaviors'), __('Behaviors'));
+         $target->events['plugin_behaviors_ticketstatus']
+         = sprintf(__('%1$s (%2$s)'), __('Change status', 'behaviors'), __('Behaviors'));
+         $target->events['plugin_behaviors_ticketwaiting']
+         = sprintf(__('%1$s (%2$s)'), __('Ticket waiting', 'behaviors'), __('Behaviors'));
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
@@ -63,15 +62,29 @@ class PluginBehaviorsTicket {
 
    static function addTargets(NotificationTargetTicket $target) {
 
-      $target->addTarget(self::LAST_TECH_ASSIGN , __('Last technician assigned', 'behaviors'));
-      $target->addTarget(self::LAST_GROUP_ASSIGN , __('Last group assigned', 'behaviors'));
-      $target->addTarget(self::LAST_SUPPLIER_ASSIGN , __('Last supplier assigned', 'behaviors'));
-      $target->addTarget(self::LAST_WATCHER_ADDED , __('Last watcher added', 'behaviors'));
-      $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
-                         __('Supervisor of last group assigned', 'behaviors'));
-      $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
-                         __('Last group assigned without supersivor', 'behaviors'));
-
+      // No new recipients for globals notifications
+      $alert = ['alertnotclosed', 'recall', 'recall_ola'];
+      if (!in_array($target->raiseevent, $alert)) {
+         $target->addTarget(self::LAST_TECH_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last technician assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_GROUP_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last group assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_SUPPLIER_ASSIGN ,
+                            sprintf(__('%1$s (%2$s)'), __('Last supplier assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_WATCHER_ADDED ,
+                            sprintf(__('%1$s (%2$s)'), __('Last watcher added', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
+                            sprintf(__('%1$s (%2$s)'), __('Supervisor of last group assigned', 'behaviors'),
+                                    __('Behaviors')));
+         $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
+                            sprintf(__('%1$s (%2$s)'),
+                                    __('Last group assigned without supersivor', 'behaviors'),
+                                    __('Behaviors')));
+      }
    }
 
 
@@ -108,7 +121,8 @@ class PluginBehaviorsTicket {
    static function getLastLinkedUserByType($type, $target) {
       global $DB, $CFG_GLPI;
 
-      $userlinktable = $DB->getTableForItemType($target->obj->userlinkclass);
+      $dbu           = new DbUtils();
+      $userlinktable = $dbu->getTableForItemType($target->obj->userlinkclass);
       $fkfield       = $target->obj->getForeignKeyField();
 
       $last = "SELECT MAX(`id`) AS lastid
@@ -126,12 +140,16 @@ class PluginBehaviorsTicket {
       }
 
       //Look for the user by his id
-      $query =  $target->getDistinctUserSql().",
+      $query =  "SELECT DISTINCT `glpi_users`.`id` AS users_id,
+                                 `glpi_users`.`language` AS language,
                       `$userlinktable`.`use_notification` AS notif,
                       `$userlinktable`.`alternative_email` AS altemail
                 FROM `$userlinktable`
-                LEFT JOIN `glpi_users` ON (`$userlinktable`.`users_id` = `glpi_users`.`id`)".
-                $target->getProfileJoinSql()."
+                LEFT JOIN `glpi_users` ON (`$userlinktable`.`users_id` = `glpi_users`.`id`)
+                INNER JOIN `glpi_profiles_users`
+                ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
+                     $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
+                           $target->getEntity(), true).")
                 WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                       AND `$userlinktable`.`type` = '$type'
                       $querylast";
@@ -154,24 +172,23 @@ class PluginBehaviorsTicket {
             if (empty($author_id)) {
                $author_id = -1;
             }
-            $target->addToRecipientsList(array('email'    => $author_email,
-                                              'language' => $author_lang,
-                                              'users_id' => $author_id));
+            $target->addToRecipientsList(['email'    => $author_email,
+                                         'language' => $author_lang,
+                                         'users_id' => $author_id]);
          }
       }
 
       // Anonymous user
-      $query = "SELECT `alternative_email`
-                FROM `$userlinktable`
-                WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
-                      AND `$userlinktable`.`users_id` = 0
-                      AND `$userlinktable`.`use_notification` = 1
-                      AND `$userlinktable`.`type` = '$type'";
-      foreach ($DB->request($query) as $data) {
+      foreach ($DB->request(['SELECT' => 'alternative_email',
+                             'FROM'   => $userlinktable,
+                             'WHERE'  => [$fkfield           => $target->obj->fields["id"],
+                                          'users_id'         => 0,
+                                          'use_notification' => 1,
+                                          'type'             => $type]]) as $data) {
          if (NotificationMailing::isUserAddressValid($data['alternative_email'])) {
-            $target->addToRecipientsList(array('email'    => $data['alternative_email'],
-                                              'language' => $CFG_GLPI["language"],
-                                              'users_id' => -1));
+            $target->addToRecipientsList(['email'    => $data['alternative_email'],
+                                          'language' => $CFG_GLPI["language"],
+                                          'users_id' => -1]);
          }
       }
    }
@@ -180,20 +197,22 @@ class PluginBehaviorsTicket {
    static function getLastLinkedGroupByType($type, $target, $supervisor=0) {
       global $DB;
 
-      $grouplinktable = $DB->getTableForItemType($target->obj->grouplinkclass);
+      $dbu            = new DbUtils();
+      $grouplinktable = $dbu->getTableForItemType($target->obj->grouplinkclass);
       $fkfield        = $target->obj->getForeignKeyField();
 
       $last = "SELECT MAX(`id`) AS lastid
                FROM `$grouplinktable`
                WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                      AND `$grouplinktable`.`type` = '$type'";
-      $result = $DB->query($last);
-      $data = $DB->fetch_assoc($result);
+      $result = $DB->request($last);
 
       $querylast = '';
-      $object = new $target->obj->grouplinkclass();
-      if ($object->getFromDB($data['lastid'])) {
-         $querylast = " AND `$grouplinktable`.`groups_id` = '".$object->fields['groups_id']."'";
+      if ($data = $result->next()) {
+         $object    = new $target->obj->grouplinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $querylast = " AND `groups_id` = '".$object->fields['groups_id']."'";
+         }
       }
 
       //Look for the user by his id
@@ -205,7 +224,7 @@ class PluginBehaviorsTicket {
 
       foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
-         $target->addForGroup($supervisor, $data['groups_id']);
+         self::addForGroup($supervisor, $object->fields['groups_id'], $target);
       }
    }
 
@@ -216,7 +235,8 @@ class PluginBehaviorsTicket {
       if (!$target->options['sendprivate']
           && $target->obj->countSuppliers(CommonITILActor::ASSIGN)) {
 
-         $supplierlinktable = $DB->getTableForItemType($target->obj->supplierlinkclass);
+         $dbu               = new DbUtils();
+         $supplierlinktable = $dbu->getTableForItemType($target->obj->supplierlinkclass);
          $fkfield           = $target->obj->getForeignKeyField();
 
          $last = "SELECT MAX(`id`) AS lastid
@@ -254,6 +274,8 @@ class PluginBehaviorsTicket {
          return false;
       }
 
+      $dbu = new DbUtils();
+
       //Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
@@ -282,7 +304,7 @@ class PluginBehaviorsTicket {
              && (!isset($ticket->input['_users_id_requester_notif']['alternative_email'])
                  || empty($ticket->input['_users_id_requester_notif']['alternative_email']))) {
             Session::addMessageAfterRedirect(__('Requester is mandatory', 'behaviors'), true, ERROR);
-            $ticket->input = array();
+            $ticket->input = [];
             return true;
 
          }
@@ -291,7 +313,7 @@ class PluginBehaviorsTicket {
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
          foreach ($ticket->input['items_id'] as $type => $items) {
-            if (($item = $DB->getItemForItemtype($type))
+            if (($item = $dbu->getItemForItemtype($type))
                 && (!isset($ticket->input['_groups_id_requester'])
                     || ($ticket->input['_groups_id_requester'] <= 0))) {
 
@@ -316,9 +338,11 @@ class PluginBehaviorsTicket {
       }
 
       if ($config->getField('use_requester_user_group')
-          && isset($ticket->input['_users_id_requester'])
-          && ($ticket->input['_users_id_requester'] > 0)
-          && (!isset($ticket->input['_groups_id_requester']) || $ticket->input['_groups_id_requester']<=0)) {
+          && (isset($ticket->input['_users_id_requester'])
+              && ($ticket->input['_users_id_requester'] > 0))
+          && (!isset($ticket->input['_groups_id_requester'])
+              || ($ticket->input['_groups_id_requester'] <= 0)
+              ||  empty($ticket->input['_groups_id_requester']))) {
 
             if ($config->getField('use_requester_user_group') == 1) {
                // First group
@@ -339,7 +363,6 @@ class PluginBehaviorsTicket {
                }
             }
       }
-      // Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Updated input=", $ticket->input);
    }
 
 
@@ -385,12 +408,14 @@ class PluginBehaviorsTicket {
          return false;
       }
 
+      $dbu = new DbUtils();
+
       //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
       if (!is_numeric(Session::getLoginUserID(false))
-          || !Session::haveRight('ticket', Ticket::OWN)) {
+          || !Session::haveRight('ticket', UPDATE)) {
          return false; // No check
       }
 
@@ -405,114 +430,113 @@ class PluginBehaviorsTicket {
           && ($ticket->input['_read_date_mod'] != $ticket->fields['date_mod'])) {
 
          $msg = sprintf(__('%1$s (%2$s)'), __("Can't save, item have been updated", "behaviors"),
-                           $DB->getUserName($ticket->fields['users_id_lastupdater']).', '.
+                           $dbu->getUserName($ticket->fields['users_id_lastupdater']).', '.
                            Html::convDateTime($ticket->fields['date_mod']));
 
          Session::addMessageAfterRedirect($msg, true, ERROR);
          return $ticket->input = false;
       }
 
-      $soltyp  = (isset($ticket->input['solutiontypes_id'])
-                        ? $ticket->input['solutiontypes_id']
-                        : $ticket->fields['solutiontypes_id']);
-      $dur     = (isset($ticket->input['actiontime'])
+      if (isset($ticket->input['status'])
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getclosedStatusArray()))) {
+
+         $soluce = $DB->request(['FROM'    => 'glpi_itilsolutions',
+                                 'WHERE'   => ['itemtype'   => 'Ticket',
+                                 'items_id'   => $ticket->input['id']]]);
+
+         if ($config->getField('is_ticketsolutiontype_mandatory')
+             && !count($soluce)) {
+            unset($ticket->input['status']);
+            Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
+         }
+         if ($config->getField('is_ticketsolution_mandatory')
+             && !count($soluce)) {
+            unset($ticket->input['status']);
+            Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
+         }
+
+         $dur     = (isset($ticket->input['actiontime'])
                         ? $ticket->input['actiontime']
                         : $ticket->fields['actiontime']);
-      $soldesc = (isset($ticket->input['solution'])
-                        ? $ticket->input['solution']
-                        : $ticket->fields['solution']);
-      $cat    = (isset($ticket->input['itilcategories_id'])
+         $cat    = (isset($ticket->input['itilcategories_id'])
                         ? $ticket->input['itilcategories_id']
                         : $ticket->fields['itilcategories_id']);
-      $loc    = (isset($ticket->input['locations_id'])
+         $loc    = (isset($ticket->input['locations_id'])
                         ? $ticket->input['locations_id']
                         : $ticket->fields['locations_id']);
 
-      // Wand to solve/close the ticket
-      if ((isset($ticket->input['solutiontypes_id']) && $ticket->input['solutiontypes_id'])
-          || (isset($ticket->input['solution']) && $ticket->input['solution'])
-          || (isset($ticket->input['status'])
-              && in_array($ticket->input['status'],
-                          array_merge(Ticket::getSolvedStatusArray(),
-                                      Ticket::getclosedStatusArray())))) {
-
+         // Wand to solve/close the ticket
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if (!$dur) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
-                                                   'behaviors'), true, ERROR);
-            }
-         }
-         if ($config->getField('is_ticketsolutiontype_mandatory')) {
-            if (!$soltyp) {
-               unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
-                                                   'behaviors'), true, ERROR);
-            }
-         }
-         if ($config->getField('is_ticketsolution_mandatory')) {
-            if (!$soldesc) {
-               unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
          if ($config->getField('is_ticketcategory_mandatory')) {
             if (!$cat) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Category is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                  && !isset($input["_itil_assign"]['users_id'])) {
+                && !isset($input["_itil_assign"]['users_id'])) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
+            }
+         }
+         if ($config->getField('is_tickettechgroup_mandatory')) {
+            if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
+                && !isset($input["_itil_assign"]['groups_id'])) {
+               unset($ticket->input['status']);
+               Session::addMessageAfterRedirect(__("Group of technicians assigned is mandatory before ticket is solved/closed",
+                                                'behaviors'), true, ERROR);
             }
          }
          if ($config->getField('is_ticketlocation_mandatory')) {
             if (!$loc) {
                unset($ticket->input['status']);
-               unset($ticket->input['solution']);
-               unset($ticket->input['solutiontypes_id']);
                Session::addMessageAfterRedirect(__("Location is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
             }
          }
+         if ($config->getField('is_tickettasktodo')) {
+            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
+                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+               if ($task['state'] == 1) {
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                   'behaviors'), true, ERROR);
+                  unset($ticket->input['status']);
+               }
+            }
+         }
+      }
 
-         if ($config->getField('use_requester_item_group')
-             && isset($ticket->input['items_id'])
-             && (is_array($ticket->input['items_id']))) {
-            foreach ($ticket->input['items_id'] as $type => $items) {
-               foreach ($items as $number => $id) {
-                  if (($item = $DB->getItemForItemtype($id))
-                      && (!isset($ticket->input['_groups_id_requester'])
-                          || ($ticket->input['_groups_id_requester'] <= 0))) {
-
-                     if ($item->isField('groups_id')) {
-                        foreach ($items as $itemid) {
-                           if ($item->getFromDB($itemid)) {
-                              $ticket->input['_groups_id_requester'] = $item->getField('groups_id');
-                           }
+      if ($config->getField('use_requester_item_group')
+          && isset($ticket->input['items_id'])
+          && (is_array($ticket->input['items_id']))) {
+         foreach ($ticket->input['items_id'] as $type => $items) {
+            foreach ($items as $number => $id) {
+               if (($item = $dbu->getItemForItemtype($type))
+                   && !isset($ticket->input['_itil_requester']['groups_id'])) {
+                  if ($item->isField('groups_id')) {
+                     foreach ($items as $itemid) {
+                        if ($item->getFromDB($itemid)) {
+                           $ticket->input['_itil_requester']
+                                 = ['_type' => 'group',
+                                    'groups_id' => $item->getField('groups_id')];
                         }
                      }
                   }
                }
             }
          }
-
       }
    }
 
@@ -599,39 +623,39 @@ class PluginBehaviorsTicket {
       $tickid = $srce->getField('id');
 
       $user_reques                  = $srce->getUsers(CommonITILActor::REQUESTER);
-      $input['_users_id_requester'] = array();
+      $input['_users_id_requester'] = [];
       foreach ($user_reques as $users) {
          $input['_users_id_requester'][] = $users['users_id'];
       }
       $user_observ                 = $srce->getUsers(CommonITILActor::OBSERVER);
-      $input['_users_id_observer'] = array();
+      $input['_users_id_observer'] = [];
       foreach ($user_observ as $users) {
          $input['_users_id_observer'][] = $users['users_id'];
       }
       $user_assign               = $srce->getUsers(CommonITILActor::ASSIGN);
-      $input['_users_id_assign'] = array();
+      $input['_users_id_assign'] = [];
       foreach ($user_assign as $users) {
          $input['_users_id_assign'][] = $users['users_id'];
       }
 
       $group_reques                  = $srce->getGroups(CommonITILActor::REQUESTER);
-      $input['_groups_id_requester'] = array();
+      $input['_groups_id_requester'] = [];
       foreach ($group_reques as $groups) {
          $input['_groups_id_requester'][] = $groups['groups_id'];
       }
       $group_observ                  = $srce->getGroups(CommonITILActor::OBSERVER);
-      $input['_groups_id_observer'] = array();
+      $input['_groups_id_observer'] = [];
       foreach ($group_observ as $groups) {
          $input['_groups_id_observer'][] = $groups['groups_id'];
       }
       $group_assign                  = $srce->getGroups(CommonITILActor::ASSIGN);
-      $input['_groups_id_assign'] = array();
+      $input['_groups_id_assign'] = [];
       foreach ($group_assign as $groups) {
          $input['_groups_id_assign'][] = $ugroups['groups_id'];
       }
 
       $suppliers                     = $srce->getSuppliers(CommonITILActor::ASSIGN);
-      $input['_suppliers_id_assign'] = array();
+      $input['_suppliers_id_assign'] = [];
       foreach ($suppliers as $suppliers) {
          $input['_suppliers_id_assign'][] = $suppliers['groups_id'];
       }
@@ -644,37 +668,73 @@ class PluginBehaviorsTicket {
    static function postClone(Ticket $clone, $oldid) {
       global $DB;
 
-      $fkey = $DB->getForeignKeyFieldForTable($clone->getTable());
-      $crit = array($fkey => $oldid);
+      $dbu  = new DbUtils();
+      $fkey = $dbu->getForeignKeyFieldForTable($clone->getTable());
+      $crit = [$fkey => $oldid];
 
       // add items of tickets source
       $item = new Item_Ticket();
       foreach ($DB->request($item->getTable(), $crit) as $dataitem) {
-         $input = array('itemtype'    => $dataitem['itemtype'],
-                        'items_id'    => $dataitem['items_id'],
-                        'tickets_id'  => $clone->getField('id'));
+         $input = ['itemtype'    => $dataitem['itemtype'],
+                   'items_id'    => $dataitem['items_id'],
+                   'tickets_id'  => $clone->getField('id')];
          $item->add($input);
       }
 
       // link new ticket to ticket source
       $link = new Ticket_Ticket();
-      $inputlink = array('tickets_id_1'    => $clone->getField('id'),
-                         'tickets_id_2'    => $oldid,
-                         'link'            => 1);
+      $inputlink = ['tickets_id_1'    => $clone->getField('id'),
+                    'tickets_id_2'    => $oldid,
+                    'link'            => 1];
       $link->add($inputlink);
 
-      if ($DB->countElementsInTable("glpi_documents_items",
-                               "`itemtype` = 'Ticket' AND `items_id` = $oldid")) {
+      if ($dbu->countElementsInTable("glpi_documents_items",
+                                     ['itemtype' => 'Ticket',
+                                      'items_i'  => $oldid])) {
          $docitem = new Document_Item();
-         foreach ($DB->request("glpi_documents_items", array('itemtype' => 'Ticket',
-                                                             'items_id' => $oldid)) as $doc) {
-            $inputdoc = array('documents_id' => $doc['documents_id'],
-                              'items_id'     => $clone->getField('id'),
-                              'itemtype'     => 'Ticket',
-                              'entities_id'  => $doc['entities_id'],
-                              'is_recursive' => $doc['is_recursive']);
+         foreach ($DB->request("glpi_documents_items", ['itemtype' => 'Ticket',
+                                                        'items_id' => $oldid]) as $doc) {
+            $inputdoc = ['documents_id' => $doc['documents_id'],
+                         'items_id'     => $clone->getField('id'),
+                         'itemtype'     => 'Ticket',
+                         'entities_id'  => $doc['entities_id'],
+                         'is_recursive' => $doc['is_recursive']];
             $docitem->add($inputdoc);
          }
       }
    }
+
+
+   static function addForGroup($manager, $group_id, $target) {
+      global $DB;
+
+      $dbu= new DbUtils();
+
+      // members/managers of the group allowed on object entity
+      // filter group with 'is_assign' (attribute can be unset after notification)
+      $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id,
+                               `glpi_users`.`language` AS language
+               FROM `glpi_groups_users`
+               INNER JOIN `glpi_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)
+               INNER JOIN `glpi_profiles_users`
+               ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
+                   $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
+                                                    $target->getEntity(), true).")
+               INNER JOIN `glpi_groups` ON (`glpi_groups_users`.`groups_id` = `glpi_groups`.`id`)
+               WHERE `glpi_groups_users`.`groups_id` = '$group_id'
+               AND `glpi_groups`.`is_notify`";
+
+               if ($manager == 1) {
+                  $query .= " AND `glpi_groups_users`.`is_manager` ";
+               } else if ($manager == 2) {
+                  $query .= " AND NOT `glpi_groups_users`.`is_manager` ";
+               }
+
+               foreach ($DB->request($query) as $data) {
+                  $target->addToRecipientsList($data);
+               }
+   }
+
+
+
 }
