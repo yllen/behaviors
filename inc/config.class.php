@@ -299,7 +299,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "</td></tr>";
 
-      echo "</td><td>".__('Description of solution is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>".__('Description of solution is mandatory before ticket is solved/closed',
+                          'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketsolution_mandatory",
                           $config->fields['is_ticketsolution_mandatory']);
@@ -315,7 +316,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Group of technicians assigned is mandatory before ticket is solved/closed', 'behaviors');
+      echo "<td>".__('Group of technicians assigned is mandatory before ticket is solved/closed',
+                     'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettechgroup_mandatory",
                           $config->fields['is_tickettechgroup_mandatory']);

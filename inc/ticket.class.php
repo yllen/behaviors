@@ -50,11 +50,14 @@ class PluginBehaviorsTicket {
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
          $target->events['plugin_behaviors_ticketreopen']
-         = sprintf(__('%1$s (%2$s)'), __('Reopen ticket', 'behaviors'), __('Behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Reopen ticket', 'behaviors'));
+
          $target->events['plugin_behaviors_ticketstatus']
-         = sprintf(__('%1$s (%2$s)'), __('Change status', 'behaviors'), __('Behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Change status', 'behaviors'));
+
          $target->events['plugin_behaviors_ticketwaiting']
-         = sprintf(__('%1$s (%2$s)'), __('Ticket waiting', 'behaviors'), __('Behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Ticket waiting', 'behaviors'));
+
          PluginBehaviorsDocument_Item::addEvents($target);
       }
    }
@@ -125,22 +128,29 @@ class PluginBehaviorsTicket {
       $userlinktable = $dbu->getTableForItemType($target->obj->userlinkclass);
       $fkfield       = $target->obj->getForeignKeyField();
 
-      $last = "SELECT MAX(`id`) AS lastid
+      /*
+         $last = "SELECT MAX(`id`) AS lastid
                FROM `$userlinktable`
                WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                       AND `$userlinktable`.`type` = '$type'";
-      $result = $DB->query($last);
-
+       */
+      $last = ['SELECT' => ['MAX' => 'id AS lastid'],
+               'FROM'   => $userlinktable,
+               'WHERE'  => [$userlinktable.".".$fkfield => $target->obj->fields["id"],
+                            $userlinktable.'.type'      => $type]];
+      $result = $DB->request($last);
+/*
       $querylast = '';
-      if ($data = $DB->fetch_assoc($result)) {
+      if ($data = $result->next()) {
          $object = new $target->obj->userlinkclass();
          if ($object->getFromDB($data['lastid'])) {
-            $querylast = " AND `$userlinktable`.`users_id` = '".$object->fields['users_id']."'";
+            $querylast['WHERE'][$userlinktable.'.users_id'] = $object->fields['users_id'];
          }
       }
-
+*/
       //Look for the user by his id
-      $query =  "SELECT DISTINCT `glpi_users`.`id` AS users_id,
+      /*
+       * $query =  "SELECT DISTINCT `glpi_users`.`id` AS users_id,
                                  `glpi_users`.`language` AS language,
                       `$userlinktable`.`use_notification` AS notif,
                       `$userlinktable`.`alternative_email` AS altemail
@@ -153,7 +163,28 @@ class PluginBehaviorsTicket {
                 WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                       AND `$userlinktable`.`type` = '$type'
                       $querylast";
+       */
+      $query = ['FIELDS'     => ['glpi_users' => ['id AS users_id', 'DISTINCT' => true,
+                                                  'language AS language'],
+                                 $userlinktable => ['use_notification AS notif',
+                                                    'alternative_email AS altemail']],
+                'FROM'       => $userlinktable,
+                'LEFT JOIN'  => ['glpi_users' => ['FKEY' => [$userlinktable => 'users_id',
+                                                             'glpi_users'   => 'id']]],
+                'INNER JOIN' => ['glpi_profiles_users'
+                                              => ['FKEY' => ['glpi_profiles_users' => 'users_id',
+                                                             'glpi_users'          => 'id']
+                                 +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users", "entities_id",
+                                                                    $target->getEntity(), true)]],
+                'WHERE'      => [$userlinktable.'.'.$fkfield => $target->obj->fields["id"],
+                                 $userlinktable.'.type'      => $type]];
 
+      if ($data = $result->next()) {
+         $object = new $target->obj->userlinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $query['WHERE'][$userlinktable.'.users_id'] = $object->fields['users_id'];
+         }
+      }
       foreach ($DB->request($query) as $data) {
          //Add the user email and language in the notified users list
          if ($data['notif']) {
@@ -201,27 +232,40 @@ class PluginBehaviorsTicket {
       $grouplinktable = $dbu->getTableForItemType($target->obj->grouplinkclass);
       $fkfield        = $target->obj->getForeignKeyField();
 
-      $last = "SELECT MAX(`id`) AS lastid
+      /*
+       * $last = "SELECT MAX(`id`) AS lastid
                FROM `$grouplinktable`
                WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                      AND `$grouplinktable`.`type` = '$type'";
+
+       */
+      $last = ['SELECT' => ['MAX' => 'id AS lastid'],
+               'FROM'   => $grouplinktable,
+               'WHERE'  => [$grouplinktable.'.'.$fkfield => $target->obj->fields["id"],
+                            $grouplinktable.'.type'      => $type]];
       $result = $DB->request($last);
 
-      $querylast = '';
-      if ($data = $result->next()) {
-         $object    = new $target->obj->grouplinkclass();
-         if ($object->getFromDB($data['lastid'])) {
-            $querylast = " AND `groups_id` = '".$object->fields['groups_id']."'";
-         }
-      }
+
 
       //Look for the user by his id
-      $query = "SELECT `groups_id`
+      /*
+       * $query = "SELECT `groups_id`
                 FROM `$grouplinktable`
                 WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
                       AND `$grouplinktable`.`type` = '$type'
                       $querylast";
+       */
+      $query = ['SELECT' => 'groups_id',
+                'FROM'   => $grouplinktable,
+                'WHERE'  => [$grouplinktable.'.'.$fkfield => $target->obj->fields["id"],
+                             $grouplinktable.'.type'      => $type]];
 
+      if ($data = $result->next()) {
+         $object    = new $target->obj->grouplinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $query['WHERE']['groups_id'] = $object->fields['groups_id'];
+         }
+      }
       foreach ($DB->request($query) as $data) {
          //Add the group in the notified users list
          self::addForGroup($supervisor, $object->fields['groups_id'], $target);
@@ -239,26 +283,44 @@ class PluginBehaviorsTicket {
          $supplierlinktable = $dbu->getTableForItemType($target->obj->supplierlinkclass);
          $fkfield           = $target->obj->getForeignKeyField();
 
-         $last = "SELECT MAX(`id`) AS lastid
+         /*
+          * $last = "SELECT MAX(`id`) AS lastid
                   FROM `$supplierlinktable`
                   WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'";
+          */
+         $last = ['SELECT' => ['MAX' => 'id AS lastid'],
+                  'FROM'   => $supplierlinktable,
+                  'WHERE'  => [$supplierlinktable.'.'.$fkfield => $target->obj->fields["id"]]];
 
-         $result = $DB->query($last);
-         $data = $DB->fetch_assoc($result);
-
+         $result = $DB->request($last);
+         $data = $result->next();
+/*
          $querylast = '';
          $object = new $target->obj->supplierlinkclass();
          if ($object->getFromDB($data['lastid'])) {
             $querylast = " AND `$supplierlinktable`.`suppliers_id` = '".$object->fields['suppliers_id']."'";
          }
-         $query = "SELECT DISTINCT `glpi_suppliers`.`email` AS email,
+
+         $query = SELECT DISTINCT `glpi_suppliers`.`email` AS email,
                                    `glpi_suppliers`.`name` AS name
                    FROM `$supplierlinktable`
                    LEFT JOIN `glpi_suppliers`
                       ON (`$supplierlinktable`.`suppliers_id` = `glpi_suppliers`.`id`)
                    WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->getID()."'
                          $querylast";
+ */
+         $query = ['FIELDS'    => ['glpi_suppliers' => ['email AS email', 'DISTINCT' => true,
+                                                        'name AS name']],
+                   'FROM'      => $supplierlinktable,
+                   'LEFT JOIN' => ['glpi_suppliers'
+                                     => ['FKEY' => [$supplierlinktable => 'suppliers_id',
+                                                    'glpi_suppliers'   => 'id']]],
+                   'WHERE'     => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
 
+         $object = new $target->obj->supplierlinkclass();
+         if ($object->getFromDB($data['lastid'])) {
+            $query['WHERE'][$supplierlinktable.'.suppliers_id'] = $object->fields['suppliers_id'];
+         }
          foreach ($DB->request($query) as $data) {
             $target->addToRecipientsList($data);
          }
@@ -276,13 +338,12 @@ class PluginBehaviorsTicket {
 
       $dbu = new DbUtils();
 
-      //Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('tickets_id_format')) {
          $max = 0;
-         $sql = 'SELECT MAX( id ) AS max
-                 FROM `glpi_tickets`';
+         $sql = ['SELECT' => ['MAX' => 'id AS max'],
+                 'FROM'   => 'glpi_tickets'];
          foreach ($DB->request($sql) as $data) {
             $max = $data['max'];
          }
@@ -374,7 +435,6 @@ class PluginBehaviorsTicket {
          return false;
       }
 
-      // Toolbox::logDebug("PluginBehaviorsTicket::afterPrepareAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('use_assign_user_group')
@@ -408,9 +468,7 @@ class PluginBehaviorsTicket {
          return false;
       }
 
-      $dbu = new DbUtils();
-
-      //Toolbox::logDebug("PluginBehaviorsTicket::beforeUpdate(), Ticket=", $ticket);
+      $dbu    = new DbUtils();
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
@@ -441,9 +499,9 @@ class PluginBehaviorsTicket {
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                             Ticket::getclosedStatusArray()))) {
 
-         $soluce = $DB->request(['FROM'    => 'glpi_itilsolutions',
-                                 'WHERE'   => ['itemtype'   => 'Ticket',
-                                 'items_id'   => $ticket->input['id']]]);
+         $soluce = $DB->request('glpi_itilsolutions',
+                                ['itemtype'   => 'Ticket',
+                                 'items_id'   => $ticket->input['id']]);
 
          if ($config->getField('is_ticketsolutiontype_mandatory')
              && !count($soluce)) {
@@ -507,8 +565,8 @@ class PluginBehaviorsTicket {
             }
          }
          if ($config->getField('is_tickettasktodo')) {
-            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
-                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+            foreach($DB->request('glpi_tickettasks',
+                                 ['tickets_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
                   Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
                                                    'behaviors'), true, ERROR);
@@ -589,7 +647,6 @@ class PluginBehaviorsTicket {
 
 
    static function afterUpdate(Ticket $ticket) {
-      // Toolbox::logDebug("PluginBehaviorsTicket::afterUpdate(), Ticket=", $ticket);
 
       $config = PluginBehaviorsConfig::getInstance();
 
@@ -712,7 +769,8 @@ class PluginBehaviorsTicket {
 
       // members/managers of the group allowed on object entity
       // filter group with 'is_assign' (attribute can be unset after notification)
-      $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id,
+      /*
+       *       $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id,
                                `glpi_users`.`language` AS language
                FROM `glpi_groups_users`
                INNER JOIN `glpi_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)
@@ -729,12 +787,34 @@ class PluginBehaviorsTicket {
                } else if ($manager == 2) {
                   $query .= " AND NOT `glpi_groups_users`.`is_manager` ";
                }
+       */
+      $query = ['FIELDS'     => ['glpi_users' => ['id AS users_id', 'DISTINCT' => true,
+                                                  'language AS language']],
+                'FROM'       => 'glpi_groups_users',
+                'INNER JOIN' => ['glpi_users' => ['FKEY' => ['glpi_groups_users' => 'users_id',
+                                                            'glpi_users'        => 'id']],
+                                 'glpi_profiles_users'
+                                              => ['FKEY' => ['glpi_profiles_users' => 'users_id',
+                                                            'glpi_users'          => 'id']
+                                                 +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users",
+                                                       "entities_id", $target->getEntity(), true)],
+                                 'glpi_groups' => ['FKEY' => ['glpi_groups_users' => 'groups_id',
+                                                              'glpi_groups'       => 'id']]],
+                'WHERE'      => ['glpi_groups_users.groups_id' => $group_id,
+                                 'glpi_groups.is_notify'       => 1]];
+
+               if ($manager == 1) {
+                  $query['WHERE']['glpi_groups_users.is_manager'] = 1;
+               //   $query .= " AND `glpi_groups_users`.`is_manager` ";
+               } else if ($manager == 2) {
+                //  $query .= " AND NOT `glpi_groups_users`.`is_manager` ";
+                  $query['WHERE']['glpi_groups_users.is_manager'] = 0;
+               }
 
                foreach ($DB->request($query) as $data) {
                   $target->addToRecipientsList($data);
                }
    }
-
 
 
 }

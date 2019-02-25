@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2018 Behaviors plugin team
+ @copyright Copyright (c) 2010-2019 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -40,26 +40,13 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['config_page']['behaviors'] = 'front/config.form.php';
 
    $PLUGIN_HOOKS['item_add']['behaviors'] =
-      ['Computer'           => ['PluginBehaviorsComputer',          'afterAdd'],
-       'Monitor'            => ['PluginBehaviorsMonitor',           'afterAdd'],
-       'NetworkEquipment'   => ['PluginBehaviorsNetworkEquipment',  'afterAdd'],
-       'Peripheral'         => ['PluginBehaviorsPeripheral',        'afterAdd'],
-       'Phone'              => ['PluginBehaviorsPhone',             'afterAdd'],
-       'Printer'            => ['PluginBehaviorsPrinter',           'afterAdd'],
-       'Ticket_User'        => ['PluginBehaviorsTicket_User',       'afterAdd'],
+      ['Ticket_User'        => ['PluginBehaviorsTicket_User',       'afterAdd'],
        'Group_Ticket'       => ['PluginBehaviorsGroup_Ticket',      'afterAdd'],
        'Supplier_Ticket'    => ['PluginBehaviorsSupplier_Ticket',   'afterAdd'],
        'Document_Item'      => ['PluginBehaviorsDocument_Item',     'afterAdd']];
 
    $PLUGIN_HOOKS['item_update']['behaviors'] =
-      ['Computer'           => ['PluginBehaviorsComputer',           'afterUpdate'],
-       'Monitor'            => ['PluginBehaviorsMonitor',            'afterUpdate'],
-       'NetworkEquipment'   => ['PluginBehaviorsNetworkEquipment',   'afterUpdate'],
-       'Peripheral'         => ['PluginBehaviorsPeripheral',         'afterUpdate'],
-       'Phone'              => ['PluginBehaviorsPhone',              'afterUpdate'],
-       'Printer'            => ['PluginBehaviorsPrinter',            'afterUpdate'],
-       'Ticket'             => ['PluginBehaviorsTicket',             'afterUpdate'],
-       'TicketSatisfaction' => ['PluginBehaviorsTicketSatisfaction', 'afterUpdate']];
+      ['Ticket'             => ['PluginBehaviorsTicket',             'afterUpdate']];
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket',       'beforeAdd'],
@@ -108,21 +95,21 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.1.2',
+           'version'        => '2.2.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-           'minGlpiVersion' => '9.3',
-           'requirements'   => ['glpi' => ['min' => '9.3',
-                                           'max' => '9.4']]];
+           'minGlpiVersion' => '9.4',
+           'requirements'   => ['glpi' => ['min' => '9.4',
+                                           'max' => '9.5']]];
 }
 
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_behaviors_check_prerequisites() {
 
    // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'9.3','lt') || version_compare(GLPI_VERSION,'9.4','ge')) {
-      echo "This plugin requires GLPI >= 9.3";
+   if (version_compare(GLPI_VERSION,'9.4','lt') || version_compare(GLPI_VERSION,'9.5','ge')) {
+      echo "This plugin requires GLPI >= 9.4";
       return false;
    }
    return true;

@@ -55,9 +55,9 @@ class PluginBehaviorsProblem {
           && in_array($problem->input['status'], array_merge(Problem::getSolvedStatusArray(),
                                                              Problem::getclosedStatusArray()))) {
 
-         $soluce = $DB->request(['FROM'    => 'glpi_itilsolutions',
-                                 'WHERE'   => ['itemtype'   => 'Problem',
-                                               'items_id'   => $problem->input['id']]]);
+         $soluce = $DB->request('glpi_itilsolutions',
+                                ['itemtype'   => 'Problem',
+                                 'items_id'   => $problem->input['id']]);
 
          if ($config->getField('is_problemsolutiontype_mandatory')
              && !count($soluce)) {

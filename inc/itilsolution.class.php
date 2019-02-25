@@ -43,7 +43,6 @@ class PluginBehaviorsITILSolution {
          return false;
       }
 
-      //Toolbox::logDebug("PluginBehaviorsTicket::beforeAdd(), Ticket=", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
@@ -108,8 +107,8 @@ class PluginBehaviorsITILSolution {
             return;
          }
          if ($config->getField('is_tickettasktodo')) {
-            foreach($DB->request(['FROM'  => 'glpi_tickettasks',
-                                  'WHERE' => ['tickets_id' => $ticket->getField('id')]]) as $task) {
+            foreach($DB->request('glpi_tickettasks',
+                                 ['tickets_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
                   $soluce->input = false;
                   Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
