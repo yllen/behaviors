@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2018 Behaviors plugin team
+ @copyright Copyright (c) 2010-2019 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -282,7 +282,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
+      echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory",
                           $config->fields['is_ticketcategory_mandatory']);
       echo "</td><td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
@@ -334,7 +334,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->fields['is_ticketlocation_mandatory']);
       echo "</td></tr>";
 
-      echo "</td><td>".__('Task category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      echo "</td><td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_tickettaskcategory_mandatory",
       $config->fields['is_tickettaskcategory_mandatory']);
 
