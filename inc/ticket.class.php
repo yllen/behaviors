@@ -690,7 +690,7 @@ class PluginBehaviorsTicket {
 
       if ($dbu->countElementsInTable("glpi_documents_items",
                                      ['itemtype' => 'Ticket',
-                                      'items_i'  => $oldid])) {
+                                      'items_id'  => $oldid])) {
          $docitem = new Document_Item();
          foreach ($DB->request("glpi_documents_items", ['itemtype' => 'Ticket',
                                                         'items_id' => $oldid]) as $doc) {
