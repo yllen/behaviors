@@ -95,7 +95,7 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.2.0',
+           'version'        => '2.2.1',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
