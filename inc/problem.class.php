@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2017 Behaviors plugin team
+ @copyright Copyright (c) 2010-2019 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -36,13 +36,13 @@ class PluginBehaviorsProblem {
 
 
    static function beforeUpdate(Problem $problem) {
+      global $DB;
 
       if (!is_array($problem->input) || !count($problem->input)) {
          // Already cancel by another plugin
          return false;
       }
 
-  //    Toolbox::logDebug("PluginBehaviorsProblem::beforeUpdate(), Problem=", $problem);
       $config = PluginBehaviorsConfig::getInstance();
 
       // Check is the connected user is a tech
@@ -51,27 +51,19 @@ class PluginBehaviorsProblem {
          return false; // No check
       }
 
+      if (isset($problem->input['status'])
+          && in_array($problem->input['status'], array_merge(Problem::getSolvedStatusArray(),
+                                                             Problem::getclosedStatusArray()))) {
 
-      $soltyp  = (isset($problem->input['solutiontypes_id'])
-                        ? $problem->input['solutiontypes_id']
-                        : $problem->fields['solutiontypes_id']);
+         $soluce = $DB->request('glpi_itilsolutions',
+                                ['itemtype'   => 'Problem',
+                                 'items_id'   => $problem->input['id']]);
 
-      // Wand to solve/close the problem
-      if ((isset($problem->input['solutiontypes_id']) && $problem->input['solutiontypes_id'])
-          || (isset($problem->input['solution']) && $problem->input['solution'])
-          || (isset($problem->input['status'])
-              && in_array($problem->input['status'],
-                          array_merge(Problem::getSolvedStatusArray(),
-                                      Problem::getClosedStatusArray())))) {
-
-         if ($config->getField('is_problemsolutiontype_mandatory')) {
-            if (!$soltyp) {
-               unset($problem->input['status']);
-               unset($problem->input['solution']);
-               unset($problem->input['solutiontypes_id']);
-               Session::addMessageAfterRedirect(__('You cannot close a problem without solution type',
-                                                   'behaviors'), true, ERROR);
-            }
+         if ($config->getField('is_problemsolutiontype_mandatory')
+             && !count($soluce)) {
+            unset($problem->input['status']);
+            Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
+                                                'behaviors'), true, ERROR);
          }
       }
    }
