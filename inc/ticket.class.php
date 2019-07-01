@@ -128,56 +128,27 @@ class PluginBehaviorsTicket {
       $userlinktable = $dbu->getTableForItemType($target->obj->userlinkclass);
       $fkfield       = $target->obj->getForeignKeyField();
 
-      /*
-         $last = "SELECT MAX(`id`) AS lastid
-               FROM `$userlinktable`
-               WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
-                      AND `$userlinktable`.`type` = '$type'";
-       */
       $last = ['SELECT' => ['MAX' => 'id AS lastid'],
                'FROM'   => $userlinktable,
                'WHERE'  => [$userlinktable.".".$fkfield => $target->obj->fields["id"],
                             $userlinktable.'.type'      => $type]];
       $result = $DB->request($last);
-/*
-      $querylast = '';
-      if ($data = $result->next()) {
-         $object = new $target->obj->userlinkclass();
-         if ($object->getFromDB($data['lastid'])) {
-            $querylast['WHERE'][$userlinktable.'.users_id'] = $object->fields['users_id'];
-         }
-      }
-*/
+
       //Look for the user by his id
-      /*
-       * $query =  "SELECT DISTINCT `glpi_users`.`id` AS users_id,
-                                 `glpi_users`.`language` AS language,
-                      `$userlinktable`.`use_notification` AS notif,
-                      `$userlinktable`.`alternative_email` AS altemail
-                FROM `$userlinktable`
-                LEFT JOIN `glpi_users` ON (`$userlinktable`.`users_id` = `glpi_users`.`id`)
-                INNER JOIN `glpi_profiles_users`
-                ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
-                     $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
-                           $target->getEntity(), true).")
-                WHERE `$userlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
-                      AND `$userlinktable`.`type` = '$type'
-                      $querylast";
-       */
-      $query = ['FIELDS'     => ['glpi_users' => ['id AS users_id', 'DISTINCT' => true,
-                                                  'language AS language'],
-                                 $userlinktable => ['use_notification AS notif',
-                                                    'alternative_email AS altemail']],
-                'FROM'       => $userlinktable,
-                'LEFT JOIN'  => ['glpi_users' => ['FKEY' => [$userlinktable => 'users_id',
-                                                             'glpi_users'   => 'id']]],
-                'INNER JOIN' => ['glpi_profiles_users'
+      $query = ['SELECT DISTINCT'  => 'glpi_users.id AS users_id',
+                'FIELDS'           => ['glpi_users.language AS language',
+                                       $userlinktable => ['use_notification AS notif',
+                                                          'alternative_email AS altemail']],
+                'FROM'             => $userlinktable,
+                'LEFT JOIN'        => ['glpi_users' => ['FKEY' => [$userlinktable => 'users_id',
+                                                                   'glpi_users'   => 'id']]],
+                'INNER JOIN'       => ['glpi_profiles_users'
                                               => ['FKEY' => ['glpi_profiles_users' => 'users_id',
                                                              'glpi_users'          => 'id']
-                                 +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users", "entities_id",
+                                      +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users", "entities_id",
                                                                     $target->getEntity(), true)]],
-                'WHERE'      => [$userlinktable.'.'.$fkfield => $target->obj->fields["id"],
-                                 $userlinktable.'.type'      => $type]];
+                'WHERE'            => [$userlinktable.'.'.$fkfield => $target->obj->fields["id"],
+                                       $userlinktable.'.type'      => $type]];
 
       if ($data = $result->next()) {
          $object = new $target->obj->userlinkclass();
@@ -232,29 +203,13 @@ class PluginBehaviorsTicket {
       $grouplinktable = $dbu->getTableForItemType($target->obj->grouplinkclass);
       $fkfield        = $target->obj->getForeignKeyField();
 
-      /*
-       * $last = "SELECT MAX(`id`) AS lastid
-               FROM `$grouplinktable`
-               WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
-                     AND `$grouplinktable`.`type` = '$type'";
-
-       */
       $last = ['SELECT' => ['MAX' => 'id AS lastid'],
                'FROM'   => $grouplinktable,
                'WHERE'  => [$grouplinktable.'.'.$fkfield => $target->obj->fields["id"],
                             $grouplinktable.'.type'      => $type]];
       $result = $DB->request($last);
 
-
-
       //Look for the user by his id
-      /*
-       * $query = "SELECT `groups_id`
-                FROM `$grouplinktable`
-                WHERE `$grouplinktable`.`$fkfield` = '".$target->obj->fields["id"]."'
-                      AND `$grouplinktable`.`type` = '$type'
-                      $querylast";
-       */
       $query = ['SELECT' => 'groups_id',
                 'FROM'   => $grouplinktable,
                 'WHERE'  => [$grouplinktable.'.'.$fkfield => $target->obj->fields["id"],
@@ -283,39 +238,20 @@ class PluginBehaviorsTicket {
          $supplierlinktable = $dbu->getTableForItemType($target->obj->supplierlinkclass);
          $fkfield           = $target->obj->getForeignKeyField();
 
-         /*
-          * $last = "SELECT MAX(`id`) AS lastid
-                  FROM `$supplierlinktable`
-                  WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->fields["id"]."'";
-          */
          $last = ['SELECT' => ['MAX' => 'id AS lastid'],
                   'FROM'   => $supplierlinktable,
                   'WHERE'  => [$supplierlinktable.'.'.$fkfield => $target->obj->fields["id"]]];
 
          $result = $DB->request($last);
          $data = $result->next();
-/*
-         $querylast = '';
-         $object = new $target->obj->supplierlinkclass();
-         if ($object->getFromDB($data['lastid'])) {
-            $querylast = " AND `$supplierlinktable`.`suppliers_id` = '".$object->fields['suppliers_id']."'";
-         }
 
-         $query = SELECT DISTINCT `glpi_suppliers`.`email` AS email,
-                                   `glpi_suppliers`.`name` AS name
-                   FROM `$supplierlinktable`
-                   LEFT JOIN `glpi_suppliers`
-                      ON (`$supplierlinktable`.`suppliers_id` = `glpi_suppliers`.`id`)
-                   WHERE `$supplierlinktable`.`$fkfield` = '".$target->obj->getID()."'
-                         $querylast";
- */
-         $query = ['FIELDS'    => ['glpi_suppliers' => ['email AS email', 'DISTINCT' => true,
-                                                        'name AS name']],
-                   'FROM'      => $supplierlinktable,
-                   'LEFT JOIN' => ['glpi_suppliers'
-                                     => ['FKEY' => [$supplierlinktable => 'suppliers_id',
-                                                    'glpi_suppliers'   => 'id']]],
-                   'WHERE'     => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
+         $query = ['SELECT DISTINCT' => 'glpi_suppliers.email AS email',
+                   'FIELDS'          => 'glpi_suppliers.name AS name',
+                   'FROM'            => $supplierlinktable,
+                   'LEFT JOIN'       => ['glpi_suppliers'
+                                        => ['FKEY' => [$supplierlinktable => 'suppliers_id',
+                                                       'glpi_suppliers'   => 'id']]],
+                   'WHERE'           => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
 
          $object = new $target->obj->supplierlinkclass();
          if ($object->getFromDB($data['lastid'])) {
@@ -769,45 +705,26 @@ class PluginBehaviorsTicket {
 
       // members/managers of the group allowed on object entity
       // filter group with 'is_assign' (attribute can be unset after notification)
-      /*
-       *       $query = "SELECT DISTINCT `glpi_users`.`id` AS users_id,
-                               `glpi_users`.`language` AS language
-               FROM `glpi_groups_users`
-               INNER JOIN `glpi_users` ON (`glpi_groups_users`.`users_id` = `glpi_users`.`id`)
-               INNER JOIN `glpi_profiles_users`
-               ON (`glpi_profiles_users`.`users_id` = `glpi_users`.`id` ".
-                   $dbu->getEntitiesRestrictRequest("AND", "glpi_profiles_users", "entities_id",
-                                                    $target->getEntity(), true).")
-               INNER JOIN `glpi_groups` ON (`glpi_groups_users`.`groups_id` = `glpi_groups`.`id`)
-               WHERE `glpi_groups_users`.`groups_id` = '$group_id'
-               AND `glpi_groups`.`is_notify`";
-
-               if ($manager == 1) {
-                  $query .= " AND `glpi_groups_users`.`is_manager` ";
-               } else if ($manager == 2) {
-                  $query .= " AND NOT `glpi_groups_users`.`is_manager` ";
-               }
-       */
-      $query = ['FIELDS'     => ['glpi_users' => ['id AS users_id', 'DISTINCT' => true,
-                                                  'language AS language']],
-                'FROM'       => 'glpi_groups_users',
-                'INNER JOIN' => ['glpi_users' => ['FKEY' => ['glpi_groups_users' => 'users_id',
-                                                            'glpi_users'        => 'id']],
-                                 'glpi_profiles_users'
-                                              => ['FKEY' => ['glpi_profiles_users' => 'users_id',
-                                                            'glpi_users'          => 'id']
-                                                 +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users",
-                                                       "entities_id", $target->getEntity(), true)],
-                                 'glpi_groups' => ['FKEY' => ['glpi_groups_users' => 'groups_id',
+      $query = ['SELECT DISTINCT'  => 'glpi_users.id AS users_id',
+                'FIELDS'           => 'glpi_users.language AS language',
+                'FROM'             => 'glpi_groups_users',
+                'INNER JOIN'       => ['glpi_users' => ['FKEY' => ['glpi_groups_users' => 'users_id',
+                                                                   'glpi_users'        => 'id']],
+                                       'glpi_profiles_users'
+                                                    => ['FKEY' => ['glpi_profiles_users' => 'users_id',
+                                                                   'glpi_users'          => 'id']
+                                                    +$dbu->getEntitiesRestrictCriteria("glpi_profiles_users",
+                                                                                       "entities_id",
+                                                                                       $target->getEntity(),
+                                                                                        true)],
+                                       'glpi_groups' => ['FKEY' => ['glpi_groups_users' => 'groups_id',
                                                               'glpi_groups'       => 'id']]],
-                'WHERE'      => ['glpi_groups_users.groups_id' => $group_id,
-                                 'glpi_groups.is_notify'       => 1]];
+                'WHERE'            => ['glpi_groups_users.groups_id' => $group_id,
+                                       'glpi_groups.is_notify'       => 1]];
 
                if ($manager == 1) {
                   $query['WHERE']['glpi_groups_users.is_manager'] = 1;
-               //   $query .= " AND `glpi_groups_users`.`is_manager` ";
                } else if ($manager == 2) {
-                //  $query .= " AND NOT `glpi_groups_users`.`is_manager` ";
                   $query['WHERE']['glpi_groups_users.is_manager'] = 0;
                }
 
