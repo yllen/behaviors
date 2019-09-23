@@ -51,7 +51,8 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket',       'beforeAdd'],
        'ITILSolution'       => ['PluginBehaviorsITILSolution', 'beforeAdd'],
-       'TicketTask'         => ['PluginBehaviorsTickettask',   'beforeAdd']];
+       'TicketTask'         => ['PluginBehaviorsTickettask',   'beforeAdd'],
+       'Change'             => ['PluginBehaviorsChange',       'beforeAdd']];
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket', 'afterPrepareAdd']];
