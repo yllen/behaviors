@@ -53,7 +53,8 @@ class PluginBehaviorsITILSolution {
       }
 
       // Wand to solve/close the ticket
-      if ($config->getField('is_ticketsolutiontype_mandatory')) {
+      if ($config->getField('is_ticketsolutiontype_mandatory')
+          && ($soluce->input['itemtype'] == 'Ticket')) {
          if ($soluce->input['solutiontypes_id'] == 0) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
@@ -61,7 +62,8 @@ class PluginBehaviorsITILSolution {
             return;
          }
       }
-      if ($config->getField('is_ticketsolution_mandatory')) {
+      if ($config->getField('is_ticketsolution_mandatory')
+          && ($soluce->input['itemtype'] == 'Ticket')) {
          if (empty($soluce->input['content'])) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
@@ -70,7 +72,8 @@ class PluginBehaviorsITILSolution {
          }
       }
       $ticket = new Ticket();
-      if ($ticket->getFromDB($soluce->input['items_id'])) {
+      if ($ticket->getFromDB($soluce->input['items_id'])
+          && ($soluce->input['itemtype'] == 'Ticket')) {
 
          if ($config->getField('is_ticketrealtime_mandatory')
              && ($ticket->fields['actiontime'] == 0)) {
@@ -121,7 +124,8 @@ class PluginBehaviorsITILSolution {
       }
 
       // Wand to solve/close a problem
-      if ($config->getField('is_problemsolutiontype_mandatory')) {
+      if ($config->getField('is_problemsolutiontype_mandatory')
+          && ($soluce->input['itemtype'] == 'Problem')) {
          if ($soluce->input['solutiontypes_id'] == 0) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
@@ -149,7 +153,8 @@ class PluginBehaviorsITILSolution {
       }
 
       // Wand to solve/close the ticket
-      if ($config->getField('is_ticketsolutiontype_mandatory')) {
+      if ($config->getField('is_ticketsolutiontype_mandatory')
+          && ($soluce->input['itemtype'] == 'Ticket')) {
          if (empty($soluce->input['solutiontypes_id'])) {
             $soluce->input['content'] = $soluce->fields['content'];
             $soluce->input['solutiontypes_id'] = $soluce->fields['solutiontypes_id'];
@@ -157,7 +162,8 @@ class PluginBehaviorsITILSolution {
                                                 'behaviors'), true, ERROR);
          }
       }
-      if ($config->getField('is_ticketsolution_mandatory')) {
+      if ($config->getField('is_ticketsolution_mandatory')
+          && ($soluce->input['itemtype'] == 'Ticket')) {
          if (empty($soluce->input['content'])) {
             $soluce->input['content'] = $soluce->fields['content'];
             $soluce->input['solutiontypes_id'] = $soluce->fields['solutiontypes_id'];
