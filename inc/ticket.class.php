@@ -645,7 +645,7 @@ class PluginBehaviorsTicket {
       $group_assign                  = $srce->getGroups(CommonITILActor::ASSIGN);
       $input['_groups_id_assign'] = [];
       foreach ($group_assign as $groups) {
-         $input['_groups_id_assign'][] = $ugroups['groups_id'];
+         $input['_groups_id_assign'][] = $groups['groups_id'];
       }
 
       $suppliers                     = $srce->getSuppliers(CommonITILActor::ASSIGN);
