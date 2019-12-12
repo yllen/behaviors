@@ -88,5 +88,17 @@ class PluginBehaviorsTicketTask {
             return;
          }
       }
+      if ($config->getField('is_tickettasktodo')) {
+         $ticket = new Ticket();
+         if ($ticket->getFromDB($taskticket->fields['tickets_id'])) {
+            if (in_array($ticket->fields['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                Ticket::getClosedStatusArray()))) {
+               Session::addMessageAfterRedirect(__("You cannot change status of a task in a solved ticket",
+                                                   'behaviors'), true, ERROR);
+               unset($taskticket->input['state']);
+            }
+         }
+      }
+
    }
 }
