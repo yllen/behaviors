@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2019 Behaviors plugin team
+ @copyright Copyright (c) 2010-2020 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -361,12 +361,20 @@ class PluginBehaviorsTicket {
                }
             }
       }
+      if ($config->getField('ticketsolved_updatetech')
+            && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                               Ticket::getClosedStatusArray()))
+            && isset($ticket->input['_users_id_assign']) && (($ticket->input['_users_id_assign'] == 0)
+                  || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
+
+         $ticket->input['_users_id_assign'] = Session::getLoginUserID();
+      }
    }
 
 
    static function afterPrepareAdd(Ticket $ticket) {
       global $DB;
-
+toolbox::logdebug("dans afterprepareadd", $ticket);
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -434,7 +442,7 @@ class PluginBehaviorsTicket {
 
       if (isset($ticket->input['status'])
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                            Ticket::getclosedStatusArray()))) {
+                                                            Ticket::getClosedStatusArray()))) {
 
          $soluce = $DB->request('glpi_itilsolutions',
                                 ['itemtype'   => 'Ticket',
@@ -605,6 +613,23 @@ class PluginBehaviorsTicket {
             } else {
                NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
             }
+         }
+      }
+
+      if ($config->getField('ticketsolved_updatetech')) {
+            $ticket_user      = new Ticket_User();
+            $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                           'type'       => CommonITILActor::ASSIGN]);
+
+         if ($ticket_user->fields['users_id'] != Session::getLoginUserID()
+             && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                    Ticket::getClosedStatusArray()))
+             && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                               Ticket::getClosedStatusArray()))) {
+
+            $ticket_user->add(['tickets_id' => $ticket->getID(),
+                               'users_id'   => Session::getLoginUserID(),
+                               'type'       => CommonITILActor::ASSIGN]);
          }
       }
    }

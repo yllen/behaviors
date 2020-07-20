@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2019 Behaviors plugin team
+ @copyright Copyright (c) 2010-2020 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -43,41 +43,42 @@ function plugin_init_behaviors() {
       ['Ticket_User'        => ['PluginBehaviorsTicket_User',       'afterAdd'],
        'Group_Ticket'       => ['PluginBehaviorsGroup_Ticket',      'afterAdd'],
        'Supplier_Ticket'    => ['PluginBehaviorsSupplier_Ticket',   'afterAdd'],
-       'Document_Item'      => ['PluginBehaviorsDocument_Item',     'afterAdd']];
+       'Document_Item'      => ['PluginBehaviorsDocument_Item',     'afterAdd'],
+       'ITILSolution'       => ['PluginBehaviorsITILSolution',      'afterAdd']];
 
    $PLUGIN_HOOKS['item_update']['behaviors'] =
-      ['Ticket'             => ['PluginBehaviorsTicket',             'afterUpdate']];
+      ['Ticket'             => ['PluginBehaviorsTicket',            'afterUpdate']];
 
    $PLUGIN_HOOKS['pre_item_add']['behaviors'] =
-      ['Ticket'             => ['PluginBehaviorsTicket',       'beforeAdd'],
-       'ITILSolution'       => ['PluginBehaviorsITILSolution', 'beforeAdd'],
-       'TicketTask'         => ['PluginBehaviorsTickettask',   'beforeAdd'],
-       'Change'             => ['PluginBehaviorsChange',       'beforeAdd']];
+      ['Ticket'             => ['PluginBehaviorsTicket',            'beforeAdd'],
+       'ITILSolution'       => ['PluginBehaviorsITILSolution',      'beforeAdd'],
+       'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeAdd'],
+       'Change'             => ['PluginBehaviorsChange',            'beforeAdd']];
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] =
-      ['Ticket'             => ['PluginBehaviorsTicket', 'afterPrepareAdd']];
+      ['Ticket'             => ['PluginBehaviorsTicket',            'afterPrepareAdd']];
 
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] =
-      ['Problem'            => ['PluginBehaviorsProblem',       'beforeUpdate'],
-       'Ticket'             => ['PluginBehaviorsTicket',        'beforeUpdate'],
-       'ITILSolution'       => ['PluginBehaviorsITILSolution',  'beforeUpdate'],
-       'TicketTask'         => ['PluginBehaviorsTickettask',    'beforeUpdate']];
+      ['Problem'            => ['PluginBehaviorsProblem',           'beforeUpdate'],
+       'Ticket'             => ['PluginBehaviorsTicket',            'beforeUpdate'],
+       'ITILSolution'       => ['PluginBehaviorsITILSolution',      'beforeUpdate'],
+       'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeUpdate']];
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] =
-      ['Computer'           => ['PluginBehaviorsComputer',  'beforePurge']];
+      ['Computer'           => ['PluginBehaviorsComputer',          'beforePurge']];
 
    $PLUGIN_HOOKS['item_purge']['behaviors'] =
       ['Document_Item'      => ['PluginBehaviorsDocument_Item',     'afterPurge']];
 
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['behaviors'] =
-      ['NotificationTargetTicket' => ['PluginBehaviorsTicket', 'addEvents']];
+      ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addEvents']];
 
    $PLUGIN_HOOKS['item_add_targets']['behaviors'] =
-      ['NotificationTargetTicket' => ['PluginBehaviorsTicket', 'addTargets']];
+      ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addTargets']];
 
    $PLUGIN_HOOKS['item_action_targets']['behaviors'] =
-      ['NotificationTargetTicket' => ['PluginBehaviorsTicket', 'addActionTargets']];
+      ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addActionTargets']];
 
    // End init, when all types are registered
    $PLUGIN_HOOKS['post_init']['behaviors'] = ['PluginBehaviorsCommon', 'postInit'];
@@ -96,7 +97,7 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.2.3',
+           'version'        => '2.3.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',

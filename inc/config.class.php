@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2019 Behaviors plugin team
+ @copyright Copyright (c) 2010-2020 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -94,6 +94,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
+                     `ticketsolved_updatetech` tinyint(1) NOT NULL default '0',
                      `tickets_id_format` VARCHAR(15) NULL,
                      `changes_id_format` VARCHAR(15) NULL,
                      `is_problemsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
@@ -197,6 +198,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // version 2.2.2
          $mig->addField($table, 'changes_id_format', 'VARCHAR(15) NULL',
                         ['after' => 'tickets_id_format']);
+
+         // version 2.3.0
+         $mig->addField($table, 'ticketsolved_updatetech', 'bool',
+                        ['after' => 'use_assign_user_group']);
       }
 
    }
@@ -377,6 +382,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
       echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>". __('Add the logged technician when solve ticket', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("ticketsolved_updatetech", $config->fields['ticketsolved_updatetech']);
+      echo "</td><td colspan='4'></td></tr>";
 
       $config->showFormButtons(['candel'=>false]);
 
