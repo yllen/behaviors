@@ -94,6 +94,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_requester_mandatory` tinyint(1) NOT NULL default '0',
                      `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
                      `use_assign_user_group` tinyint(1) NOT NULL default '0',
+                     `use_assign_user_group_update` tinyint(1) NOT NULL default '0',
                      `ticketsolved_updatetech` tinyint(1) NOT NULL default '0',
                      `tickets_id_format` VARCHAR(15) NULL,
                      `changes_id_format` VARCHAR(15) NULL,
@@ -201,6 +202,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          // version 2.3.0
          $mig->addField($table, 'ticketsolved_updatetech', 'bool',
+                        ['after' => 'use_assign_user_group']);
+         $mig->addField($table, 'use_assign_user_group_update', 'bool',
                         ['after' => 'use_assign_user_group']);
       }
 
@@ -340,6 +343,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td rowspan='7' colspan='2' class='center'>";
       echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
+      Dropdown::showFromArray('use_assign_user_group_update', $yesnoall,
+                              ['value' => $config->fields['use_assign_user_group_update']]);
+      echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),

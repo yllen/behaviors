@@ -374,7 +374,7 @@ class PluginBehaviorsTicket {
 
    static function afterPrepareAdd(Ticket $ticket) {
       global $DB;
-toolbox::logdebug("dans afterprepareadd", $ticket);
+
       if (!is_array($ticket->input) || !count($ticket->input)) {
          // Already cancel by another plugin
          return false;
@@ -541,6 +541,25 @@ toolbox::logdebug("dans afterprepareadd", $ticket);
             }
          }
       }
+      if ($config->getField('use_assign_user_group_update')
+            && isset($ticket->input['_itil_assign'])
+            && ($ticket->input['_itil_assign']['_type'] == 'user')
+            && $ticket->input['_itil_assign']['users_id']) {
+
+         if ($config->getField('use_assign_user_group_update') == 1) {
+            // First group
+            $ticket->input['_additional_groups_assigns']
+               = [PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                                                                         $ticket->input['_itil_assign']['users_id'],
+                                                                         true)];
+         } else {
+            // All groups
+            $ticket->input['_additional_groups_assigns']
+               = PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                  $ticket->input['_itil_assign']['users_id'],
+                  false);
+         }
+      }
    }
 
 
@@ -617,9 +636,9 @@ toolbox::logdebug("dans afterprepareadd", $ticket);
       }
 
       if ($config->getField('ticketsolved_updatetech')) {
-            $ticket_user      = new Ticket_User();
-            $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
-                                           'type'       => CommonITILActor::ASSIGN]);
+         $ticket_user      = new Ticket_User();
+         $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                        'type'       => CommonITILActor::ASSIGN]);
 
          if ($ticket_user->fields['users_id'] != Session::getLoginUserID()
              && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
