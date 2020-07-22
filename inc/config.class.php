@@ -308,7 +308,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Category is mandatory when you assign ticket', 'behaviors')."</td><td>";
+      echo "<td>".__('Category is mandatory when you assign a ticket', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory_on_assign",
                           $config->fields['is_ticketcategory_mandatory_on_assign']);
        echo "<td colspan=2' class='tab_bg_2 b center'>".__('New change')."</td></tr>";
