@@ -521,6 +521,17 @@ class PluginBehaviorsTicket {
          }
       }
 
+      if ($config->getField('is_ticketcategory_mandatory_on_assign')) {
+         if (!$cat
+             && isset($ticket->input['_itil_assign'])
+             && ($ticket->input['_itil_assign']['users_id']
+                 || $ticket->input['_itil_assign']['groups_id'])) {
+            unset($ticket->input);
+            Session::addMessageAfterRedirect(__("Category is mandatory when you assign a ticket",
+                                             'behaviors'), true, ERROR);
+         }
+      }
+
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
@@ -640,7 +651,9 @@ class PluginBehaviorsTicket {
          $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                         'type'       => CommonITILActor::ASSIGN]);
 
-         if ($ticket_user->fields['users_id'] != Session::getLoginUserID()
+         if (isset($ticket_user->fields['users_id'])
+             && ($ticket_user->fields['users_id'] != Session::getLoginUserID())
+             && isset($ticket->oldvalues)
              && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                                     Ticket::getClosedStatusArray()))
              && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
