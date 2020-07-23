@@ -648,11 +648,10 @@ class PluginBehaviorsTicket {
 
       if ($config->getField('ticketsolved_updatetech')) {
          $ticket_user      = new Ticket_User();
-         $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
-                                        'type'       => CommonITILActor::ASSIGN]);
-
-         if (isset($ticket_user->fields['users_id'])
-             && ($ticket_user->fields['users_id'] != Session::getLoginUserID())
+         if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
+                                             'type'       => CommonITILActor::ASSIGN])
+             || (isset($ticket_user->fields['users_id'])
+                 && ($ticket_user->fields['users_id'] != Session::getLoginUserID()))
              && isset($ticket->oldvalues)
              && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                                     Ticket::getClosedStatusArray()))
