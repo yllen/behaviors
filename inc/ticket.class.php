@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2019 Behaviors plugin team
+ @copyright Copyright (c) 2010-2020 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -361,6 +361,14 @@ class PluginBehaviorsTicket {
                }
             }
       }
+      if ($config->getField('ticketsolved_updatetech')
+            && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                               Ticket::getClosedStatusArray()))
+            && isset($ticket->input['_users_id_assign']) && (($ticket->input['_users_id_assign'] == 0)
+                  || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
+
+         $ticket->input['_users_id_assign'] = Session::getLoginUserID();
+      }
    }
 
 
@@ -434,7 +442,7 @@ class PluginBehaviorsTicket {
 
       if (isset($ticket->input['status'])
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                            Ticket::getclosedStatusArray()))) {
+                                                            Ticket::getClosedStatusArray()))) {
 
          $soluce = $DB->request('glpi_itilsolutions',
                                 ['itemtype'   => 'Ticket',
@@ -513,6 +521,17 @@ class PluginBehaviorsTicket {
          }
       }
 
+      if ($config->getField('is_ticketcategory_mandatory_on_assign')) {
+         if (!$cat
+             && isset($ticket->input['_itil_assign'])
+             && ($ticket->input['_itil_assign']['users_id']
+                 || $ticket->input['_itil_assign']['groups_id'])) {
+            unset($ticket->input);
+            Session::addMessageAfterRedirect(__("Category is mandatory when you assign a ticket",
+                                             'behaviors'), true, ERROR);
+         }
+      }
+
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
@@ -531,6 +550,25 @@ class PluginBehaviorsTicket {
                   }
                }
             }
+         }
+      }
+      if ($config->getField('use_assign_user_group_update')
+            && isset($ticket->input['_itil_assign'])
+            && ($ticket->input['_itil_assign']['_type'] == 'user')
+            && $ticket->input['_itil_assign']['users_id']) {
+
+         if ($config->getField('use_assign_user_group_update') == 1) {
+            // First group
+            $ticket->input['_additional_groups_assigns']
+               = [PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                                                                         $ticket->input['_itil_assign']['users_id'],
+                                                                         true)];
+         } else {
+            // All groups
+            $ticket->input['_additional_groups_assigns']
+               = PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                  $ticket->input['_itil_assign']['users_id'],
+                  false);
          }
       }
    }
@@ -607,6 +645,24 @@ class PluginBehaviorsTicket {
             }
          }
       }
+
+      if ($config->getField('ticketsolved_updatetech')) {
+         $ticket_user      = new Ticket_User();
+         if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
+                                             'type'       => CommonITILActor::ASSIGN])
+             || (isset($ticket_user->fields['users_id'])
+                 && ($ticket_user->fields['users_id'] != Session::getLoginUserID()))
+             && isset($ticket->oldvalues)
+             && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                    Ticket::getClosedStatusArray()))
+             && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                               Ticket::getClosedStatusArray()))) {
+
+            $ticket_user->add(['tickets_id' => $ticket->getID(),
+                               'users_id'   => Session::getLoginUserID(),
+                               'type'       => CommonITILActor::ASSIGN]);
+         }
+      }
    }
 
 
@@ -645,7 +701,7 @@ class PluginBehaviorsTicket {
       $group_assign                  = $srce->getGroups(CommonITILActor::ASSIGN);
       $input['_groups_id_assign'] = [];
       foreach ($group_assign as $groups) {
-         $input['_groups_id_assign'][] = $ugroups['groups_id'];
+         $input['_groups_id_assign'][] = $groups['groups_id'];
       }
 
       $suppliers                     = $srce->getSuppliers(CommonITILActor::ASSIGN);
