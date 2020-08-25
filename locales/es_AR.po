@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Luis Angel Uriarte <luisuriarte@gmail.com>, 2020
 # Luis Angel Uriarte <luisuriarte@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 16:30+0200\n"
-"PO-Revision-Date: 2020-07-22 14:30+0000\n"
-"Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
+"PO-Revision-Date: 2020-07-23 20:08+0000\n"
+"Last-Translator: Luis Angel Uriarte <luisuriarte@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +57,7 @@ msgstr "El complemento 'desinstalacion de elementos' no esta instalado"
 
 #: inc/config.class.php:253
 msgid "Plugin \"OCS Inventory NG\" not installed"
-msgstr ""
+msgstr "El complemento 'OCS Inventory NG' no esta instalado"
 
 #: inc/config.class.php:259
 msgid "Use the associated item's group"
@@ -64,7 +65,7 @@ msgstr "Usar elementos de grupos asociados"
 
 #: inc/config.class.php:261
 msgid "Show my assets"
-msgstr ""
+msgstr "Ver mis activos"
 
 #: inc/config.class.php:266
 msgid "Use the requester's group"
@@ -72,7 +73,7 @@ msgstr "Usar grupos de solicitantes"
 
 #: inc/config.class.php:269
 msgid "Show assets of my groups"
-msgstr ""
+msgstr "Ver los activos de mi grupo"
 
 #: inc/config.class.php:274 inc/config.class.php:350
 msgid "Use the technician's group"
@@ -94,7 +95,7 @@ msgstr "Notificaciones adicionales"
 
 #: inc/config.class.php:290
 msgid "Allow Clone"
-msgstr ""
+msgstr "Permitir clon"
 
 #: inc/config.class.php:295 inc/itilsolution.class.php:80
 #: inc/ticket.class.php:478
@@ -113,7 +114,7 @@ msgstr "El tipo de solución es obligatorio luego de resuelto/cerrado el requeri
 
 #: inc/config.class.php:311 inc/ticket.class.php:530
 msgid "Category is mandatory when you assign a ticket"
-msgstr ""
+msgstr "La categoría es obligatoria cuando se asigna un requerimiento"
 
 #: inc/config.class.php:317 inc/itilsolution.class.php:68
 #: inc/itilsolution.class.php:169 inc/ticket.class.php:460
@@ -122,28 +123,28 @@ msgstr "La descripción de solución es obligatoria luego de resuelto/cerrado el
 
 #: inc/config.class.php:322
 msgid "Change's number format"
-msgstr ""
+msgstr "Cambiar el formato de número"
 
 #: inc/config.class.php:332 inc/itilsolution.class.php:94
 #: inc/ticket.class.php:493
 msgid "Technician assigned is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "El técnico asignado es obligatorio antes de que el requerimiento sea resuelto / cerrado"
 
 #: inc/config.class.php:340 inc/itilsolution.class.php:101
 #: inc/ticket.class.php:501
 msgid ""
 "Group of technicians assigned is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "El grupo de técnicos asignados es obligatorio antes de que se resuelva/cierre el requerimiento"
 
 #: inc/config.class.php:362 inc/itilsolution.class.php:108
 #: inc/ticket.class.php:508
 msgid "Location is mandatory before ticket is solved/closed"
-msgstr ""
+msgstr "La ubicación es obligatoria antes de que el requerimiento sea resuelto/cerrado"
 
 #: inc/config.class.php:368 inc/tickettask.class.php:58
 #: inc/tickettask.class.php:86
 msgid "Task category is mandatory in a task"
-msgstr ""
+msgstr "La categoría de tarea es obligatoria en una tarea"
 
 #: inc/config.class.php:373
 msgid "Deny change of ticket's creation date"
@@ -167,11 +168,11 @@ msgstr "Usuario y grupo simple"
 
 #: inc/config.class.php:392
 msgid "Block the solving/closing of a the ticket if task do to"
-msgstr ""
+msgstr "Bloquee la resolución/cierre de un requerimiento si la tarea lo hace para"
 
 #: inc/config.class.php:398
 msgid "Add the logged technician when solve ticket"
-msgstr ""
+msgstr "Agregue el técnico registrado cuando resuelva el requerimiento"
 
 #: inc/document_item.class.php:46
 msgid "Add document to ticket"
@@ -188,7 +189,7 @@ msgstr "El tipo de solución es obligatorio luego de resuelto/cerrado el requeri
 
 #: inc/itilsolution.class.php:117 inc/ticket.class.php:516
 msgid "You cannot solve/close a ticket with task do to"
-msgstr ""
+msgstr "No puede resolver/cerrar un requerimiento con la tarea en proceso"
 
 #: inc/ticket.class.php:53
 msgid "Reopen ticket"
@@ -196,35 +197,35 @@ msgstr "Reabrir requerimiento"
 
 #: inc/ticket.class.php:56
 msgid "Change status"
-msgstr ""
+msgstr "Cambiar estado"
 
 #: inc/ticket.class.php:59
 msgid "Ticket waiting"
-msgstr ""
+msgstr "Esperando requerimiento"
 
 #: inc/ticket.class.php:72
 msgid "Last technician assigned"
-msgstr ""
+msgstr "Último técnico asignado"
 
 #: inc/ticket.class.php:75
 msgid "Last group assigned"
-msgstr ""
+msgstr "Último grupo asignado"
 
 #: inc/ticket.class.php:78
 msgid "Last supplier assigned"
-msgstr ""
+msgstr "Último proveedor asignado"
 
 #: inc/ticket.class.php:81
 msgid "Last watcher added"
-msgstr ""
+msgstr "Último observador agregado"
 
 #: inc/ticket.class.php:84
 msgid "Supervisor of last group assigned"
-msgstr ""
+msgstr "Supervisor del último grupo asignado"
 
 #: inc/ticket.class.php:88
 msgid "Last group assigned without supersivor"
-msgstr ""
+msgstr "Último grupo asignado sin supersivor"
 
 #: inc/ticket.class.php:435
 msgid "Can't save, item have been updated"
@@ -232,4 +233,4 @@ msgstr "No se puede guardad, se debe actualizar el elemento"
 
 #: inc/tickettask.class.php:96
 msgid "You cannot change status of a task in a solved ticket"
-msgstr ""
+msgstr "No puede cambiar el estado de una tarea en un ticket resuelto"

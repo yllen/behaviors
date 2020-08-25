@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Kaya Zeren <kayazeren@gmail.com>, 2016-2019
+# Kaya Zeren <kayazeren@gmail.com>, 2016-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 16:30+0200\n"
-"PO-Revision-Date: 2020-07-22 14:30+0000\n"
-"Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>\n"
+"PO-Revision-Date: 2020-08-19 05:13+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -113,7 +113,7 @@ msgstr "Sorunun çözümlenmesi ya da kapatılması için çözüm türü zorunl
 
 #: inc/config.class.php:311 inc/ticket.class.php:530
 msgid "Category is mandatory when you assign a ticket"
-msgstr ""
+msgstr "Bir destek kaydı atamak için kategori zorunludur"
 
 #: inc/config.class.php:317 inc/itilsolution.class.php:68
 #: inc/itilsolution.class.php:169 inc/ticket.class.php:460
@@ -171,7 +171,7 @@ msgstr "Yapılacak iş varsa çağrı çözülmüş olarak işaretlenemesin ya d
 
 #: inc/config.class.php:398
 msgid "Add the logged technician when solve ticket"
-msgstr ""
+msgstr "Bir destek kaydını çözümlerken ilgilenen teknisyeni ekleyin"
 
 #: inc/document_item.class.php:46
 msgid "Add document to ticket"
@@ -232,4 +232,4 @@ msgstr "Öge güncellendiğinden kaydedilemedi"
 
 #: inc/tickettask.class.php:96
 msgid "You cannot change status of a task in a solved ticket"
-msgstr ""
+msgstr "Çözümlenmiş bir destek kaydının durumunu değiştiremezsiniz"
