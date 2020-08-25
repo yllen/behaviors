@@ -246,13 +246,14 @@ class PluginBehaviorsTicket {
          $result = $DB->request($last);
          $data = $result->next();
 
-         $query = ['SELECT DISTINCT' => 'glpi_suppliers.email AS email',
-                   'FIELDS'          => 'glpi_suppliers.name AS name',
-                   'FROM'            => $supplierlinktable,
-                   'LEFT JOIN'       => ['glpi_suppliers'
-                                        => ['FKEY' => [$supplierlinktable => 'suppliers_id',
-                                                       'glpi_suppliers'   => 'id']]],
-                   'WHERE'           => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
+         $query = ['SELECT'    => 'glpi_suppliers.email AS email',
+                   'DISTINCT'  => true,
+                   'FIELDS'    => 'glpi_suppliers.name AS name',
+                   'FROM'      => $supplierlinktable,
+                   'LEFT JOIN' => ['glpi_suppliers'
+                                    => ['FKEY' => [$supplierlinktable => 'suppliers_id',
+                                                   'glpi_suppliers'   => 'id']]],
+                   'WHERE'     => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
 
          $object = new $target->obj->supplierlinkclass();
          if ($object->getFromDB($data['lastid'])) {
@@ -362,10 +363,11 @@ class PluginBehaviorsTicket {
             }
       }
       if ($config->getField('ticketsolved_updatetech')
-            && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                               Ticket::getClosedStatusArray()))
-            && isset($ticket->input['_users_id_assign']) && (($ticket->input['_users_id_assign'] == 0)
-                  || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getClosedStatusArray()))
+          && isset($ticket->input['_users_id_assign'])
+                   && (($ticket->input['_users_id_assign'] == 0)
+                       || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
 
          $ticket->input['_users_id_assign'] = Session::getLoginUserID();
       }
