@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id:  yllen $
  -------------------------------------------------------------------------
 
  LICENSE
@@ -22,31 +22,43 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2020 Behaviors plugin team
+ @copyright Copyright (c) 2019-2020 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
  @link      http://www.glpi-project.org/
- @since     version 0.83.4
+ @since     2010
 
  --------------------------------------------------------------------------
 */
 
-class PluginBehaviorsNotificationTemplate extends PluginBehaviorsCommon {
+class PluginBehaviorsChange {
 
 
-   static function postClone(NotificationTemplate $clone, $oldid) {
+   static function beforeAdd(Change $change) {
       global $DB;
 
-      $trad = new NotificationTemplateTranslation();
-      $dbu  = new DbUtils();
-      $fkey = $dbu->getForeignKeyFieldForTable($clone->getTable());
-      $crit = [$fkey => $oldid];
+      if (!is_array($change->input) || !count($change->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
 
-      foreach ($DB->request($trad->getTable(), $crit) as $data) {
-         unset($data['id']);
-         $data[$fkey] = $clone->getID();
-         $trad->add(Toolbox::addslashes_deep($data));
+      $dbu = new DbUtils();
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+      if ($config->getField('changes_id_format')) {
+         $max = 0;
+         $sql = ['SELECT' => ['MAX' => 'id AS max'],
+                 'FROM'   => 'glpi_changes'];
+         foreach ($DB->request($sql) as $data) {
+            $max = $data['max'];
+         }
+         $want = date($config->getField('changes_id_format'));
+         if ($max < $want) {
+            $DB->query("ALTER TABLE `glpi_changes` AUTO_INCREMENT=$want");
+         }
       }
    }
+
 }
