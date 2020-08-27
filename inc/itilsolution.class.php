@@ -185,8 +185,9 @@ class PluginBehaviorsITILSolution {
             $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                            'type'       => CommonITILActor::ASSIGN]);
 
-            if ($ticket_user->fields['users_id'] != Session::getLoginUserID()) {
-               $ticket_user->add(['tickets_id' => $ticket_user->fields['tickets_id'],
+            if (isset($ticket_user->fields['users_id'])
+                && ($ticket_user->fields['users_id'] != Session::getLoginUserID())) {
+               $ticket_user->add(['tickets_id' => $ticket->getID(),
                                   'users_id'   => Session::getLoginUserID(),
                                   'type'       => CommonITILActor::ASSIGN]);
             }
