@@ -521,6 +521,10 @@ class PluginBehaviorsTicket {
          }
       }
 
+      $cat = (isset($ticket->input['itilcategories_id'])
+            ? $ticket->input['itilcategories_id']
+            : $ticket->fields['itilcategories_id']);
+
       if ($config->getField('is_ticketcategory_mandatory_on_assign')) {
          if (!$cat
              && isset($ticket->input['_itil_assign'])
