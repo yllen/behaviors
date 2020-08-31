@@ -308,10 +308,24 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Type of solution is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketsolutiontype_mandatory",
+                          $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('New change')."</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Category is mandatory when you assign a ticket', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory_on_assign",
                           $config->fields['is_ticketcategory_mandatory_on_assign']);
-       echo "<td colspan=2' class='tab_bg_2 b center'>".__('New change')."</td></tr>";
+      echo "</td><td>".__("Change's number format", "behaviors")."</td><td width='20%'>";
+      $tab = ['NULL' => Dropdown::EMPTY_VALUE];
+      foreach (['Y000001', 'Ym0001', 'Ymd01', 'ymd0001'] as $fmt) {
+         $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
+      }
+      Dropdown::showFromArray("changes_id_format", $tab,
+      ['value' => $config->fields['changes_id_format']]);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "</td><td>".__('Description of solution is mandatory before ticket is solved/closed',
@@ -319,13 +333,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketsolution_mandatory",
                           $config->fields['is_ticketsolution_mandatory']);
-      echo "<td>".__("Change's number format", "behaviors")."</td><td width='20%'>";
-      $tab = ['NULL' => Dropdown::EMPTY_VALUE];
-      foreach (['Y000001', 'Ym0001', 'Ymd01', 'ymd0001'] as $fmt) {
-         $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
-      }
-      Dropdown::showFromArray("changes_id_format", $tab,
-                              ['value' => $config->fields['changes_id_format']]);
+      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -333,7 +341,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettech_mandatory",
                           $config->fields['is_tickettech_mandatory']);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
+      echo "</td><td rowspan='7' colspan='2' class='center'>";
+      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -342,8 +351,6 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettechgroup_mandatory",
                           $config->fields['is_tickettechgroup_mandatory']);
-      echo "</td><td rowspan='7' colspan='2' class='center'>";
-      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
