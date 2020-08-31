@@ -324,7 +324,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $tab[$fmt] = date($fmt) . '  (' . $fmt . ')';
       }
       Dropdown::showFromArray("changes_id_format", $tab,
-      ['value' => $config->fields['changes_id_format']]);
+                              ['value' => $config->fields['changes_id_format']]);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
