@@ -177,7 +177,7 @@ class PluginBehaviorsITILSolution {
    static function afterAdd(ITILSolution $soluce) {
 
       $ticket = new Ticket();
-      $config = new Config();
+      $config = PluginBehaviorsConfig::getInstance();
       if ($ticket->getFromDB($soluce->input['items_id'])
           && $soluce->input['itemtype'] == 'Ticket') {
 
