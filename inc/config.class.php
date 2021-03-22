@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2020 Behaviors plugin team
+ @copyright Copyright (c) 2010-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -361,31 +361,27 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<br>".sprintf(__('%1$s; %2$s'), __('Last update'),
-            Html::convDateTime($config->fields["date_mod"]));
-      echo "</td></tr>";
-
-
-      echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Location is mandatory before ticket is solved/closed', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketlocation_mandatory",
       $config->fields['is_ticketlocation_mandatory']);
       echo "</td></tr>";
 
-      echo "</td><td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_tickettaskcategory_mandatory",
       $config->fields['is_tickettaskcategory_mandatory']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";
       Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
-      echo "</td><td colspan='2'></td></tr>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Protect from simultaneous update', 'behaviors')."</td><td>";
       Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
-      echo "</td><td colspan='2'></td></tr>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
@@ -394,21 +390,27 @@ class PluginBehaviorsConfig extends CommonDBTM {
               2 => __('Single user or group', 'behaviors')];
       Dropdown::showFromArray('single_tech_mode', $tab,
                               ['value' => $config->fields['single_tech_mode']]);
-      echo "</td><td colspan='2'></td></tr>";
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Block the solving/closing of a the ticket if task do to', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
-      echo "</td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>". __('Add the logged technician when solve ticket', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("ticketsolved_updatetech", $config->fields['ticketsolved_updatetech']);
-      echo "</td><td colspan='4'></td></tr>";
+      echo "</td><td colspan='2'></td></tr>";
 
-      $config->showFormButtons(['candel'=>false]);
+      echo "<tr class='tab_bg_1'>";
+      echo "<th colspan='2'></th>";
+      echo "<th colspan='2'>".sprintf(__('%1$s %2$s'), __('Last update'),
+                                      Html::convDateTime($config->fields["date_mod"]));
+      echo "</td></tr>";
+
+      $config->showFormButtons(['formfooter' => true, 'candel'=>false]);
 
       return false;
    }
