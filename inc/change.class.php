@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id:  yllen $
  -------------------------------------------------------------------------
 
  LICENSE
@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2021 Behaviors plugin team
+ @copyright Copyright (c) 2019-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -32,16 +32,33 @@
  --------------------------------------------------------------------------
 */
 
-class PluginBehaviorsComputer extends PluginBehaviorsCommon {
+class PluginBehaviorsChange {
 
 
-   static function beforePurge(Computer $comp) {
+   static function beforeAdd(Change $change) {
+      global $DB;
+
+      if (!is_array($change->input) || !count($change->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
+      $dbu = new DbUtils();
 
       $config = PluginBehaviorsConfig::getInstance();
 
-      if (($config->getField('remove_from_ocs') > 0)
-          && class_exists('PluginUninstallUninstall')) {
-         PluginUninstallUninstall::deleteComputerInOCSByGlpiID($comp->fields['id']);
+      if ($config->getField('changes_id_format')) {
+         $max = 0;
+         $sql = ['SELECT' => ['MAX' => 'id AS max'],
+                 'FROM'   => 'glpi_changes'];
+         foreach ($DB->request($sql) as $data) {
+            $max = $data['max'];
+         }
+         $want = date($config->getField('changes_id_format'));
+         if ($max < $want) {
+            $DB->query("ALTER TABLE `glpi_changes` AUTO_INCREMENT=$want");
+         }
       }
    }
+
 }

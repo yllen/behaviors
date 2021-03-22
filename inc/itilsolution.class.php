@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2018-2019 Behaviors plugin team
+ @copyright Copyright (c) 2018-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -89,7 +89,8 @@ class PluginBehaviorsITILSolution {
             return;
          }
          if ($config->getField('is_tickettech_mandatory')
-             && ($ticket->countUsers(CommonITILActor::ASSIGN) == 0)) {
+             && ($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
+             && !$config->getField('ticketsolved_updatetech')) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                              'behaviors'), true, ERROR);
@@ -168,6 +169,29 @@ class PluginBehaviorsITILSolution {
             $soluce->input['solutiontypes_id'] = $soluce->fields['solutiontypes_id'];
             Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
+         }
+      }
+   }
+
+
+   static function afterAdd(ITILSolution $soluce) {
+
+      $ticket = new Ticket();
+      $config = PluginBehaviorsConfig::getInstance();
+      if ($ticket->getFromDB($soluce->input['items_id'])
+          && $soluce->input['itemtype'] == 'Ticket') {
+
+         if ($config->getField('ticketsolved_updatetech')) {
+            $ticket_user      = new Ticket_User();
+            $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                           'type'       => CommonITILActor::ASSIGN]);
+
+            if (isset($ticket_user->fields['users_id'])
+                && ($ticket_user->fields['users_id'] != Session::getLoginUserID())) {
+               $ticket_user->add(['tickets_id' => $ticket->getID(),
+                                  'users_id'   => Session::getLoginUserID(),
+                                  'type'       => CommonITILActor::ASSIGN]);
+            }
          }
       }
    }
