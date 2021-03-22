@@ -32,7 +32,7 @@
  --------------------------------------------------------------------------
 */
 
-class PluginBehaviorsCommon {
+class PluginBehaviorsCommon extends CommonGLPI {
 
    static $clone_types = ['NotificationTemplate'  => 'PluginBehaviorsNotificationTemplate',
                           'Profile'               => 'PluginBehaviorsProfile',
