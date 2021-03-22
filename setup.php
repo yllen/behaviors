@@ -80,6 +80,9 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['item_action_targets']['behaviors'] =
       ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addActionTargets']];
 
+   $PLUGIN_HOOKS['pre_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'messageWarningSolution'];
+   $PLUGIN_HOOKS['post_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'deleteAddSolutionButtton'];
+
    // End init, when all types are registered
    $PLUGIN_HOOKS['post_init']['behaviors'] = ['PluginBehaviorsCommon', 'postInit'];
 
@@ -97,7 +100,7 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.4.2',
+           'version'        => '2.5.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
