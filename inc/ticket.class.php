@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2020 Behaviors plugin team
+ @copyright Copyright (c) 2010-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -651,7 +651,6 @@ class PluginBehaviorsTicket {
             }
          }
       }
-
       if ($config->getField('ticketsolved_updatetech')) {
          $ticket_user      = new Ticket_User();
          if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
