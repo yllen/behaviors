@@ -34,6 +34,13 @@
 
 class PluginBehaviorsRule extends PluginBehaviorsCommon {
 
+   static function preClone(Rule $srce, Array $input) {
+
+      $input['ranking'] = $srce->getNextRanking();
+      return $input;
+   }
+
+
    static function postClone(Rule $clone, $oldid) {
       global $DB;
 
