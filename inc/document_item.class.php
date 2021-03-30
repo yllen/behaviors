@@ -43,10 +43,12 @@ class PluginBehaviorsDocument_Item {
          Plugin::loadLang('behaviors');
 
          $target->events['plugin_behaviors_document_itemnew']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Add document to ticket', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Add document to ticket', 'behaviors'));
 
          $target->events['plugin_behaviors_document_itemdel']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Delete document to ticket', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Delete document to ticket', 'behaviors'));
       }
    }
 

@@ -50,13 +50,16 @@ class PluginBehaviorsTicket {
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
          $target->events['plugin_behaviors_ticketreopen']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Reopen ticket', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Reopen ticket', 'behaviors'));
 
          $target->events['plugin_behaviors_ticketstatus']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Change status', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Change status', 'behaviors'));
 
          $target->events['plugin_behaviors_ticketwaiting']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Ticket waiting', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Ticket waiting', 'behaviors'));
 
          PluginBehaviorsDocument_Item::addEvents($target);
       }
@@ -70,23 +73,23 @@ class PluginBehaviorsTicket {
       if (!in_array($target->raiseevent, $alert)) {
          $target->addTarget(self::LAST_TECH_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last technician assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_GROUP_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last group assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_SUPPLIER_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last supplier assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_WATCHER_ADDED ,
                             sprintf(__('%1$s (%2$s)'), __('Last watcher added', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
                             sprintf(__('%1$s (%2$s)'), __('Supervisor of last group assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                   __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
                             sprintf(__('%1$s (%2$s)'),
                                     __('Last group assigned without supersivor', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
       }
    }
 
@@ -673,9 +676,6 @@ class PluginBehaviorsTicket {
 
    static function preClone(Ticket $srce, Array $input) {
       global $DB;
-
-      $config = PluginBehaviorsConfig::getInstance();
-      $tickid = $srce->getField('id');
 
       $user_reques                  = $srce->getUsers(CommonITILActor::REQUESTER);
       $input['_users_id_requester'] = [];

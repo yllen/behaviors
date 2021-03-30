@@ -85,7 +85,8 @@ class PluginBehaviorsCommon extends CommonGLPI {
       if (array_key_exists($item->getType(), self::$clone_types)
           && $item->canUpdate()
           && $config->getField('clone')) {
-         return __('Clone', 'behaviors'). " (Behaviors)";
+         return sprintf(__('%1$s (%2$s)'), __('Clone', 'behaviors'),
+                        __('Behaviours', 'behaviors'));
       }
       return '';
    }
