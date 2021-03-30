@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2019 Behaviors plugin team
+ @copyright Copyright (c) 2010-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -50,13 +50,16 @@ class PluginBehaviorsTicket {
       if ($config->getField('add_notif')) {
          Plugin::loadLang('behaviors');
          $target->events['plugin_behaviors_ticketreopen']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Reopen ticket', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Reopen ticket', 'behaviors'));
 
          $target->events['plugin_behaviors_ticketstatus']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Change status', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Change status', 'behaviors'));
 
          $target->events['plugin_behaviors_ticketwaiting']
-            = sprintf(__('%1$s - %2$s'), __('Behaviors'), __('Ticket waiting', 'behaviors'));
+            = sprintf(__('%1$s - %2$s'), __('Behaviours', 'behaviors'),
+                      __('Ticket waiting', 'behaviors'));
 
          PluginBehaviorsDocument_Item::addEvents($target);
       }
@@ -70,23 +73,23 @@ class PluginBehaviorsTicket {
       if (!in_array($target->raiseevent, $alert)) {
          $target->addTarget(self::LAST_TECH_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last technician assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_GROUP_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last group assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_SUPPLIER_ASSIGN ,
                             sprintf(__('%1$s (%2$s)'), __('Last supplier assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_WATCHER_ADDED ,
                             sprintf(__('%1$s (%2$s)'), __('Last watcher added', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
          $target->addTarget(self::SUPERVISOR_LAST_GROUP_ASSIGN,
                             sprintf(__('%1$s (%2$s)'), __('Supervisor of last group assigned', 'behaviors'),
-                                    __('Behaviors')));
+                                   __('Behaviours', 'behaviors')));
          $target->addTarget(self::LAST_GROUP_ASSIGN_WITHOUT_SUPERVISOR,
                             sprintf(__('%1$s (%2$s)'),
                                     __('Last group assigned without supersivor', 'behaviors'),
-                                    __('Behaviors')));
+                                    __('Behaviours', 'behaviors')));
       }
    }
 
@@ -246,13 +249,14 @@ class PluginBehaviorsTicket {
          $result = $DB->request($last);
          $data = $result->next();
 
-         $query = ['SELECT DISTINCT' => 'glpi_suppliers.email AS email',
-                   'FIELDS'          => 'glpi_suppliers.name AS name',
-                   'FROM'            => $supplierlinktable,
-                   'LEFT JOIN'       => ['glpi_suppliers'
-                                        => ['FKEY' => [$supplierlinktable => 'suppliers_id',
-                                                       'glpi_suppliers'   => 'id']]],
-                   'WHERE'           => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
+         $query = ['SELECT'    => 'glpi_suppliers.email AS email',
+                   'DISTINCT'  => true,
+                   'FIELDS'    => 'glpi_suppliers.name AS name',
+                   'FROM'      => $supplierlinktable,
+                   'LEFT JOIN' => ['glpi_suppliers'
+                                    => ['FKEY' => [$supplierlinktable => 'suppliers_id',
+                                                   'glpi_suppliers'   => 'id']]],
+                   'WHERE'     => [$supplierlinktable.'.'.$fkfield => $target->obj->getID()]];
 
          $object = new $target->obj->supplierlinkclass();
          if ($object->getFromDB($data['lastid'])) {
@@ -361,6 +365,15 @@ class PluginBehaviorsTicket {
                }
             }
       }
+      if ($config->getField('ticketsolved_updatetech')
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getClosedStatusArray()))
+          && isset($ticket->input['_users_id_assign'])
+                   && (($ticket->input['_users_id_assign'] == 0)
+                       || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
+
+         $ticket->input['_users_id_assign'] = Session::getLoginUserID();
+      }
    }
 
 
@@ -434,7 +447,7 @@ class PluginBehaviorsTicket {
 
       if (isset($ticket->input['status'])
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                            Ticket::getclosedStatusArray()))) {
+                                                            Ticket::getClosedStatusArray()))) {
 
          $soluce = $DB->request('glpi_itilsolutions',
                                 ['itemtype'   => 'Ticket',
@@ -480,7 +493,8 @@ class PluginBehaviorsTicket {
          }
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])) {
+                && !isset($input["_itil_assign"]['users_id'])
+                && !$config->getField('ticketsolved_updatetech')) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                                    'behaviors'), true, ERROR);
@@ -512,6 +526,20 @@ class PluginBehaviorsTicket {
             }
          }
       }
+      $cat = (isset($ticket->input['itilcategories_id'])
+                     ? $ticket->input['itilcategories_id']
+                     : $ticket->fields['itilcategories_id']);
+
+      if ($config->getField('is_ticketcategory_mandatory_on_assign')) {
+         if (!$cat
+             && isset($ticket->input['_itil_assign'])
+             && ($ticket->input['_itil_assign']['users_id']
+                 || $ticket->input['_itil_assign']['groups_id'])) {
+            unset($ticket->input);
+            Session::addMessageAfterRedirect(__("Category is mandatory when you assign a ticket",
+                                             'behaviors'), true, ERROR);
+         }
+      }
 
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
@@ -531,6 +559,25 @@ class PluginBehaviorsTicket {
                   }
                }
             }
+         }
+      }
+      if ($config->getField('use_assign_user_group_update')
+            && isset($ticket->input['_itil_assign'])
+            && ($ticket->input['_itil_assign']['_type'] == 'user')
+            && $ticket->input['_itil_assign']['users_id']) {
+
+         if ($config->getField('use_assign_user_group_update') == 1) {
+            // First group
+            $ticket->input['_additional_groups_assigns']
+               = [PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                                                                         $ticket->input['_itil_assign']['users_id'],
+                                                                         true)];
+         } else {
+            // All groups
+            $ticket->input['_additional_groups_assigns']
+               = PluginBehaviorsUser::getTechnicianGroup($ticket->fields['entities_id'],
+                  $ticket->input['_itil_assign']['users_id'],
+                  false);
          }
       }
    }
@@ -607,14 +654,28 @@ class PluginBehaviorsTicket {
             }
          }
       }
+      if ($config->getField('ticketsolved_updatetech')) {
+         $ticket_user      = new Ticket_User();
+         if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
+                                             'type'       => CommonITILActor::ASSIGN])
+             || (isset($ticket_user->fields['users_id'])
+                 && ($ticket_user->fields['users_id'] != Session::getLoginUserID()))
+             && isset($ticket->oldvalues)
+             && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                    Ticket::getClosedStatusArray()))
+             && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                               Ticket::getClosedStatusArray()))) {
+
+            $ticket_user->add(['tickets_id' => $ticket->getID(),
+                               'users_id'   => Session::getLoginUserID(),
+                               'type'       => CommonITILActor::ASSIGN]);
+         }
+      }
    }
 
 
    static function preClone(Ticket $srce, Array $input) {
       global $DB;
-
-      $config = PluginBehaviorsConfig::getInstance();
-      $tickid = $srce->getField('id');
 
       $user_reques                  = $srce->getUsers(CommonITILActor::REQUESTER);
       $input['_users_id_requester'] = [];
@@ -645,7 +706,7 @@ class PluginBehaviorsTicket {
       $group_assign                  = $srce->getGroups(CommonITILActor::ASSIGN);
       $input['_groups_id_assign'] = [];
       foreach ($group_assign as $groups) {
-         $input['_groups_id_assign'][] = $ugroups['groups_id'];
+         $input['_groups_id_assign'][] = $groups['groups_id'];
       }
 
       $suppliers                     = $srce->getSuppliers(CommonITILActor::ASSIGN);

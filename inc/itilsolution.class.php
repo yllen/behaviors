@@ -22,7 +22,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2018-2019 Behaviors plugin team
+ @copyright Copyright (c) 2018-2021 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -89,7 +89,8 @@ class PluginBehaviorsITILSolution {
             return;
          }
          if ($config->getField('is_tickettech_mandatory')
-             && ($ticket->countUsers(CommonITILActor::ASSIGN) == 0)) {
+             && ($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
+             && !$config->getField('ticketsolved_updatetech')) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
                                              'behaviors'), true, ERROR);
@@ -171,4 +172,155 @@ class PluginBehaviorsITILSolution {
          }
       }
    }
+
+
+   static function afterAdd(ITILSolution $soluce) {
+
+      $ticket = new Ticket();
+      $config = PluginBehaviorsConfig::getInstance();
+      if ($ticket->getFromDB($soluce->input['items_id'])
+          && $soluce->input['itemtype'] == 'Ticket') {
+
+         if ($config->getField('ticketsolved_updatetech')) {
+            $ticket_user      = new Ticket_User();
+            $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                           'type'       => CommonITILActor::ASSIGN]);
+
+            if (isset($ticket_user->fields['users_id'])
+                && ($ticket_user->fields['users_id'] != Session::getLoginUserID())) {
+               $ticket_user->add(['tickets_id' => $ticket->getID(),
+                                  'users_id'   => Session::getLoginUserID(),
+                                  'type'       => CommonITILActor::ASSIGN]);
+            }
+         }
+      }
+   }
+
+
+   /**
+    * show warning message
+    *
+    * @param $params
+    *
+    * @return string
+    **/
+   static function checkWarnings($params) {
+      global $DB;
+
+      $ticket = $params['options']['item'];
+      $config = PluginBehaviorsConfig::getInstance();
+
+      // Check is the connected user is a tech
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('ticket', UPDATE)) {
+         return false; // No check
+      }
+
+      // Want to solve/close the ticket
+      $dur     = (isset($ticket->fields['actiontime'])
+                  ? $ticket->fields['actiontime']
+                  : 0);
+      $cat    = (isset($ticket->fields['itilcategories_id'])
+                 ? $ticket->fields['itilcategories_id']
+                 : 0);
+      $loc    = (isset($ticket->fields['locations_id'])
+                  ? $ticket->fields['locations_id']
+                  : 0);
+
+      $warnings = [];
+      if ($config->getField('is_ticketrealtime_mandatory')) {
+         if ($dur == 0) {
+             $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
+         }
+
+      }
+      if ($config->getField('is_ticketcategory_mandatory')) {
+         if ($cat == 0) {
+            $warnings[] = __("Category is mandatory before ticket is solved/closed", 'behaviors');
+         }
+      }
+
+      if ($config->getField('is_tickettech_mandatory')) {
+         if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
+             && !isset($input["_itil_assign"]['users_id'])
+             && !$config->getField('ticketsolved_updatetech')) {
+
+            $warnings[] = __("Technician assigned is mandatory before ticket is solved/closed",
+                             'behaviors');
+         }
+      }
+
+      if ($config->getField('is_tickettechgroup_mandatory')) {
+         if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
+             && !isset($input["_itil_assign"]['groups_id'])) {
+
+            $warnings[] = __("Group of technicians assigned is mandatory before ticket is solved/closed",
+                             'behaviors');
+         }
+      }
+
+      if ($config->getField('is_ticketlocation_mandatory')) {
+         if ($loc == 0) {
+            $warnings[] = __("Location is mandatory before ticket is solved/closed", 'behaviors');
+         }
+      }
+
+      if ($config->getField('is_tickettasktodo')) {
+         foreach ($DB->request('glpi_tickettasks',
+                              ['tickets_id' => $ticket->getField('id')]) as $task) {
+            if ($task['state'] == 1) {
+               $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+            }
+         }
+      }
+
+      return $warnings;
+   }
+
+
+   /**
+    * Displaying message solution
+    *
+    * @param $params
+   **/
+   static function messageWarningSolution($params) {
+
+      if (isset($params['item'])) {
+         $item = $params['item'];
+         if ($item->getType() == 'ITILSolution') {
+            $warnings = self::checkWarnings($params);
+            if (count($warnings)) {
+               echo "<div class='warning' style='display: flow-root;'>";
+               echo "<i class='fa fa-exclamation-triangle fa-5x'></i>";
+               echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
+               echo "<div class='sep'></div>";
+               echo "</div>";
+            }
+         }
+      }
+   }
+
+
+   /**
+    * Displaying Add solution button or not
+    *
+    * @param $params
+    *
+    * @return array
+   **/
+   static function deleteAddSolutionButtton($params) {
+
+      if (isset($params['item'])) {
+         $item = $params['item'];
+         if ($item->getType() == 'ITILSolution') {
+            $warnings = self::checkWarnings($params);
+            if (count($warnings)) {
+               $params['options']['canedit'] = false;
+               return $params;
+            }
+         }
+      }
+   }
+
+
 }
