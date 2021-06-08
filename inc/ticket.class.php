@@ -654,7 +654,11 @@ class PluginBehaviorsTicket {
             }
          }
       }
-      if ($config->getField('ticketsolved_updatetech')) {
+
+      if ($config->getField('ticketsolved_updatetech')
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getClosedStatusArray()))) {
+
          $ticket_user      = new Ticket_User();
          if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
                                              'type'       => CommonITILActor::ASSIGN])
@@ -662,9 +666,7 @@ class PluginBehaviorsTicket {
                  && ($ticket_user->fields['users_id'] != Session::getLoginUserID()))
              && isset($ticket->oldvalues)
              && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                                    Ticket::getClosedStatusArray()))
-             && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                               Ticket::getClosedStatusArray()))) {
+                                                                    Ticket::getClosedStatusArray()))) {
 
             $ticket_user->add(['tickets_id' => $ticket->getID(),
                                'users_id'   => Session::getLoginUserID(),
