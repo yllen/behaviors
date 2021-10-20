@@ -580,6 +580,27 @@ class PluginBehaviorsTicket {
                   false);
          }
       }
+
+      if ($config->getField('ticketsolved_updatetech')
+          && isset($ticket->input['status'])
+          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                            Ticket::getClosedStatusArray()))) {
+
+         $ticket_user      = new Ticket_User();
+         if ((!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
+                                              'type'       => CommonITILActor::ASSIGN])
+             || (isset($ticket_user->fields['users_id'])
+                       && ($ticket_user->fields['users_id'] != Session::getLoginUserID())))
+             && (((in_array($ticket->fields['status'], Ticket::getSolvedStatusArray()))
+                  && (in_array($ticket->input['status'], Ticket::getClosedStatusArray())))
+                  || !in_array($ticket->fields['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                      Ticket::getClosedStatusArray())))) {
+
+            $ticket_user->add(['tickets_id' => $ticket->getID(),
+                  'users_id'   => Session::getLoginUserID(),
+                  'type'       => CommonITILActor::ASSIGN]);
+         }
+      }
    }
 
 
@@ -652,25 +673,6 @@ class PluginBehaviorsTicket {
             } else {
                NotificationEvent::raiseEvent('plugin_behaviors_ticketstatus', $ticket);
             }
-         }
-      }
-
-      if ($config->getField('ticketsolved_updatetech')
-          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                            Ticket::getClosedStatusArray()))) {
-
-         $ticket_user      = new Ticket_User();
-         if (!$ticket_user->getFromDBByCrit(['tickets_id' => $ticket->fields['id'],
-                                             'type'       => CommonITILActor::ASSIGN])
-             || (isset($ticket_user->fields['users_id'])
-                 && ($ticket_user->fields['users_id'] != Session::getLoginUserID()))
-             && isset($ticket->oldvalues)
-             && !in_array($ticket->oldvalues['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                                    Ticket::getClosedStatusArray()))) {
-
-            $ticket_user->add(['tickets_id' => $ticket->getID(),
-                               'users_id'   => Session::getLoginUserID(),
-                               'type'       => CommonITILActor::ASSIGN]);
          }
       }
    }
