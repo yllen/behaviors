@@ -3,7 +3,7 @@
    <name>Behaviors</name>
    <key>behaviors</key>
    <state>stable</state>
-   <logo>https://forge.glpi-project.org/svn/behaviors/behaviors.png</logo>
+   <logo>https://github.com/yllen/behaviors/blob/master/behaviors.png</logo>
    <description>
       <short>
          <fr><![CDATA[Cette extension permet d'ajouter des comportements optionnels à GLPI.]]></fr>
@@ -24,8 +24,8 @@
    ]]></en>
        </long>
    </description>
-   <homepage>https://forge.glpi-project.org/projects/behaviors</homepage>
-   <download>https://forge.glpi-project.org/projects/behaviors/files</download>
+   <homepage>https://github.com/yllen/behaviors</homepage>
+   <download>https://github.com/yllen/behaviors/releases</download>
    <authors>
       <author>Remi Collet</author>
       <author>Nelly Mahu-Lasson</author>
