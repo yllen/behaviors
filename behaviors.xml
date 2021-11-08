@@ -3,7 +3,7 @@
    <name>Behaviors</name>
    <key>behaviors</key>
    <state>stable</state>
-   <logo>https://github.com/yllen/behaviors/blob/master/behaviors.png</logo>
+   <logo>https://raw.githubusercontent.com/yllen/behaviors/master/behaviors.png</logo>
    <description>
       <short>
          <fr><![CDATA[Cette extension permet d'ajouter des comportements optionnels à GLPI.]]></fr>
