@@ -208,6 +208,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
                         ['after' => 'use_assign_user_group']);
          $mig->addField($table, 'is_ticketcategory_mandatory_on_assign', 'bool',
                         ['after' => 'is_ticketcategory_mandatory']);
+
+         $mig->addField($table, 'clone_use_entity_ticket', 'bool',
+                        ['after' => 'is_ticketcategory_mandatory_on_assign']);
       }
 
    }
@@ -290,6 +293,14 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td class='tab_bg_2 b center'>".__('Allow Clone', 'behaviors')."</td><td>";
       Dropdown::showYesNo('clone', $config->fields['clone']);
       echo "</td></tr>";
+
+      if($config->fields['clone']){
+         echo "<tr class='tab_bg_1'>";
+         echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
+         echo "</td><td class='tab_bg_2 b center'>".__('Use entity from cloned ticket', 'behaviors')."</td><td>";
+         Dropdown::showYesNo('clone_use_entity_ticket', $config->fields['clone_use_entity_ticket']);
+         echo "</td></tr>";
+      }
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
