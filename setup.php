@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id$
  -------------------------------------------------------------------------
 
  LICENSE
@@ -22,7 +21,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2020 Behaviors plugin team
+ @copyright Copyright (c) 2010-2022 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -97,7 +96,7 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.3.2',
+           'version'        => '2.3.3',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
