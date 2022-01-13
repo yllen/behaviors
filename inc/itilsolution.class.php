@@ -51,31 +51,26 @@ class PluginBehaviorsITILSolution {
          return false; // No check
       }
 
-      // Wand to solve/close the ticket
-      if ($config->getField('is_ticketsolutiontype_mandatory')
-          && $soluce->input['itemtype'] == 'Ticket') {
-         if ($soluce->input['solutiontypes_id'] == 0) {
-            $soluce->input = false;
-            Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
-                                                'behaviors'), true, ERROR);
-            return;
-         }
-      }
-      if ($config->getField('is_ticketsolution_mandatory')
-          && $soluce->input['itemtype'] == 'Ticket') {
-         if (empty($soluce->input['content'])) {
-            $soluce->input = false;
-            Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
-                                                'behaviors'), true, ERROR);
-            return;
-         }
-      }
+
       $ticket = new Ticket();
       if ($ticket->getFromDB($soluce->input['items_id'])
           && $soluce->input['itemtype'] == 'Ticket') {
-
+         if ($config->getField('is_ticketsolutiontype_mandatory')
+             && ($soluce->input['solutiontypes_id'] == 0)) {
+               $soluce->input = false;
+               Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
+                                                   'behaviors'), true, ERROR);
+               return;
+            }
+         if ($config->getField('is_ticketsolution_mandatory')
+             && empty($soluce->input['content'])) {
+               $soluce->input = false;
+               Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
+                                                   'behaviors'), true, ERROR);
+               return;
+            }
          if ($config->getField('is_ticketrealtime_mandatory')
-             && ($ticket->fields['actiontime'] == 0)) {
+             && $ticket->fields['actiontime'] == 0) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
                                              'behaviors'), true, ERROR);
@@ -123,14 +118,42 @@ class PluginBehaviorsITILSolution {
          }
       }
 
-      // Wand to solve/close a problem
-      if ($config->getField('is_problemsolutiontype_mandatory')
+      $problem = new Problem();
+      if ($problem->getFromDB($soluce->input['items_id'])
           && $soluce->input['itemtype'] == 'Problem') {
-         if ($soluce->input['solutiontypes_id'] == 0) {
-            $soluce->input = false;
-            Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
-                                                'behaviors'), true, ERROR);
-            return;
+         if ($config->getField('is_problemsolutiontype_mandatory')
+            && ($soluce->input['solutiontypes_id'] == 0)) {
+               $soluce->input = false;
+               Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
+                                                   'behaviors'), true, ERROR);
+               return;
+            }
+         if ($config->getField('is_tickettasktodo')) {
+            foreach($DB->request('glpi_problemtasks',
+                                 ['problems_id' => $problem->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $soluce->input = false;
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                   'behaviors'), true, ERROR);
+                  return;
+               }
+            }
+         }
+      }
+
+      $change = new Change();
+      if ($change->getFromDB($soluce->input['items_id'])
+          && $soluce->input['itemtype'] == 'Change') {
+         if ($config->getField('is_tickettasktodo')) {
+            foreach($DB->request('glpi_changetasks',
+                                 ['changes_id' => $change->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $soluce->input = false;
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                                                   'behaviors'), true, ERROR);
+                  return;
+               }
+            }
          }
       }
    }
@@ -207,27 +230,32 @@ class PluginBehaviorsITILSolution {
    static function checkWarnings($params) {
       global $DB;
 
-      $warnings = [];
-      if ($params['options']['item']->getType() == 'Ticket') {
-         $ticket = $params['options']['item'];
-         $config = PluginBehaviorsConfig::getInstance();
+      $ticket = $params['options']['item'];
+
+      $config = PluginBehaviorsConfig::getInstance();
 
          // Check is the connected user is a tech
          if (!is_numeric(Session::getLoginUserID(false))
-             || !Session::haveRight('ticket', UPDATE)) {
+            || !Session::haveRight('ticket', UPDATE)) {
             return false; // No check
          }
 
          // Want to solve/close the ticket
-         $dur     = (isset($ticket->fields['actiontime']) ? $ticket->fields['actiontime'] : 0);
-         $cat    = (isset($ticket->fields['itilcategories_id']) ? $ticket->fields['itilcategories_id']
-                                                                : 0);
-         $loc    = (isset($ticket->fields['locations_id']) ? $ticket->fields['locations_id'] : 0);
+         $dur     = (isset($ticket->fields['actiontime'])
+                     ? $ticket->fields['actiontime']
+                     : 0);
+         $cat    = (isset($ticket->fields['itilcategories_id'])
+                  ? $ticket->fields['itilcategories_id']
+                  : 0);
+         $loc    = (isset($ticket->fields['locations_id'])
+                     ? $ticket->fields['locations_id']
+                     : 0);
 
-
+         $warnings = array();
+      if ($ticket->getType() == 'Ticket') {
          if ($config->getField('is_ticketrealtime_mandatory')) {
             if ($dur == 0) {
-                $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
+               $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
             }
 
          }
@@ -239,20 +267,20 @@ class PluginBehaviorsITILSolution {
 
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])
-                && !$config->getField('ticketsolved_updatetech')) {
+               && !isset($input["_itil_assign"]['users_id'])
+               && !$config->getField('ticketsolved_updatetech')) {
 
                $warnings[] = __("Technician assigned is mandatory before ticket is solved/closed",
-                                'behaviors');
+                              'behaviors');
             }
          }
 
          if ($config->getField('is_tickettechgroup_mandatory')) {
             if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['groups_id'])) {
+               && !isset($input["_itil_assign"]['groups_id'])) {
 
                $warnings[] = __("Group of technicians assigned is mandatory before ticket is solved/closed",
-                                'behaviors');
+                              'behaviors');
             }
          }
 
@@ -267,15 +295,37 @@ class PluginBehaviorsITILSolution {
                                  ['tickets_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
                   $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  break;
                }
             }
          }
       }
-
+      if ($ticket->getType() == 'Problem') {
+         if ($config->getField('is_tickettasktodo')) {
+            foreach ($DB->request('glpi_problemtasks',
+                                 ['problems_id' => $ticket->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  break;
+               }
+            }
+         }
+      }
+      if ($ticket->getType() == 'Change') {
+         if ($config->getField('is_tickettasktodo')) {
+            foreach ($DB->request('glpi_changetasks',
+                                 ['changes_id' => $ticket->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  break;
+               }
+            }
+         }
+      }
       return $warnings;
    }
 
-
+   
    /**
     * Displaying message solution
     *
