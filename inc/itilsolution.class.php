@@ -128,12 +128,12 @@ class PluginBehaviorsITILSolution {
                                                    'behaviors'), true, ERROR);
                return;
             }
-         if ($config->getField('is_tickettasktodo')) {
+         if ($config->getField('is_problemtasktodo')) {
             foreach($DB->request('glpi_problemtasks',
                                  ['problems_id' => $problem->getField('id')]) as $task) {
                if ($task['state'] == 1) {
                   $soluce->input = false;
-                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a problem with task do to",
                                                    'behaviors'), true, ERROR);
                   return;
                }
@@ -144,12 +144,12 @@ class PluginBehaviorsITILSolution {
       $change = new Change();
       if ($change->getFromDB($soluce->input['items_id'])
           && $soluce->input['itemtype'] == 'Change') {
-         if ($config->getField('is_tickettasktodo')) {
+         if ($config->getField('is_changetasktodo')) {
             foreach($DB->request('glpi_changetasks',
                                  ['changes_id' => $change->getField('id')]) as $task) {
                if ($task['state'] == 1) {
                   $soluce->input = false;
-                  Session::addMessageAfterRedirect(__("You cannot solve/close a ticket with task do to",
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a change with task do to",
                                                    'behaviors'), true, ERROR);
                   return;
                }
@@ -301,22 +301,22 @@ class PluginBehaviorsITILSolution {
          }
       }
       if ($ticket->getType() == 'Problem') {
-         if ($config->getField('is_tickettasktodo')) {
+         if ($config->getField('is_problemtasktodo')) {
             foreach ($DB->request('glpi_problemtasks',
                                  ['problems_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
-                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  $warnings[] = __("You cannot solve/close a problem with task do to", 'behaviors');
                   break;
                }
             }
          }
       }
       if ($ticket->getType() == 'Change') {
-         if ($config->getField('is_tickettasktodo')) {
+         if ($config->getField('is_changetasktodo')) {
             foreach ($DB->request('glpi_changetasks',
                                  ['changes_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
-                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  $warnings[] = __("You cannot solve/close a change with task do to", 'behaviors');
                   break;
                }
             }
