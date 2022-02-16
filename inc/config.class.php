@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id$
+ * @version $Id: config.class.php 338 2021-03-30 12:36:31Z yllen $
  -------------------------------------------------------------------------
 
  LICENSE
@@ -108,6 +108,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `groupasset` tinyint(1) NOT NULL default '0',
                      `clone` tinyint(1) NOT NULL default '0',
                      `is_tickettasktodo` tinyint(1) NOT NULL default '0',
+                     `is_problemtasktodo` tinyint(1) NOT NULL default '0',
+                     `is_changetasktodo` tinyint(1) NOT NULL default '0',
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
@@ -208,6 +210,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
                         ['after' => 'use_assign_user_group']);
          $mig->addField($table, 'is_ticketcategory_mandatory_on_assign', 'bool',
                         ['after' => 'is_ticketcategory_mandatory']);
+         
+         // as PR#5
+         $mig->addField($table, 'is_problemtasktodo', 'bool', ['after' => 'is_tickettasktodo']);
+         $mig->addField($table, 'is_changetasktodo', 'bool', ['after' => 'is_tickettasktodo']);
       }
 
    }
@@ -396,6 +402,18 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__('Block the solving/closing of a the ticket if task do to', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
+      echo "</td><td colspan='2'></td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Block the solving/closing of a problem if task do to', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_problemtasktodo", $config->fields['is_problemtasktodo']);
+      echo "</td><td colspan='2'></td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Block the solving/closing of a change if task do to', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_changetasktodo", $config->fields['is_changetasktodo']);
       echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";
