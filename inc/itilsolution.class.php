@@ -288,12 +288,13 @@ class PluginBehaviorsITILSolution {
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
             if (count($warnings)) {
-               echo "<div class='warning' style='display: flow-root;'>";
-               echo "<i class='fa fa-exclamation-triangle fa-5x'></i>";
+               echo "<div class='alert alert-important alert-warning d-flex'>";
+               echo "<i class='fa fa-exclamation-triangle fa-3x'></i>";
                echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
                echo "<div class='sep'></div>";
                echo "</div>";
             }
+            return $params;
          }
       }
    }
@@ -306,19 +307,18 @@ class PluginBehaviorsITILSolution {
     *
     * @return array
    **/
-   static function deleteAddSolutionButtton($params) {
+   static function deleteAddSolutionButton($params) {
 
       if (isset($params['item'])) {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
             if (count($warnings)) {
-               $params['options']['canedit'] = false;
-               return $params;
+               echo Html::scriptBlock("$(document).ready(function(){
+                        $('.itilsolution').children().find(':submit').hide();
+                     });");
             }
          }
       }
    }
-
-
 }

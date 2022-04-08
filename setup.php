@@ -81,7 +81,7 @@ function plugin_init_behaviors() {
       ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addActionTargets']];
 
    $PLUGIN_HOOKS['pre_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'messageWarningSolution'];
-   $PLUGIN_HOOKS['post_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'deleteAddSolutionButtton'];
+   $PLUGIN_HOOKS['post_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'deleteAddSolutionButton'];
 
    // End init, when all types are registered
    $PLUGIN_HOOKS['post_init']['behaviors'] = ['PluginBehaviorsCommon', 'postInit'];
@@ -100,18 +100,15 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.5.1',
+           'version'        => '2.6.0',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-           'minGlpiVersion' => '9.5.4',
-           'requirements'   => ['glpi' => ['min' => '9.5.4',
-                                           'max' => '9.6']]];
-}
-
-
-// Check configuration process for plugin : need to return true if succeeded
-// Can display a message only if failure and $verbose is true
-function plugin_behaviors_check_config($verbose=false) {
-   return true;
+           'requirements'   => [
+              'glpi' => [
+                 'min' => '10.0',
+                 'max' => '11.0',
+                 'dev' => false
+              ]
+           ]];
 }

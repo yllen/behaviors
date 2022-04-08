@@ -111,14 +111,13 @@ class PluginBehaviorsCommon extends CommonGLPI {
 
       $name = sprintf(__('%1$s %2$s'), __('Clone of', 'behaviors'), $item->getName());
       echo "<tr class='tab_bg_1'><td class='center'>".sprintf(__('%1$s: %2$s'), __('Name'), $name);
-      Html::autocompletionTextField($item, 'name', ['value' => $name,
-                                                    'size'  => 60]);
-      echo "<input type='hidden' name='itemtype' value='".$item->getType()."'>";
-      echo "<input type='hidden' name='id'       value='".$item->getID()."'>";
+      echo Html::input('name', ['value' => $name, 'size' => 60]);
+      echo Html::hidden('itemtype', ['value' => $item->getType()]);
+      echo Html::hidden('id', ['value' => $item->getID()]);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'><td class='center'>";
-      echo "<input type='submit' name='_clone' value='".__('Clone', 'behaviors')."' class='submit'>";
+      echo Html::submit(__('Clone', 'behaviors'), ['name' => '_clone', 'class' => 'btn btn-primary']);
       echo "</th></tr>";
 
       echo "</table></div>";

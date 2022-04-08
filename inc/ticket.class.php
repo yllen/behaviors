@@ -367,6 +367,7 @@ class PluginBehaviorsTicket {
             }
       }
       if ($config->getField('ticketsolved_updatetech')
+          && isset($ticket->input['status'])
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                             Ticket::getClosedStatusArray()))
           && isset($ticket->input['_users_id_assign'])
