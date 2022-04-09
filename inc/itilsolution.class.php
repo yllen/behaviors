@@ -54,7 +54,8 @@ class PluginBehaviorsITILSolution {
       // Wand to solve/close the ticket
       if ($config->getField('is_ticketsolutiontype_mandatory')
           && $soluce->input['itemtype'] == 'Ticket') {
-         if ($soluce->input['solutiontypes_id'] == 0) {
+         if (isset($soluce->input['solutiontypes_id'])
+             && $soluce->input['solutiontypes_id'] == 0) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
@@ -224,9 +225,14 @@ class PluginBehaviorsITILSolution {
                                                                 : 0);
          $loc    = (isset($ticket->fields['locations_id']) ? $ticket->fields['locations_id'] : 0);
 
-
+         $mandatory_solution = false;
          if ($config->getField('is_ticketrealtime_mandatory')) {
-            if ($dur == 0) {
+            $plugin = new Plugin();
+            if ($plugin->isActivated('moreticket')) {
+               $config = new PluginMoreticketConfig();
+               $mandatory_solution = $config->isMandatorysolution();
+            }
+            if ($dur == 0 && $mandatory_solution == false) {
                 $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
             }
 
