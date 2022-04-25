@@ -298,8 +298,8 @@ class PluginBehaviorsTicket {
           && isset($_SESSION['glpiactiveprofile']['interface'])
           && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
 
-         if (($config->getField('is_requester_mandatory')
-             && !isset($ticket->input['_users_id_requester'])
+         if ($config->getField('is_requester_mandatory')
+             && (!isset($ticket->input['_users_id_requester'])
              || ((is_array($ticket->input['_users_id_requester'])
                   && empty($ticket->input['_users_id_requester']))
                  || (!is_array($ticket->input['_users_id_requester'])
