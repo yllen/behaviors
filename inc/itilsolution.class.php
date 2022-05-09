@@ -293,7 +293,7 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
+            if (is_array($warnings) && count($warnings)) {
                echo "<div class='alert alert-important alert-warning d-flex'>";
                echo "<i class='fa fa-exclamation-triangle fa-3x'></i>";
                echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
@@ -319,7 +319,7 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
+            if (is_array($warnings) && count($warnings)) {
                echo Html::scriptBlock("$(document).ready(function(){
                         $('.itilsolution').children().find(':submit').hide();
                      });");
