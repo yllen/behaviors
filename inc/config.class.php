@@ -89,6 +89,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `id` int(11) NOT NULL,
                      `use_requester_item_group` tinyint NOT NULL default '0',
                      `use_requester_user_group` tinyint NOT NULL default '0',
+                     `use_requester_user_group_update` tinyint NOT NULL default '0',
                      `is_ticketsolutiontype_mandatory` tinyint NOT NULL default '0',
                      `is_ticketsolution_mandatory` tinyint NOT NULL default '0',
                      `is_ticketcategory_mandatory` tinyint NOT NULL default '0',
@@ -109,7 +110,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `remove_from_ocs` tinyint NOT NULL default '0',
                      `add_notif` tinyint NOT NULL default '0',
                      `use_lock` tinyint NOT NULL default '0',
-                     `single_tech_mode` int(11) NOT NULL default '0',
+                     `single_tech_mode` int unsigned NOT NULL default '0',
                      `myasset` tinyint NOT NULL default '0',
                      `groupasset` tinyint NOT NULL default '0',
                      `clone` tinyint NOT NULL default '0',
@@ -214,6 +215,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
                         ['after' => 'use_assign_user_group']);
          $mig->addField($table, 'is_ticketcategory_mandatory_on_assign', 'bool',
                         ['after' => 'is_ticketcategory_mandatory']);
+
+         // version 2.6.0
+         $mig->addField($table, 'use_requester_user_group_update', 'bool',
+                        ['after' => 'use_requester_user_group']);
       }
 
    }
@@ -371,6 +376,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       Dropdown::showYesNo("is_tickettechgroup_mandatory",
                           $config->fields['is_tickettechgroup_mandatory']);
       echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
+      Dropdown::showFromArray('use_requester_user_group_update', $yesnoalldefault,
+                              ['value' => $config->fields['use_requester_user_group_update']]);
+      echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
