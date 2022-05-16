@@ -33,32 +33,32 @@
 */
 
 class PluginBehaviorsRule extends PluginBehaviorsCommon {
-
-   static function preClone(Rule $srce, Array $input) {
-
-      $input['ranking'] = $srce->getNextRanking();
-      return $input;
-   }
-
-
-   static function postClone(Rule $clone, $oldid) {
-      global $DB;
-
-      $dbu  = new DbUtils();
-      $fkey = $dbu->getForeignKeyFieldForTable($clone->getTable());
-      $crit = [$fkey => $oldid];
-
-      $criteria = new RuleCriteria();
-      foreach ($DB->request($criteria->getTable(), $crit) as $data) {
-         unset($data['id']);
-         $data[$fkey] = $clone->getID();
-         $criteria->add(Toolbox::addslashes_deep($data));
-      }
-      $action = new RuleAction();
-      foreach ($DB->request($action->getTable(), $crit) as $data) {
-         unset($data['id']);
-         $data[$fkey] = $clone->getID();
-         $action->add(Toolbox::addslashes_deep($data));
-      }
-   }
+//Disabled : integradted in GLPI10
+//   static function preClone(Rule $srce, Array $input) {
+//
+//      $input['ranking'] = $srce->getNextRanking();
+//      return $input;
+//   }
+//
+//
+//   static function postClone(Rule $clone, $oldid) {
+//      global $DB;
+//
+//      $dbu  = new DbUtils();
+//      $fkey = $dbu->getForeignKeyFieldForTable($clone->getTable());
+//      $crit = [$fkey => $oldid];
+//
+//      $criteria = new RuleCriteria();
+//      foreach ($DB->request($criteria->getTable(), $crit) as $data) {
+//         unset($data['id']);
+//         $data[$fkey] = $clone->getID();
+//         $criteria->add(Toolbox::addslashes_deep($data));
+//      }
+//      $action = new RuleAction();
+//      foreach ($DB->request($action->getTable(), $crit) as $data) {
+//         unset($data['id']);
+//         $data[$fkey] = $clone->getID();
+//         $action->add(Toolbox::addslashes_deep($data));
+//      }
+//   }
 }

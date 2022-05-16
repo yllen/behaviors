@@ -57,6 +57,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       return __('Behaviours', 'behaviors');
    }
 
+   /**
+    * @return string
+    */
+   static function getIcon() {
+      return "ti ti-adjustments";
+   }
 
    /**
     * Singleton for the unique config record
@@ -224,6 +230,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
                    1 => __('First'),
                    2 => __('All')];
 
+      $yesnoalldefault = [0 => __('No'),
+                   1 => __('First'),
+                   2 => __('All'),
+                   3 => __('Default group')];
+
       $config = self::getInstance();
 
       $config->showFormHeader();
@@ -264,7 +275,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
-      Dropdown::showFromArray('use_requester_user_group', $yesnoall,
+      Dropdown::showFromArray('use_requester_user_group', $yesnoalldefault,
                               ['value' => $config->fields['use_requester_user_group']]);
       echo "<td>".__("Show assets of my groups", "behaviors")."</td><td>";
       Dropdown::showYesNo('groupasset', $config->fields['groupasset']);
@@ -279,15 +290,18 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Requester is mandatory", "behaviors")."</td><td>";
-      Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
+      echo "<td>";
+//      echo __("Requester is mandatory", "behaviors");
+      echo "</td><td>";
+//      Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
+      echo Html::hidden('is_requester_mandatory', ['value' => 0]);
       echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
       Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
-      echo "</td><td class='tab_bg_1'>".__('Allow Clone', 'behaviors')."</td><td>";
+      echo "</td><td class='tab_bg_1'>".__('Add profile clone', 'behaviors')."</td><td>";
       Dropdown::showYesNo('clone', $config->fields['clone']);
       echo "</td></tr>";
 

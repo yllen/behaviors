@@ -244,9 +244,8 @@ class PluginBehaviorsITILSolution {
          }
 
          if ($config->getField('is_tickettech_mandatory')) {
-            if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])
-                && !$config->getField('ticketsolved_updatetech')) {
+            if ($ticket->countUsers(CommonITILActor::ASSIGN) == 0
+                && $config->getField('ticketsolved_updatetech') == 0) {
 
                $warnings[] = __("Technician assigned is mandatory before ticket is solved/closed",
                                 'behaviors');
@@ -254,9 +253,7 @@ class PluginBehaviorsITILSolution {
          }
 
          if ($config->getField('is_tickettechgroup_mandatory')) {
-            if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['groups_id'])) {
-
+            if ($ticket->countGroups(CommonITILActor::ASSIGN) == 0) {
                $warnings[] = __("Group of technicians assigned is mandatory before ticket is solved/closed",
                                 'behaviors');
             }
@@ -269,11 +266,15 @@ class PluginBehaviorsITILSolution {
          }
 
          if ($config->getField('is_tickettasktodo')) {
+            $ko = 0;
             foreach ($DB->request('glpi_tickettasks',
                                  ['tickets_id' => $ticket->getField('id')]) as $task) {
                if ($task['state'] == 1) {
-                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  $ko++;
                }
+            }
+            if ($ko > 0) {
+               $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
             }
          }
       }
@@ -293,11 +294,22 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (is_array($warnings) && count($warnings)) {
-               echo "<div class='alert alert-important alert-warning d-flex'>";
-               echo "<i class='fa fa-exclamation-triangle fa-3x'></i>";
-               echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
-               echo "<div class='sep'></div>";
+            if (is_array($warnings) && count($warnings) > 0) {
+               echo "<div class='alert alert-warning'>";
+
+               echo "<div class='d-flex'>";
+
+               echo "<div class='me-2'>";
+               echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
+               echo "</div>";
+
+               echo "<div>";
+               echo "<h4 class='alert-title'>" . __('You cannot resolve the ticket', 'behaviors') . "</h4>";
+               echo "<div class='text-muted'>" . implode('</div><div>', $warnings) . "</div>";
+               echo "</div>";
+
+               echo "</div>";
+
                echo "</div>";
             }
             return $params;
@@ -319,7 +331,7 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (is_array($warnings) && count($warnings)) {
+            if (is_array($warnings) && count($warnings) > 0) {
                echo Html::scriptBlock("$(document).ready(function(){
                         $('.itilsolution').children().find(':submit').hide();
                      });");
