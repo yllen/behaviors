@@ -332,7 +332,7 @@ class PluginBehaviorsTicket {
                                || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
-                                                                                  'use_notification'  => "",
+                                                                                  'use_notification'  => "1",
                                                                                   'alternative_email' => ""];
                               $_SESSION['glpi_behaviors_auto_group_request'][] = $grp;
                            }
@@ -348,7 +348,7 @@ class PluginBehaviorsTicket {
                                || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
-                                                                                  'use_notification'  => "",
+                                                                                  'use_notification'  => "1",
                                                                                   'alternative_email' => ""];
                               $_SESSION['glpi_behaviors_auto_group_request'][] = $grp;
                            }
@@ -365,7 +365,7 @@ class PluginBehaviorsTicket {
                                   || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
                                  $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                      'items_id'          => $grp,
-                                                                                     'use_notification'  => "",
+                                                                                     'use_notification'  => "1",
                                                                                      'alternative_email' => ""];
                                  $_SESSION['glpi_behaviors_auto_group_request'][] = $grp;
                               }
@@ -396,7 +396,7 @@ class PluginBehaviorsTicket {
                                || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign'])) {
                               $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                  'items_id'          => $grp,
-                                                                                 'use_notification'  => "",
+                                                                                 'use_notification'  => "1",
                                                                                  'alternative_email' => ""];
                               $_SESSION['glpi_behaviors_auto_group_assign'][] = $grp;
                            }
@@ -412,7 +412,7 @@ class PluginBehaviorsTicket {
                                   || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign'])) {
                                  $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                     'items_id'          => $grp,
-                                                                                    'use_notification'  => "",
+                                                                                    'use_notification'  => "1",
                                                                                     'alternative_email' => ""];
                                  $_SESSION['glpi_behaviors_auto_group_assign'][] = $grp;
                               }
@@ -484,6 +484,15 @@ class PluginBehaviorsTicket {
       //         }
       //      }
 
+      //for simplified interface
+      if (!isset($ticket->input['_actors'])
+          && isset($ticket->input['_users_id_requester'])) {
+         $ticket->input['_actors']['requester'][] = ['itemtype'          => 'User',
+                                                     'items_id'          => $ticket->input['_users_id_requester'],
+                                                     'use_notification'  => "1",
+                                                     'alternative_email' => ""];
+      }
+
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
@@ -504,7 +513,7 @@ class PluginBehaviorsTicket {
                         if ($item->getFromDB($itemid)) {
                            $actors['requester'][] = ['itemtype'          => 'Group',
                                                      'items_id'          => $item->getField('groups_id'),
-                                                     'use_notification'  => "",
+                                                     'use_notification'  => "1",
                                                      'alternative_email' => ""];
                         }
                      }
@@ -547,7 +556,7 @@ class PluginBehaviorsTicket {
                   if ($grp > 0 && $ko == 0) {
                      $actors['requester'][] = ['itemtype'          => 'Group',
                                                'items_id'          => $grp,
-                                               'use_notification'  => "",
+                                               'use_notification'  => "1",
                                                'alternative_email' => ""];
                   }
                } else if ($config->getField('use_requester_user_group') == 3) {
@@ -565,7 +574,7 @@ class PluginBehaviorsTicket {
                   if ($grp > 0 && $ko == 0) {
                      $actors['requester'][] = ['itemtype'          => 'Group',
                                                'items_id'          => $grp,
-                                               'use_notification'  => "",
+                                               'use_notification'  => "1",
                                                'alternative_email' => ""];
                   }
 
@@ -584,7 +593,7 @@ class PluginBehaviorsTicket {
                      foreach ($grps as $grp) {
                         $actors['requester'][] = ['itemtype'          => 'Group',
                                                   'items_id'          => $grp,
-                                                  'use_notification'  => "",
+                                                  'use_notification'  => "1",
                                                   'alternative_email' => ""];
                      }
                   }
@@ -607,7 +616,7 @@ class PluginBehaviorsTicket {
          }
          $actors['assign'][]       = ['itemtype'          => 'User',
                                       'items_id'          => Session::getLoginUserID(),
-                                      'use_notification'  => "",
+                                      'use_notification'  => "1",
                                       'alternative_email' => ""];
          $ticket->input['_actors'] = $actors;
       }
@@ -645,7 +654,7 @@ class PluginBehaviorsTicket {
                   if ($ko == 0) {
                      $actors['assign'][] = ['itemtype'          => 'Group',
                                             'items_id'          => $grp,
-                                            'use_notification'  => "",
+                                            'use_notification'  => "1",
                                             'alternative_email' => ""];
                   }
                } else {
@@ -663,7 +672,7 @@ class PluginBehaviorsTicket {
                      foreach ($grps as $grp) {
                         $actors['assign'][] = ['itemtype'          => 'Group',
                                                'items_id'          => $grp,
-                                               'use_notification'  => "",
+                                               'use_notification'  => "1",
                                                'alternative_email' => ""];
                      }
                   }
@@ -872,7 +881,7 @@ class PluginBehaviorsTicket {
                   if ($ko == 0) {
                      $actors['assign'][] = ['itemtype'          => 'Group',
                                             'items_id'          => $grp,
-                                            'use_notification'  => "",
+                                            'use_notification'  => "1",
                                             'alternative_email' => ""];
                   }
                } else {
@@ -890,7 +899,7 @@ class PluginBehaviorsTicket {
                      foreach ($grps as $grp) {
                         $actors['assign'][] = ['itemtype'          => 'Group',
                                                'items_id'          => $grp,
-                                               'use_notification'  => "",
+                                               'use_notification'  => "1",
                                                'alternative_email' => ""];
                      }
                   }
