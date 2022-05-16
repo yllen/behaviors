@@ -540,7 +540,9 @@ class PluginBehaviorsTicket {
          if (isset($actors['requester'])) {
             $requesters = $actors['requester'];
             // Select first group of this user
-            $ko = 0;
+            $ko   = 0;
+            $grp  = 0;
+            $grps = [];
             foreach ($requesters as $requester) {
                if ($config->getField('use_requester_user_group') == 1) {
                   // First group
@@ -638,7 +640,9 @@ class PluginBehaviorsTicket {
          if (isset($actors['assign'])) {
             $assigneds = $actors['assign'];
             // Select first group of this user
-            $ko = 0;
+            $ko   = 0;
+            $grp  = 0;
+            $grps = [];
             foreach ($assigneds as $assigned) {
                if ($config->getField('use_assign_user_group') == 1) {
                   // First group
@@ -865,7 +869,9 @@ class PluginBehaviorsTicket {
          if (isset($actors['assign'])) {
             $assigneds = $actors['assign'];
             // Select first group of this user
-            $ko = 0;
+            $ko   = 0;
+            $grp  = 0;
+            $grps = [];
             foreach ($assigneds as $assigned) {
                if ($config->getField('use_assign_user_group_update') == 1) {
                   // First group
