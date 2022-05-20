@@ -329,7 +329,7 @@ class PluginBehaviorsTicket {
                                                                          $requester['items_id'],
                                                                          true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
                                                                                   'use_notification'  => "1",
@@ -345,7 +345,7 @@ class PluginBehaviorsTicket {
                               $grp = $user->fields['groups_id'];
                            }
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
                                                                                   'use_notification'  => "1",
@@ -362,7 +362,7 @@ class PluginBehaviorsTicket {
                                                                           false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_request'])
-                                  || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request'])) {
+                                  || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
                                  $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                      'items_id'          => $grp,
                                                                                      'use_notification'  => "1",
@@ -393,7 +393,7 @@ class PluginBehaviorsTicket {
                                                                           $assigned['items_id'],
                                                                           true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                               || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign'])) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_assign']) &&  !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))) {
                               $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                  'items_id'          => $grp,
                                                                                  'use_notification'  => "1",
@@ -409,7 +409,7 @@ class PluginBehaviorsTicket {
                                                                            false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                                  || !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign'])) {
+                                  || (is_array($_SESSION['glpi_behaviors_auto_group_assign']) &&  !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))) {
                                  $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                     'items_id'          => $grp,
                                                                                     'use_notification'  => "1",

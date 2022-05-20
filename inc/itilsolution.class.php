@@ -76,7 +76,7 @@ class PluginBehaviorsITILSolution {
           && $soluce->input['itemtype'] == 'Ticket') {
 
          if ($config->getField('is_ticketrealtime_mandatory')
-             && ($ticket->fields['actiontime'] == 0)) {
+             && $ticket->fields['actiontime'] == 0) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Duration is mandatory before ticket is solved/closed",
                                              'behaviors'), true, ERROR);
@@ -229,14 +229,14 @@ class PluginBehaviorsITILSolution {
          if ($config->getField('is_ticketrealtime_mandatory')) {
             $plugin = new Plugin();
             if ($plugin->isActivated('moreticket')) {
-               $config = new PluginMoreticketConfig();
-               $mandatory_solution = $config->isMandatorysolution();
+               $configMoreticket = new PluginMoreticketConfig();
+               $mandatory_solution = $configMoreticket->isMandatorysolution();
             }
             if ($dur == 0 && $mandatory_solution == false) {
                 $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
             }
-
          }
+
          if ($config->getField('is_ticketcategory_mandatory')) {
             if ($cat == 0) {
                $warnings[] = __("Category is mandatory before ticket is solved/closed", 'behaviors');
