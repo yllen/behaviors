@@ -84,7 +84,9 @@ class PluginBehaviorsCommon extends CommonGLPI {
       $config = PluginBehaviorsConfig::getInstance();
       if (array_key_exists($item->getType(), self::$clone_types)
           && $item->canUpdate()
-          && $config->getField('clone')) {
+          && $config->getField('clone')
+      && isset($_SESSION["glpiactiveprofile"]["interface"])
+          && $_SESSION["glpiactiveprofile"]["interface"] != "helpdesk") {
          return sprintf(__('%1$s (%2$s)'), __('Clone', 'behaviors'),
                         __('Behaviours', 'behaviors'));
       }
