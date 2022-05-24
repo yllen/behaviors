@@ -300,7 +300,6 @@ class PluginBehaviorsTicket {
       }
    }
 
-
    /**
     * @return void
     */
@@ -321,7 +320,11 @@ class PluginBehaviorsTicket {
                if (isset($actors['requester'])) {
                   $requesters = $actors['requester'];
                   // Select first group of this user
+                  $group_requester_actors = [];
                   foreach ($requesters as $requester) {
+                     if ($requester['itemtype'] == 'Group') {
+                        $group_requester_actors[] = $requester['items_id'];
+                     }
                      if ($requester['itemtype'] == 'User') {
                         if ($config->getField('use_requester_user_group') == 1) {
                            // First group
@@ -329,7 +332,9 @@ class PluginBehaviorsTicket {
                                                                          $requester['items_id'],
                                                                          true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                                   && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
+                                  && !in_array($grp, $group_requester_actors)) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
                                                                                   'use_notification'  => "1",
@@ -345,7 +350,9 @@ class PluginBehaviorsTicket {
                               $grp = $user->fields['groups_id'];
                            }
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                                   && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
+                                  && !in_array($grp, $group_requester_actors)) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                   'items_id'          => $grp,
                                                                                   'use_notification'  => "1",
@@ -362,7 +369,9 @@ class PluginBehaviorsTicket {
                                                                           false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_request'])
-                                  || (is_array($_SESSION['glpi_behaviors_auto_group_request']) && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))) {
+                                  || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                                      && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
+                                     && !in_array($grp, $group_requester_actors)) {
                                  $actors['requester'][]                           = ['itemtype'          => 'Group',
                                                                                      'items_id'          => $grp,
                                                                                      'use_notification'  => "1",
@@ -385,7 +394,11 @@ class PluginBehaviorsTicket {
                if (isset($actors['assign'])) {
                   $assigneds = $actors['assign'];
                   // Select first group of this user
+                  $group_assign_actors = [];
                   foreach ($assigneds as $assigned) {
+                     if ($assigned['itemtype'] == 'Group') {
+                        $group_assign_actors[] = $assigned['items_id'];
+                     }
                      if ($assigned['itemtype'] == 'User') {
                         if ($config->getField('use_assign_user_group') == 1) {
                            // First group
@@ -393,7 +406,9 @@ class PluginBehaviorsTicket {
                                                                           $assigned['items_id'],
                                                                           true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_assign']) &&  !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))) {
+                               || (is_array($_SESSION['glpi_behaviors_auto_group_assign'])
+                                   && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))
+                                  && !in_array($grp, $group_assign_actors)) {
                               $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                  'items_id'          => $grp,
                                                                                  'use_notification'  => "1",
@@ -409,7 +424,9 @@ class PluginBehaviorsTicket {
                                                                            false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                                  || (is_array($_SESSION['glpi_behaviors_auto_group_assign']) &&  !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))) {
+                                  || (is_array($_SESSION['glpi_behaviors_auto_group_assign'])
+                                      && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))
+                                     && !in_array($grp, $group_assign_actors)) {
                                  $actors['assign'][]                             = ['itemtype'          => 'Group',
                                                                                     'items_id'          => $grp,
                                                                                     'use_notification'  => "1",
@@ -877,8 +894,8 @@ class PluginBehaviorsTicket {
                   // First group
                   if ($requester['itemtype'] == 'User') {
                      $grp = PluginBehaviorsUser::getRequesterGroup($ticket->fields['entities_id'],
-                                                                    $requester['items_id'],
-                                                                    true);
+                                                                   $requester['items_id'],
+                                                                   true);
                   }
                   if ($grp > 0 && $requester['itemtype'] == 'Group'
                       && $requester['items_id'] == $grp) {
@@ -886,9 +903,9 @@ class PluginBehaviorsTicket {
                   }
                   if ($ko == 0) {
                      $actors['requester'][] = ['itemtype'          => 'Group',
-                                            'items_id'          => $grp,
-                                            'use_notification'  => "1",
-                                            'alternative_email' => ""];
+                                               'items_id'          => $grp,
+                                               'use_notification'  => "1",
+                                               'alternative_email' => ""];
                   }
                } else if ($config->getField('use_requester_user_group_update') == 3) {
                   // Default group
@@ -914,7 +931,7 @@ class PluginBehaviorsTicket {
                   if ($requester['itemtype'] == 'User') {
                      $grps = PluginBehaviorsUser::getRequesterGroup($ticket->fields['entities_id'],
                                                                     $requester['items_id'],
-                                                                     false);
+                                                                    false);
                   }
                   if ($requester['itemtype'] == 'Group'
                       && in_array($requester['items_id'], $grps)) {
@@ -923,9 +940,9 @@ class PluginBehaviorsTicket {
                   if (count($grps) > 0) {
                      foreach ($grps as $grp) {
                         $actors['requester'][] = ['itemtype'          => 'Group',
-                                               'items_id'          => $grp,
-                                               'use_notification'  => "1",
-                                               'alternative_email' => ""];
+                                                  'items_id'          => $grp,
+                                                  'use_notification'  => "1",
+                                                  'alternative_email' => ""];
                      }
                   }
                }

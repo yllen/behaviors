@@ -245,8 +245,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center' width='60%'>".__('New ticket')."</td>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Inventory', 'behaviors')."</td>";
+      echo "<th colspan='2' class='tab_bg_2 b center' width='60%'>".__('New ticket')."</th>";
+      echo "<th colspan='2' class='tab_bg_2 b center'>".__('Inventory', 'behaviors')."</th>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -290,53 +290,59 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group', $yesnoall,
                               ['value' => $config->fields['use_assign_user_group']]);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
+      echo "</td><th colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
             'behaviors');
-      echo "</td></tr>\n";
+      echo "</th></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>";
+//      echo "<td>";
 //      echo __("Requester is mandatory", "behaviors");
-      echo "</td><td>";
+//      echo "</td><td>";
 //      Dropdown::showYesNo("is_requester_mandatory", $config->fields['is_requester_mandatory']);
       echo Html::hidden('is_requester_mandatory', ['value' => 0]);
+      echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";
+      Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
+      echo "</td>";
+
       echo "<td>".__('Additional notifications', 'behaviors')."</td><td>";
       Dropdown::showYesNo('add_notif', $config->fields['add_notif']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
+      echo "<th colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</th>";
       echo "</td><td class='tab_bg_1'>".__('Add profile clone', 'behaviors')."</td><td>";
       Dropdown::showYesNo('clone', $config->fields['clone']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
-      Dropdown::showYesNo("is_ticketrealtime_mandatory",
-                          $config->fields['is_ticketrealtime_mandatory']);
-      echo "<td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</td></tr>";
+      echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
+      Dropdown::showFromArray('use_requester_user_group_update', $yesnoalldefault,
+                              ['value' => $config->fields['use_requester_user_group_update']]);
+      echo "</td>";
+      echo "<th colspan=2' class='tab_bg_2 b center'>".__('Update of a problem')."</th></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
-      Dropdown::showYesNo("is_ticketcategory_mandatory",
-                          $config->fields['is_ticketcategory_mandatory']);
-      echo "</td><td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
+      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
+      Dropdown::showFromArray('use_assign_user_group_update', $yesnoall,
+                              ['value' => $config->fields['use_assign_user_group_update']]);
+      echo "</td>";
+      echo "<td>".__('Type of solution is mandatory before problem is solved/closed', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_problemsolutiontype_mandatory",
                           $config->fields['is_problemsolutiontype_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Type of solution is mandatory before ticket is solved/closed', 'behaviors');
-      echo "</td><td>";
-      Dropdown::showYesNo("is_ticketsolutiontype_mandatory",
-                          $config->fields['is_ticketsolutiontype_mandatory']);
-      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('New change')."</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Category is mandatory when you assign a ticket', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory_on_assign",
                           $config->fields['is_ticketcategory_mandatory_on_assign']);
+      echo "</td>";
+      echo "<th colspan=2' class='tab_bg_2 b center'>".__('New change')."</th></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("is_tickettaskcategory_mandatory",
+                          $config->fields['is_tickettaskcategory_mandatory']);
       echo "</td><td>".__("Change's number format", "behaviors")."</td><td width='20%'>";
       $tab = ['NULL' => Dropdown::EMPTY_VALUE];
       foreach (['Y000001', 'Ym0001', 'Ymd01', 'ymd0001'] as $fmt) {
@@ -347,27 +353,37 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "</td><td>".__('Description of solution is mandatory before ticket is solved/closed',
-                          'behaviors');
-      echo "</td><td>";
-      Dropdown::showYesNo("is_ticketsolution_mandatory",
-                          $config->fields['is_ticketsolution_mandatory']);
+      echo "<td>".__('Protect from simultaneous update', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
       echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
-      echo "</td></tr>";
+      echo "</td>";
+      echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Technician assigned is mandatory before ticket is solved/closed', 'behaviors');
-      echo "</td><td>";
-      Dropdown::showYesNo("is_tickettech_mandatory",
-                          $config->fields['is_tickettech_mandatory']);
-      echo "</td><td rowspan='7' colspan='2' class='center'>";
+      echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
+      $tab = [0 => __('No'),
+              1 => __('Single user and single group', 'behaviors'),
+              2 => __('Single user or group', 'behaviors')];
+      Dropdown::showFromArray('single_tech_mode', $tab,
+                              ['value' => $config->fields['single_tech_mode']]);
+      echo "</td>";
+      echo "<td rowspan='7' colspan='2' class='center'>";
       Html::textarea(["name" => "comment",
                       "enable_richtext" => false,
                       "value" => $config->fields['comment'],
-                        "cols" => "60",
-                        "rows" => "12"]);
+                      "cols" => "60",
+                      "rows" => "12"]);
       echo "</td></tr>";
 
+      echo "<tr class='tab_bg_1'>";
+      echo "<th colspan='2' class='tab_bg_2 b center'>".__('Resolution of a ticket')."</th>";
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("is_ticketcategory_mandatory",
+                          $config->fields['is_ticketcategory_mandatory']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Group of technicians assigned is mandatory before ticket is solved/closed',
@@ -378,47 +394,23 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Use the requester's group", "behaviors")."</td><td>";
-      Dropdown::showFromArray('use_requester_user_group_update', $yesnoalldefault,
-                              ['value' => $config->fields['use_requester_user_group_update']]);
-      echo "</td></tr>\n";
+      echo "<td>".__('Technician assigned is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_tickettech_mandatory",
+                          $config->fields['is_tickettech_mandatory']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
-      Dropdown::showFromArray('use_assign_user_group_update', $yesnoall,
-                              ['value' => $config->fields['use_assign_user_group_update']]);
-      echo "</td></tr>\n";
+      echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
+      Dropdown::showYesNo("is_ticketrealtime_mandatory",
+                          $config->fields['is_ticketrealtime_mandatory']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Location is mandatory before ticket is solved/closed', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("is_ticketlocation_mandatory",
-      $config->fields['is_ticketlocation_mandatory']);
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Task category is mandatory in a task', 'behaviors')."</td><td>";
-      Dropdown::showYesNo("is_tickettaskcategory_mandatory",
-      $config->fields['is_tickettaskcategory_mandatory']);
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".__("Deny change of ticket's creation date", "behaviors")."</td><td>";
-      Dropdown::showYesNo("is_ticketdate_locked", $config->fields['is_ticketdate_locked']);
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Protect from simultaneous update', 'behaviors')."</td><td>";
-      Dropdown::showYesNo("use_lock", $config->fields['use_lock']);
-      echo "</td></tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Single technician and group', 'behaviors')."</td><td>";
-      $tab = [0 => __('No'),
-              1 => __('Single user and single group', 'behaviors'),
-              2 => __('Single user or group', 'behaviors')];
-      Dropdown::showFromArray('single_tech_mode', $tab,
-                              ['value' => $config->fields['single_tech_mode']]);
+                          $config->fields['is_ticketlocation_mandatory']);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -426,6 +418,21 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettasktodo", $config->fields['is_tickettasktodo']);
       echo "</td><td colspan='2'></td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Type of solution is mandatory before ticket is solved/closed', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketsolutiontype_mandatory",
+                          $config->fields['is_ticketsolutiontype_mandatory']);
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "</td><td>".__('Description of solution is mandatory before ticket is solved/closed',
+                          'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("is_ticketsolution_mandatory",
+                          $config->fields['is_ticketsolution_mandatory']);
+      echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>". __('Add the logged technician when solve ticket', 'behaviors');
