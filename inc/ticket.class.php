@@ -332,7 +332,8 @@ class PluginBehaviorsTicket {
                                                                          $requester['items_id'],
                                                                          true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                               || (isset($_SESSION['glpi_behaviors_auto_group_request'])
+                                   && is_array($_SESSION['glpi_behaviors_auto_group_request'])
                                    && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
                                   && !in_array($grp, $group_requester_actors)) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
@@ -350,7 +351,8 @@ class PluginBehaviorsTicket {
                               $grp = $user->fields['groups_id'];
                            }
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_request'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                               || (isset($_SESSION['glpi_behaviors_auto_group_request'])
+                                   && is_array($_SESSION['glpi_behaviors_auto_group_request'])
                                    && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
                                   && !in_array($grp, $group_requester_actors)) {
                               $actors['requester'][]                           = ['itemtype'          => 'Group',
@@ -369,7 +371,8 @@ class PluginBehaviorsTicket {
                                                                           false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_request'])
-                                  || (is_array($_SESSION['glpi_behaviors_auto_group_request'])
+                                  || (isset($_SESSION['glpi_behaviors_auto_group_request'])
+                                      && is_array($_SESSION['glpi_behaviors_auto_group_request'])
                                       && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_request']))
                                      && !in_array($grp, $group_requester_actors)) {
                                  $actors['requester'][]                           = ['itemtype'          => 'Group',
@@ -406,7 +409,8 @@ class PluginBehaviorsTicket {
                                                                           $assigned['items_id'],
                                                                           true);
                            if ($grp > 0 && !isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                               || (is_array($_SESSION['glpi_behaviors_auto_group_assign'])
+                               || (isset($_SESSION['glpi_behaviors_auto_group_assign'])
+                                   && is_array($_SESSION['glpi_behaviors_auto_group_assign'])
                                    && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))
                                   && !in_array($grp, $group_assign_actors)) {
                               $actors['assign'][]                             = ['itemtype'          => 'Group',
@@ -424,7 +428,8 @@ class PluginBehaviorsTicket {
                                                                            false);
                            foreach ($grps as $grp) {
                               if (!isset($_SESSION['glpi_behaviors_auto_group_assign'])
-                                  || (is_array($_SESSION['glpi_behaviors_auto_group_assign'])
+                                  || (isset($_SESSION['glpi_behaviors_auto_group_assign'])
+                                      && is_array($_SESSION['glpi_behaviors_auto_group_assign'])
                                       && !in_array($grp, $_SESSION['glpi_behaviors_auto_group_assign']))
                                      && !in_array($grp, $group_assign_actors)) {
                                  $actors['assign'][]                             = ['itemtype'          => 'Group',
@@ -501,15 +506,6 @@ class PluginBehaviorsTicket {
       //         }
       //      }
 
-      //for simplified interface
-      if (!isset($ticket->input['_actors'])
-          && isset($ticket->input['_users_id_requester'])) {
-         $ticket->input['_actors']['requester'][] = ['itemtype'          => 'User',
-                                                     'items_id'          => $ticket->input['_users_id_requester'],
-                                                     'use_notification'  => "1",
-                                                     'alternative_email' => ""];
-      }
-
       if ($config->getField('use_requester_item_group')
           && isset($ticket->input['items_id'])
           && (is_array($ticket->input['items_id']))) {
@@ -517,6 +513,15 @@ class PluginBehaviorsTicket {
             if (($item = $dbu->getItemForItemtype($type))
                 && isset($ticket->input['_actors'])) {
                $actors = $ticket->input['_actors'];
+
+               //for simplified interface
+               if (!isset($actors['requester']) && isset($ticket->input['_users_id_requester'])) {
+                  $actors['requester'][] = ['itemtype'          => 'User',
+                                            'items_id'          => $ticket->input['_users_id_requester'],
+                                            'use_notification'  => "1",
+                                            'alternative_email' => ""];
+               }
+
                if (isset($actors['requester'])) {
                   $requesters = $actors['requester'];
                   $ko         = 0;
@@ -554,6 +559,14 @@ class PluginBehaviorsTicket {
       if ($config->getField('use_requester_user_group') > 0
           && isset($ticket->input['_actors'])) {
          $actors = $ticket->input['_actors'];
+
+         //for simplified interface
+         if (!isset($actors['requester']) && isset($ticket->input['_users_id_requester'])) {
+            $actors['requester'][] = ['itemtype'          => 'User',
+                                      'items_id'          => $ticket->input['_users_id_requester'],
+                                      'use_notification'  => "1",
+                                      'alternative_email' => ""];
+         }
          if (isset($actors['requester'])) {
             $requesters = $actors['requester'];
             // Select first group of this user
@@ -638,6 +651,18 @@ class PluginBehaviorsTicket {
                                       'use_notification'  => "1",
                                       'alternative_email' => ""];
          $ticket->input['_actors'] = $actors;
+      }
+      //for simplified interface
+      if (isset($_SESSION["glpiactiveprofile"]["interface"])
+          && $_SESSION["glpiactiveprofile"]["interface"] == "helpdesk"
+          && isset($ticket->input['_actors']['requester'])) {
+
+         $requesters = $ticket->input['_actors']['requester'];
+         foreach ($requesters as $k => $requester) {
+            if ($requester['itemtype'] == 'User') {
+               unset($ticket->input['_actors']['requester'][$k]);
+            }
+         }
       }
    }
 
