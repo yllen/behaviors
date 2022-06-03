@@ -350,7 +350,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettech_mandatory",
                           $config->fields['is_tickettech_mandatory']);
-      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('Update of change');
+      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('Update of a change');
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

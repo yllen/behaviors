@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-22 16:30+0200\n"
+"POT-Creation-Date: 2022-06-03 19:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,215 +18,236 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:99 inc/config.class.php:57
+#: setup.php:101 inc/common.class.php:89 inc/config.class.php:56
+#: inc/document_item.class.php:46 inc/document_item.class.php:50
+#: inc/ticket.class.php:53 inc/ticket.class.php:57 inc/ticket.class.php:61
+#: inc/ticket.class.php:76 inc/ticket.class.php:79 inc/ticket.class.php:82
+#: inc/ticket.class.php:85 inc/ticket.class.php:88 inc/ticket.class.php:92
 msgid "Behaviours"
 msgstr ""
 
-#: inc/common.class.php:88 inc/common.class.php:100 inc/common.class.php:120
+#: inc/common.class.php:88 inc/common.class.php:101 inc/common.class.php:121
 msgid "Clone"
 msgstr ""
 
-#: inc/common.class.php:111 inc/common.class.php:190
+#: inc/common.class.php:112 inc/common.class.php:191
 msgid "Clone of"
 msgstr ""
 
-#: inc/config.class.php:115
+#: inc/config.class.php:116
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr ""
 
-#: inc/config.class.php:121
+#: inc/config.class.php:122
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr ""
 
-#: inc/config.class.php:233
+#: inc/config.class.php:238
 msgid "Inventory"
 msgstr ""
 
-#: inc/config.class.php:237
+#: inc/config.class.php:242
 msgid "Ticket's number format"
 msgstr ""
 
-#: inc/config.class.php:244
+#: inc/config.class.php:249
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr ""
 
-#: inc/config.class.php:250
+#: inc/config.class.php:255
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr ""
 
-#: inc/config.class.php:253
+#: inc/config.class.php:258
 msgid "Plugin \"OCS Inventory NG\" not installed"
 msgstr ""
 
-#: inc/config.class.php:259
+#: inc/config.class.php:264
 msgid "Use the associated item's group"
 msgstr ""
 
-#: inc/config.class.php:261
+#: inc/config.class.php:266
 msgid "Show my assets"
 msgstr ""
 
-#: inc/config.class.php:266
+#: inc/config.class.php:271
 msgid "Use the requester's group"
 msgstr ""
 
-#: inc/config.class.php:269
+#: inc/config.class.php:274
 msgid "Show assets of my groups"
 msgstr ""
 
-#: inc/config.class.php:274 inc/config.class.php:350
+#: inc/config.class.php:279 inc/config.class.php:368
 msgid "Use the technician's group"
 msgstr ""
 
-#: inc/config.class.php:277
+#: inc/config.class.php:282
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/config.class.php:282 inc/ticket.class.php:304
+#: inc/config.class.php:287 inc/ticket.class.php:309
 msgid "Requester is mandatory"
 msgstr ""
 
-#: inc/config.class.php:284
+#: inc/config.class.php:289
 msgid "Additional notifications"
 msgstr ""
 
-#: inc/config.class.php:290
+#: inc/config.class.php:295
 msgid "Allow Clone"
 msgstr ""
 
-#: inc/config.class.php:295 inc/itilsolution.class.php:80
-#: inc/ticket.class.php:478
+#: inc/config.class.php:300 inc/itilsolution.class.php:75
+#: inc/itilsolution.class.php:258 inc/ticket.class.php:484
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:301 inc/itilsolution.class.php:87
-#: inc/ticket.class.php:485
+#: inc/config.class.php:307 inc/itilsolution.class.php:82
+#: inc/itilsolution.class.php:264 inc/ticket.class.php:491
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:304 inc/itilsolution.class.php:130
+#: inc/config.class.php:310 inc/itilsolution.class.php:129
 #: inc/problem.class.php:65
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:311 inc/ticket.class.php:530
+#: inc/config.class.php:317 inc/itilsolution.class.php:61
+#: inc/itilsolution.class.php:188 inc/ticket.class.php:460
+msgid "Type of solution is mandatory before ticket is solved/closed"
+msgstr ""
+
+#: inc/config.class.php:321
+msgid "Block the solving/closing of a problem if task do to"
+msgstr ""
+
+#: inc/config.class.php:327 inc/ticket.class.php:540
 msgid "Category is mandatory when you assign a ticket"
 msgstr ""
 
-#: inc/config.class.php:317 inc/itilsolution.class.php:68
-#: inc/itilsolution.class.php:169 inc/ticket.class.php:460
+#: inc/config.class.php:334 inc/itilsolution.class.php:68
+#: inc/itilsolution.class.php:197 inc/ticket.class.php:466
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:322
+#: inc/config.class.php:339
 msgid "Change's number format"
 msgstr ""
 
-#: inc/config.class.php:332 inc/itilsolution.class.php:94
-#: inc/ticket.class.php:493
+#: inc/config.class.php:349 inc/itilsolution.class.php:90
+#: inc/itilsolution.class.php:273 inc/ticket.class.php:500
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:340 inc/itilsolution.class.php:101
-#: inc/ticket.class.php:501
+#: inc/config.class.php:357 inc/itilsolution.class.php:97
+#: inc/itilsolution.class.php:282 inc/ticket.class.php:508
 msgid ""
 "Group of technicians assigned is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:362 inc/itilsolution.class.php:108
-#: inc/ticket.class.php:508
+#: inc/config.class.php:362
+msgid "Block the solving/closing of a change if task do to"
+msgstr ""
+
+#: inc/config.class.php:375 inc/itilsolution.class.php:104
+#: inc/itilsolution.class.php:289 inc/ticket.class.php:515
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr ""
 
-#: inc/config.class.php:368 inc/tickettask.class.php:58
+#: inc/config.class.php:384 inc/tickettask.class.php:58
 #: inc/tickettask.class.php:86
 msgid "Task category is mandatory in a task"
 msgstr ""
 
-#: inc/config.class.php:373
+#: inc/config.class.php:390
 msgid "Deny change of ticket's creation date"
 msgstr ""
 
-#: inc/config.class.php:378
+#: inc/config.class.php:395
 msgid "Protect from simultaneous update"
 msgstr ""
 
-#: inc/config.class.php:383
+#: inc/config.class.php:400
 msgid "Single technician and group"
 msgstr ""
 
-#: inc/config.class.php:385
+#: inc/config.class.php:402
 msgid "Single user and single group"
 msgstr ""
 
-#: inc/config.class.php:386
+#: inc/config.class.php:403
 msgid "Single user or group"
 msgstr ""
 
-#: inc/config.class.php:392
+#: inc/config.class.php:409
 msgid "Block the solving/closing of a the ticket if task do to"
 msgstr ""
 
-#: inc/config.class.php:398
+#: inc/config.class.php:420
 msgid "Add the logged technician when solve ticket"
 msgstr ""
 
-#: inc/document_item.class.php:46
+#: inc/document_item.class.php:47
 msgid "Add document to ticket"
 msgstr ""
 
-#: inc/document_item.class.php:49
+#: inc/document_item.class.php:51
 msgid "Delete document to ticket"
 msgstr ""
 
-#: inc/itilsolution.class.php:59 inc/itilsolution.class.php:160
-#: inc/ticket.class.php:454
-msgid "Type of solution is mandatory before ticket is solved/closed"
-msgstr ""
-
-#: inc/itilsolution.class.php:117 inc/ticket.class.php:516
+#: inc/itilsolution.class.php:113 inc/itilsolution.class.php:297
+#: inc/ticket.class.php:523
 msgid "You cannot solve/close a ticket with task do to"
 msgstr ""
 
-#: inc/ticket.class.php:53
+#: inc/itilsolution.class.php:138 inc/itilsolution.class.php:309
+msgid "You cannot solve/close a problem with task do to"
+msgstr ""
+
+#: inc/itilsolution.class.php:156 inc/itilsolution.class.php:321
+msgid "You cannot solve/close a change with task do to"
+msgstr ""
+
+#: inc/ticket.class.php:54
 msgid "Reopen ticket"
 msgstr ""
 
-#: inc/ticket.class.php:56
+#: inc/ticket.class.php:58
 msgid "Change status"
 msgstr ""
 
-#: inc/ticket.class.php:59
+#: inc/ticket.class.php:62
 msgid "Ticket waiting"
 msgstr ""
 
-#: inc/ticket.class.php:72
+#: inc/ticket.class.php:75
 msgid "Last technician assigned"
 msgstr ""
 
-#: inc/ticket.class.php:75
+#: inc/ticket.class.php:78
 msgid "Last group assigned"
 msgstr ""
 
-#: inc/ticket.class.php:78
+#: inc/ticket.class.php:81
 msgid "Last supplier assigned"
 msgstr ""
 
-#: inc/ticket.class.php:81
+#: inc/ticket.class.php:84
 msgid "Last watcher added"
 msgstr ""
 
-#: inc/ticket.class.php:84
+#: inc/ticket.class.php:87
 msgid "Supervisor of last group assigned"
 msgstr ""
 
-#: inc/ticket.class.php:88
+#: inc/ticket.class.php:91
 msgid "Last group assigned without supersivor"
 msgstr ""
 
-#: inc/ticket.class.php:435
+#: inc/ticket.class.php:441
 msgid "Can't save, item have been updated"
 msgstr ""
 
