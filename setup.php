@@ -43,7 +43,7 @@ function plugin_init_behaviors() {
        'Group_Ticket'       => ['PluginBehaviorsGroup_Ticket',      'afterAdd'],
        'Supplier_Ticket'    => ['PluginBehaviorsSupplier_Ticket',   'afterAdd'],
        'Document_Item'      => ['PluginBehaviorsDocument_Item',     'afterAdd'],
-       'ITILSolution'       => ['PluginBehaviorsITILSolution',      'afterAdd']];
+       'ITILFollowup'       => ['PluginBehaviorsITILFollowup',      'alterAdd']];
 
    $PLUGIN_HOOKS['item_update']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket',            'afterUpdate']];
@@ -52,7 +52,8 @@ function plugin_init_behaviors() {
       ['Ticket'             => ['PluginBehaviorsTicket',            'beforeAdd'],
        'ITILSolution'       => ['PluginBehaviorsITILSolution',      'beforeAdd'],
        'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeAdd'],
-       'Change'             => ['PluginBehaviorsChange',            'beforeAdd']];
+       'Change'             => ['PluginBehaviorsChange',            'beforeAdd'],
+       'ITILFollowup'       => ['PluginBehaviorsITILFollowup',      'beforeAdd']];
 
    $PLUGIN_HOOKS['post_prepareadd']['behaviors'] =
       ['Ticket'             => ['PluginBehaviorsTicket',            'afterPrepareAdd']];

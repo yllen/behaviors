@@ -106,6 +106,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `myasset` tinyint(1) NOT NULL default '0',
                      `groupasset` tinyint(1) NOT NULL default '0',
                      `clone` tinyint(1) NOT NULL default '0',
+                     `addfup_updatetech` tinyint(1) NOT NULL default '0',
                      `is_tickettasktodo` tinyint(1) NOT NULL default '0',
                      `is_problemtasktodo` tinyint(1) NOT NULL default '0',
                      `is_changetasktodo` tinyint(1) NOT NULL default '0',
@@ -213,6 +214,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          // version 2.6.0
          $mig->addField($table, 'is_changetasktodo', 'bool', ['after' => 'is_tickettasktodo']);
          $mig->addField($table, 'is_problemtasktodo', 'bool', ['after' => 'is_tickettasktodo']);
+         $mig->addField($table, 'addfup_updatetech', 'bool', ['after' => 'clone']);
       }
 
    }
@@ -420,6 +422,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>". __('Add the logged technician when solve ticket', 'behaviors');
       echo "</td><td>";
       Dropdown::showYesNo("ticketsolved_updatetech", $config->fields['ticketsolved_updatetech']);
+      echo "</td><td colspan='2'></td></tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>". __('Technician assignment when adding follow up', 'behaviors');
+      echo "</td><td>";
+      Dropdown::showYesNo("addfup_updatetech", $config->fields['addfup_updatetech']);
       echo "</td><td colspan='2'></td></tr>";
 
       echo "<tr class='tab_bg_1'>";

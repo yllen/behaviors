@@ -653,7 +653,7 @@ class PluginBehaviorsTicket {
 
 
    static function afterUpdate(Ticket $ticket) {
-
+      toolbox::logdebug("aftyer update ticket", $ticket);
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')
