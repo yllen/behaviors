@@ -77,9 +77,12 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       $table = 'glpi_plugin_behaviors_configs';
       if (!$DB->tableExists($table)) { //not installed
+         $default_charset   = DBConnection::getDefaultCharset();
+         $default_collation = DBConnection::getDefaultCollation();
+         $default_key_sign  = DBConnection::getDefaultPrimaryKeySignOption();
 
          $query = "CREATE TABLE `". $table."`(
-                     `id` int(11) NOT NULL,
+                     `id` int $default_key_sign NOT NULL,
                      `use_requester_item_group` tinyint(1) NOT NULL default '0',
                      `use_requester_user_group` tinyint(1) NOT NULL default '0',
                      `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
@@ -113,7 +116,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `date_mod` datetime default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
-                   ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+                   ) ENGINE=InnoDB  DEFAULT CHARSET = {$default_charset}
+                     COLLATE = {$defaut_collation} ROW_FORMAT=DYNAMIC";
          $DB->queryOrDie($query, __('Error in creating glpi_plugin_behaviors_configs', 'behaviors').
                                  "<br>".$DB->error());
 
@@ -147,7 +151,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'use_lock',                 'bool');
 
          // Version 0.83.4 - single tech/group #3857
-         $mig->addField($table, 'single_tech_mode',         'integer');
+         $mig->addField($table, 'single_tech_mode', "int {$default_key_sign} NOT NULL DEFAULT '0'");
 
          // Version 0.84.2 - solution description mandatory #2803
          $mig->addField($table, 'is_ticketsolution_mandatory', 'bool');
@@ -294,7 +298,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
-      echo "</td><td class='tab_bg_2 b center'>".__('Allow Clone', 'behaviors')."</td><td>";
+      echo "</td><td class='tab_bg_2 b'>".__('Allow Clone', 'behaviors')."</td><td>";
 
       $tab = ['0' => __('No'),
               '1' => __("In the active entity", "behaviors"),
@@ -383,7 +387,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       Dropdown::showYesNo("is_ticketlocation_mandatory",
                            $config->fields['is_ticketlocation_mandatory']);
       echo "<td rowspan='7' colspan='2' class='center'>";
-      echo "<textarea cols='60' rows='12' name='comment' >".$config->fields['comment']."</textarea>";
+      Html::textarea(['name'            => 'comment',
+                      'value'           => $config->fields['comment'],
+                      'cols'            => '60',
+                      'rows'            => '12',
+                      'enable_ricktext' => false]);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id$
  -------------------------------------------------------------------------
 
  LICENSE
@@ -35,7 +34,7 @@
 
 function plugin_behaviors_install() {
 
-   $migration = new Migration(220);
+   $migration = new Migration(270);
 
    // No autoload when plugin is not activated
    require 'inc/config.class.php';
@@ -52,7 +51,7 @@ function plugin_behaviors_uninstall() {
    // No autoload when plugin is not activated
    require 'inc/config.class.php';
 
-   $migration = new Migration(220);
+   $migration = new Migration(270);
 
    PluginBehaviorsConfig::uninstall($migration);
 

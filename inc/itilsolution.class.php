@@ -358,7 +358,7 @@ class PluginBehaviorsITILSolution {
     *
     * @return array
    **/
-   static function deleteAddSolutionButtton($params) {
+   static function deleteAddSolutionButton($params) {
 
       if (isset($params['item'])) {
          $item = $params['item'];
