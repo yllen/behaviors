@@ -295,7 +295,11 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
       echo "</td><td class='tab_bg_2 b center'>".__('Allow Clone', 'behaviors')."</td><td>";
-      Dropdown::showYesNo('clone', $config->fields['clone']);
+
+      $tab = ['0' => __('No'),
+              '1' => __("In the active entity", "behaviors"),
+              '2' => __("In the item's entity", "behaviors")];
+      Dropdown::showFromArray("clone", $tab, ['value' => $config->fields['clone']]);
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";

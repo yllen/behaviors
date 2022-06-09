@@ -101,10 +101,17 @@ class PluginBehaviorsCommon extends CommonGLPI {
       echo "<tr><th>".__('Clone', 'behaviors')."</th></tr>";
 
       if ($item->isEntityAssign()) {
+         $config = PluginBehaviorsConfig::getInstance();
+
+         if ($config->getField('clone') == 1) {
+            $entities_id = $_SESSION['glpiactive_entity'];
+         } else if ($config->getField('clone') == 2) {
+            $entities_id = $item->getEntityID();
+         }
          echo "<tr class='tab_bg_1'><td class='center'>";
          printf(__('%1$s: %2$s'), __('Destination entity'),
                    "<span class='b'>". Dropdown::getDropdownName('glpi_entities',
-                                                                $_SESSION['glpiactive_entity']).
+                                                                 $entities_id).
                    "</span>");
          echo "</td></tr>";
       }
@@ -138,7 +145,7 @@ class PluginBehaviorsCommon extends CommonGLPI {
 
 
    static function cloneItem(Array $param) {
-
+toolbox::logdebug("param", $param);
       $dbu = new DbUtils();
       // Sanity check
       if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
@@ -157,7 +164,14 @@ class PluginBehaviorsCommon extends CommonGLPI {
       $input['_old_id'] = $input['id'];
       unset($input['id']);
       if ($item->isEntityAssign()) {
-         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+         $config = PluginBehaviorsConfig::getInstance();
+
+         if ($config->getField('clone') == 1) {
+            $entities_id = $_SESSION['glpiactive_entity'];
+         } else if ($config->getField('clone') == 2) {
+            $entities_id = $item->getEntityID();
+         }
+         $input['entities_id'] = $entities_id;
       }
 
       // Manage NULL fields in original
