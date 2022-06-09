@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI Project - Plugin Behaviors\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 19:22+0200\n"
+"POT-Creation-Date: 2022-06-09 15:00+0200\n"
 "PO-Revision-Date: 2016-02-24 18:57+0000\n"
 "Last-Translator: Nelly Mahu-Lasson <nini.lasson@orange.fr>, 2016-2020,2022\n"
 "Language-Team: French (France) (http://www.transifex.com/yllen/glpi-project-plugin-behaviors/language/fr_FR/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: setup.php:101 inc/common.class.php:89 inc/config.class.php:56
+#: setup.php:102 inc/common.class.php:89 inc/config.class.php:56
 #: inc/document_item.class.php:46 inc/document_item.class.php:50
 #: inc/ticket.class.php:53 inc/ticket.class.php:57 inc/ticket.class.php:61
 #: inc/ticket.class.php:76 inc/ticket.class.php:79 inc/ticket.class.php:82
@@ -26,170 +26,182 @@ msgstr ""
 msgid "Behaviours"
 msgstr "Comportements"
 
-#: inc/common.class.php:88 inc/common.class.php:101 inc/common.class.php:121
+#: inc/common.class.php:88 inc/common.class.php:101 inc/common.class.php:128
 msgid "Clone"
 msgstr "Cloner"
 
-#: inc/common.class.php:112 inc/common.class.php:191
+#: inc/common.class.php:119 inc/common.class.php:205
 msgid "Clone of"
 msgstr "Copie de"
 
-#: inc/config.class.php:116
+#: inc/config.class.php:117
 msgid "Error in creating glpi_plugin_behaviors_configs"
 msgstr "Erreur lors de la création de la table glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:122
+#: inc/config.class.php:123
 msgid "Error during update glpi_plugin_behaviors_configs"
 msgstr "Erreur lors de la mise à jour de la table glpi_plugin_behaviors_configs"
 
-#: inc/config.class.php:238
+#: inc/config.class.php:240
 msgid "Inventory"
 msgstr "Inventaire"
 
-#: inc/config.class.php:242
+#: inc/config.class.php:244
 msgid "Ticket's number format"
 msgstr "Format de numérotation des tickets"
 
-#: inc/config.class.php:249
+#: inc/config.class.php:251
 msgid "Delete computer in OCSNG when purged from GLPI"
 msgstr "Supprimer l'ordinateur d'OCS lors de la purge dans GLPI"
 
-#: inc/config.class.php:255
+#: inc/config.class.php:257
 msgid "Plugin \"Item's uninstallation\" not installed"
 msgstr "Le plugin \"Désinstallation d'un matériel\" n'est pas installé"
 
-#: inc/config.class.php:258
+#: inc/config.class.php:260
 msgid "Plugin \"OCS Inventory NG\" not installed"
 msgstr "Le plugin \"OCS Inventory NG\" n'est pas installé"
 
-#: inc/config.class.php:264
+#: inc/config.class.php:266
 msgid "Use the associated item's group"
 msgstr "Prendre le groupe du matériel associé"
 
-#: inc/config.class.php:266
+#: inc/config.class.php:268
 msgid "Show my assets"
 msgstr "Voir mes matériels"
 
-#: inc/config.class.php:271
+#: inc/config.class.php:273
 msgid "Use the requester's group"
 msgstr "Prendre le groupe du demandeur"
 
-#: inc/config.class.php:274
+#: inc/config.class.php:276
 msgid "Show assets of my groups"
 msgstr "Voir les matériels de mes groupes"
 
-#: inc/config.class.php:279 inc/config.class.php:368
+#: inc/config.class.php:281 inc/config.class.php:374
 msgid "Use the technician's group"
 msgstr "Prendre le groupe du technicien"
 
-#: inc/config.class.php:282
+#: inc/config.class.php:284
 msgid "Notification"
 msgid_plural "Notifications"
 msgstr[0] "Notification"
 msgstr[1] "Notifications"
 msgstr[2] "Notifications"
 
-#: inc/config.class.php:287 inc/ticket.class.php:309
+#: inc/config.class.php:289 inc/ticket.class.php:309
 msgid "Requester is mandatory"
 msgstr "Demandeur est obligatoire"
 
-#: inc/config.class.php:289
+#: inc/config.class.php:291
 msgid "Additional notifications"
 msgstr "Notifications supplémentaires"
 
-#: inc/config.class.php:295
+#: inc/config.class.php:297
 msgid "Allow Clone"
 msgstr "Autoriser le clonage"
 
-#: inc/config.class.php:300 inc/itilsolution.class.php:75
+#: inc/config.class.php:300
+msgid "In the active entity"
+msgstr "dans l'entité active"
+
+#: inc/config.class.php:301
+msgid "In the item's entity"
+msgstr "dans l'entité de l'objet"
+
+#: inc/config.class.php:306 inc/itilsolution.class.php:75
 #: inc/itilsolution.class.php:258 inc/ticket.class.php:484
 msgid "Duration is mandatory before ticket is solved/closed"
 msgstr "Durée obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:307 inc/itilsolution.class.php:82
+#: inc/config.class.php:313 inc/itilsolution.class.php:82
 #: inc/itilsolution.class.php:264 inc/ticket.class.php:491
 msgid "Category is mandatory before ticket is solved/closed"
 msgstr "Catégorie obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:310 inc/itilsolution.class.php:129
+#: inc/config.class.php:316 inc/itilsolution.class.php:129
 #: inc/problem.class.php:65
 msgid "Type of solution is mandatory before problem is solved/closed"
 msgstr "Type de solution obligatoire pour résoudre/fermer un problème"
 
-#: inc/config.class.php:317 inc/itilsolution.class.php:61
+#: inc/config.class.php:323 inc/itilsolution.class.php:61
 #: inc/itilsolution.class.php:188 inc/ticket.class.php:460
 msgid "Type of solution is mandatory before ticket is solved/closed"
 msgstr "Type de solution obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:321
+#: inc/config.class.php:327
 msgid "Block the solving/closing of a problem if task do to"
 msgstr "Empêcher la résolution/fermeture d'un problème avec des tâches au statut A faire"
 
-#: inc/config.class.php:327 inc/ticket.class.php:540
+#: inc/config.class.php:333 inc/ticket.class.php:540
 msgid "Category is mandatory when you assign a ticket"
 msgstr "Catégorie obligatoire à l'assignation"
 
-#: inc/config.class.php:334 inc/itilsolution.class.php:68
+#: inc/config.class.php:340 inc/itilsolution.class.php:68
 #: inc/itilsolution.class.php:197 inc/ticket.class.php:466
 msgid "Description of solution is mandatory before ticket is solved/closed"
 msgstr "Description de la solution obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:339
+#: inc/config.class.php:345
 msgid "Change's number format"
 msgstr "Format de numérotation des changements"
 
-#: inc/config.class.php:349 inc/itilsolution.class.php:90
+#: inc/config.class.php:355 inc/itilsolution.class.php:90
 #: inc/itilsolution.class.php:273 inc/ticket.class.php:500
 msgid "Technician assigned is mandatory before ticket is solved/closed"
 msgstr "Technicien obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:357 inc/itilsolution.class.php:97
+#: inc/config.class.php:363 inc/itilsolution.class.php:97
 #: inc/itilsolution.class.php:282 inc/ticket.class.php:508
 msgid ""
 "Group of technicians assigned is mandatory before ticket is solved/closed"
 msgstr "Groupe de techniciens obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:362
+#: inc/config.class.php:368
 msgid "Block the solving/closing of a change if task do to"
 msgstr "Empêcher la résolution/fermeture d'un changement avec des tâches au statut A faire"
 
-#: inc/config.class.php:375 inc/itilsolution.class.php:104
+#: inc/config.class.php:381 inc/itilsolution.class.php:104
 #: inc/itilsolution.class.php:289 inc/ticket.class.php:515
 msgid "Location is mandatory before ticket is solved/closed"
 msgstr "Lieu obligatoire pour résoudre/fermer un ticket"
 
-#: inc/config.class.php:384 inc/tickettask.class.php:58
+#: inc/config.class.php:390 inc/tickettask.class.php:58
 #: inc/tickettask.class.php:86
 msgid "Task category is mandatory in a task"
 msgstr "Catégorie obligatoire dans une tâche"
 
-#: inc/config.class.php:390
+#: inc/config.class.php:396
 msgid "Deny change of ticket's creation date"
 msgstr "Interdire la modification de la date d'ouverture"
 
-#: inc/config.class.php:395
+#: inc/config.class.php:401
 msgid "Protect from simultaneous update"
 msgstr "Interdire les modifications simultanées"
 
-#: inc/config.class.php:400
+#: inc/config.class.php:406
 msgid "Single technician and group"
 msgstr "Utilisateur unique et groupe unique"
 
-#: inc/config.class.php:402
+#: inc/config.class.php:408
 msgid "Single user and single group"
 msgstr "Utilisateur unique et groupe unique"
 
-#: inc/config.class.php:403
+#: inc/config.class.php:409
 msgid "Single user or group"
 msgstr "Utilisateur ou groupe unique"
 
-#: inc/config.class.php:409
+#: inc/config.class.php:415
 msgid "Block the solving/closing of a the ticket if task do to"
 msgstr "Empêcher la résolution/fermeture d'un ticket avec des tâches au statut A faire"
 
-#: inc/config.class.php:420
+#: inc/config.class.php:426
 msgid "Add the logged technician when solve ticket"
 msgstr "Ajout du technicien connecté à la résolution/clôture d'un ticket"
+
+#: inc/config.class.php:432
+msgid "Technician assignment when adding follow up"
+msgstr "Ajout du technicien connecté à l'ajout d'un suivi"
 
 #: inc/document_item.class.php:47
 msgid "Add document to ticket"
