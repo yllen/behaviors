@@ -494,7 +494,7 @@ class PluginBehaviorsTicket {
          }
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])
+                && !isset($ticket->input["_itil_assign"]['users_id'])
                 && !$config->getField('ticketsolved_updatetech')) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
