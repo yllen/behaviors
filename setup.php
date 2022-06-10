@@ -81,7 +81,7 @@ function plugin_init_behaviors() {
       ['NotificationTargetTicket' => ['PluginBehaviorsTicket',      'addActionTargets']];
 
    $PLUGIN_HOOKS['pre_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'messageWarningSolution'];
-   $PLUGIN_HOOKS['post_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'deleteAddSolutionButtton'];
+   $PLUGIN_HOOKS['post_item_form']['behaviors'] = [PluginBehaviorsITILSolution::class, 'deleteAddSolutionButton'];
 
    // End init, when all types are registered
    $PLUGIN_HOOKS['post_init']['behaviors'] = ['PluginBehaviorsCommon', 'postInit'];

@@ -83,41 +83,41 @@ class PluginBehaviorsConfig extends CommonDBTM {
 
          $query = "CREATE TABLE `". $table."`(
                      `id` int $default_key_sign NOT NULL,
-                     `use_requester_item_group` tinyint(1) NOT NULL default '0',
-                     `use_requester_user_group` tinyint(1) NOT NULL default '0',
-                     `is_ticketsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketsolution_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketcategory_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketcategory_mandatory_on_assign` tinyint(1) NOT NULL default '0',
-                     `is_tickettaskcategory_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_tickettech_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_tickettechgroup_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketrealtime_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketlocation_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_requester_mandatory` tinyint(1) NOT NULL default '0',
-                     `is_ticketdate_locked` tinyint(1) NOT NULL default '0',
-                     `use_assign_user_group` tinyint(1) NOT NULL default '0',
-                     `use_assign_user_group_update` tinyint(1) NOT NULL default '0',
-                     `ticketsolved_updatetech` tinyint(1) NOT NULL default '0',
+                     `use_requester_item_group` tinyint NOT NULL default '0',
+                     `use_requester_user_group` tinyint NOT NULL default '0',
+                     `is_ticketsolutiontype_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketsolution_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketcategory_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketcategory_mandatory_on_assign` tinyint NOT NULL default '0',
+                     `is_tickettaskcategory_mandatory` tinyint NOT NULL default '0',
+                     `is_tickettech_mandatory` tinyint NOT NULL default '0',
+                     `is_tickettechgroup_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketrealtime_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketlocation_mandatory` tinyint NOT NULL default '0',
+                     `is_requester_mandatory` tinyint NOT NULL default '0',
+                     `is_ticketdate_locked` tinyint NOT NULL default '0',
+                     `use_assign_user_group` tinyint NOT NULL default '0',
+                     `use_assign_user_group_update` tinyint NOT NULL default '0',
+                     `ticketsolved_updatetech` tinyint NOT NULL default '0',
                      `tickets_id_format` VARCHAR(15) NULL,
                      `changes_id_format` VARCHAR(15) NULL,
-                     `is_problemsolutiontype_mandatory` tinyint(1) NOT NULL default '0',
-                     `remove_from_ocs` tinyint(1) NOT NULL default '0',
-                     `add_notif` tinyint(1) NOT NULL default '0',
-                     `use_lock` tinyint(1) NOT NULL default '0',
-                     `single_tech_mode` int(11) NOT NULL default '0',
-                     `myasset` tinyint(1) NOT NULL default '0',
-                     `groupasset` tinyint(1) NOT NULL default '0',
-                     `clone` tinyint(1) NOT NULL default '0',
-                     `addfup_updatetech` tinyint(1) NOT NULL default '0',
-                     `is_tickettasktodo` tinyint(1) NOT NULL default '0',
-                     `is_problemtasktodo` tinyint(1) NOT NULL default '0',
-                     `is_changetasktodo` tinyint(1) NOT NULL default '0',
-                     `date_mod` datetime default NULL,
+                     `is_problemsolutiontype_mandatory` tinyint NOT NULL default '0',
+                     `remove_from_ocs` tinyint NOT NULL default '0',
+                     `add_notif` tinyint NOT NULL default '0',
+                     `use_lock` tinyint NOT NULL default '0',
+                     `single_tech_mode` int $default_key_sign NOT NULL default '0',
+                     `myasset` tinyint NOT NULL default '0',
+                     `groupasset` tinyint NOT NULL default '0',
+                     `clone` tinyint NOT NULL default '0',
+                     `addfup_updatetech` tinyint NOT NULL default '0',
+                     `is_tickettasktodo` tinyint NOT NULL default '0',
+                     `is_problemtasktodo` tinyint NOT NULL default '0',
+                     `is_changetasktodo` tinyint NOT NULL default '0',
+                     `date_mod` timestamp default NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
                    ) ENGINE=InnoDB  DEFAULT CHARSET = {$default_charset}
-                     COLLATE = {$defaut_collation} ROW_FORMAT=DYNAMIC";
+                     COLLATE = {$default_collation} ROW_FORMAT=DYNAMIC";
          $DB->queryOrDie($query, __('Error in creating glpi_plugin_behaviors_configs', 'behaviors').
                                  "<br>".$DB->error());
 
@@ -219,6 +219,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
          $mig->addField($table, 'is_changetasktodo', 'bool', ['after' => 'is_tickettasktodo']);
          $mig->addField($table, 'is_problemtasktodo', 'bool', ['after' => 'is_tickettasktodo']);
          $mig->addField($table, 'addfup_updatetech', 'bool', ['after' => 'clone']);
+
+         //version 2.7.0
+         $mig->changeField($table, 'date_mod', 'date_mod', "timestamp NULL DEFAULT NULL");
       }
 
    }

@@ -102,11 +102,11 @@ msgstr "Kopyalanabilsin"
 
 #: inc/config.class.php:300
 msgid "In the active entity"
-msgstr ""
+msgstr "Etkin birimde"
 
 #: inc/config.class.php:301
 msgid "In the item's entity"
-msgstr ""
+msgstr "Ögenin biriminde"
 
 #: inc/config.class.php:306 inc/itilsolution.class.php:75
 #: inc/itilsolution.class.php:258 inc/ticket.class.php:484
@@ -200,7 +200,7 @@ msgstr "Bir destek kaydını çözümlerken ilgilenen teknisyeni ekleyin"
 
 #: inc/config.class.php:432
 msgid "Technician assignment when adding follow up"
-msgstr ""
+msgstr "İzleme eklendiğinde teknisyen ataması"
 
 #: inc/document_item.class.php:47
 msgid "Add document to ticket"

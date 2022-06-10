@@ -56,7 +56,8 @@ class PluginBehaviorsITILSolution {
           && ($soluce->input['itemtype'] == 'Ticket')) {
 
          if ($config->getField('is_ticketsolutiontype_mandatory')
-             && ($soluce->input['solutiontypes_id'] == 0)) {
+             && (isset($soluce->input['solutiontypes_id'])
+                 && ($soluce->input['solutiontypes_id'] == 0))) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
@@ -124,7 +125,8 @@ class PluginBehaviorsITILSolution {
           && ($soluce->input['itemtype'] == 'Problem')) {
 
          if ($config->getField('is_problemsolutiontype_mandatory')
-             && ($soluce->input['solutiontypes_id'] == 0)) {
+             && ($soluce->input['solutiontypes_id']
+                 && ($soluce->input['solutiontypes_id'] == 0))) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
                                                 'behaviors'), true, ERROR);
@@ -253,8 +255,16 @@ class PluginBehaviorsITILSolution {
          $loc = (isset($obj->fields['locations_id']) ? $obj->fields['locations_id'] : 0);
 
       if ($obj->getType() == 'Ticket') {
+         $mandatory_solution = false;
          if ($config->getField('is_ticketrealtime_mandatory')) {
-            if ($dur == 0) {
+            // for moreTicket plugin
+            $plugin = new Plugin();
+            if ($plugin->isActivated('moreticket')) {
+               $configmoreticket = new PluginMoreticketConfig();
+               $mandatory_solution = $configmoreticket->isMandatorysolution();
+            }
+
+            if (($dur == 0) && ($mandatory_solution == false)) {
                $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
             }
 
@@ -339,13 +349,14 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
-               echo "<div class='warning' style='display: flow-root;'>";
-               echo "<i class='fa fa-exclamation-triangle fa-5x'></i>";
+            if (is_array($warnings) && count($warnings)) {
+               echo "<div class='alert alert-important alert-warning d-flex'>";
+               echo "<i class='fa fa-exclamation-triangle fa-3x'></i>";
                echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
                echo "<div class='sep'></div>";
                echo "</div>";
             }
+            return $params;
          }
       }
    }
@@ -364,9 +375,10 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
-               $params['options']['canedit'] = false;
-               return $params;
+            if (is_array($warnings) && count($warnings)) {
+               echo Html::scriptBlock("$(document).ready(function(){
+                        $('.itilsolution').children().find(':submit').hide();
+                     });");
             }
          }
       }

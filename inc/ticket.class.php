@@ -367,8 +367,9 @@ class PluginBehaviorsTicket {
             }
       }
       if ($config->getField('ticketsolved_updatetech')
-          && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
-                                                            Ticket::getClosedStatusArray()))
+          && (isset($ticket->input['status'])
+              && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
+                                                                Ticket::getClosedStatusArray())))
           && isset($ticket->input['_users_id_assign'])
                    && (($ticket->input['_users_id_assign'] == 0)
                        || ($ticket->input['_users_id_assign'] != Session::getLoginUserID()))) {
@@ -494,7 +495,7 @@ class PluginBehaviorsTicket {
          }
          if ($config->getField('is_tickettech_mandatory')) {
             if (($ticket->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])
+                && !isset($ticket->input["_itil_assign"]['users_id'])
                 && !$config->getField('ticketsolved_updatetech')) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Technician assigned is mandatory before ticket is solved/closed",
@@ -503,7 +504,7 @@ class PluginBehaviorsTicket {
          }
          if ($config->getField('is_tickettechgroup_mandatory')) {
             if (($ticket->countGroups(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['groups_id'])) {
+                && !isset($ticket->input["_itil_assign"]['groups_id'])) {
                unset($ticket->input['status']);
                Session::addMessageAfterRedirect(__("Group of technicians assigned is mandatory before ticket is solved/closed",
                                                 'behaviors'), true, ERROR);
