@@ -243,8 +243,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $config->showFormHeader();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center' width='60%'>".__('New ticket')."</td>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Inventory', 'behaviors')."</td>";
+      echo "<th colspan='2' class='center' width='60%'>".__('New ticket')."</th>";
+      echo "<th colspan='2' class='center'>".__('Inventory', 'behaviors')."</th>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -288,9 +288,9 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group', $yesnoall,
                               ['value' => $config->fields['use_assign_user_group']]);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>"._n('Notification', 'Notifications', 2,
+      echo "</td><th colspan='2' class='center'>"._n('Notification', 'Notifications', 2,
             'behaviors');
-      echo "</td></tr>\n";
+      echo "</th></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__("Requester is mandatory", "behaviors")."</td><td>";
@@ -300,7 +300,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td colspan='2' class='tab_bg_2 b center'>".__('Update of a ticket')."</td>";
+      echo "<th colspan='2' class='center'>".__('Update of a ticket')."</th>";
       echo "</td><td class='tab_bg_2 b'>".__('Allow Clone', 'behaviors')."</td><td>";
 
       $tab = ['0' => __('No'),
@@ -313,8 +313,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__('Duration is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketrealtime_mandatory",
                           $config->fields['is_ticketrealtime_mandatory']);
-      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('Update of a problem');
-      echo "</td></tr>";
+      echo "</td><th colspan=2' class='center'>".__('Update of a problem');
+      echo "</th></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Category is mandatory before ticket is solved/closed', 'behaviors')."</td><td>";
@@ -340,8 +340,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__('Category is mandatory when you assign a ticket', 'behaviors')."</td><td>";
       Dropdown::showYesNo("is_ticketcategory_mandatory_on_assign",
                           $config->fields['is_ticketcategory_mandatory_on_assign']);
-      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('New change');
-      echo "</td></tr>";
+      echo "</td><th colspan=2' class='center'>".__('New change');
+      echo "</th></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Description of solution is mandatory before ticket is solved/closed',
@@ -363,8 +363,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "</td><td>";
       Dropdown::showYesNo("is_tickettech_mandatory",
                           $config->fields['is_tickettech_mandatory']);
-      echo "</td><td colspan=2' class='tab_bg_2 b center'>".__('Update of a change');
-      echo "</td></tr>";
+      echo "</td><th colspan=2' class='center'>".__('Update of a change');
+      echo "</th></tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Group of technicians assigned is mandatory before ticket is solved/closed',
@@ -381,8 +381,8 @@ class PluginBehaviorsConfig extends CommonDBTM {
       echo "<td>".__("Use the technician's group", "behaviors")."</td><td>";
       Dropdown::showFromArray('use_assign_user_group_update', $yesnoall,
                               ['value' => $config->fields['use_assign_user_group_update']]);
-      echo "</td><td colspan='2' class='tab_bg_2 b center'>".__('Comments');
-      echo "</td></tr>\n";
+      echo "</td><th colspan='2' class='center'>".__('Comments');
+      echo "</th></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Location is mandatory before ticket is solved/closed', 'behaviors');
