@@ -113,7 +113,7 @@ class PluginBehaviorsConfig extends CommonDBTM {
                      `is_tickettasktodo` tinyint NOT NULL default '0',
                      `is_problemtasktodo` tinyint NOT NULL default '0',
                      `is_changetasktodo` tinyint NOT NULL default '0',
-                     `date_mod` timestamp default NULL,
+                     `date_mod` timestamp NULL DEFAULT NULL,
                      `comment` text,
                      PRIMARY KEY  (`id`)
                    ) ENGINE=InnoDB  DEFAULT CHARSET = {$default_charset}
