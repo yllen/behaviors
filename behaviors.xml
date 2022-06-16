@@ -34,7 +34,8 @@
       <version>
           <num>2.7.0</num>
           <compatibility>10.0.0</compatibility>
-      </version>
+          <download_url>https://github.com/yllen/behaviors/releases/download/v2.7.0/glpi-behaviors-2.7.0.tar.gz</download_url>
+   </version>
       <version>
           <num>2.6.0</num>
           <compatibility>9.5.4</compatibility>
