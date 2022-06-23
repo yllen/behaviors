@@ -366,6 +366,27 @@ class PluginBehaviorsITILSolution {
                echo "</div>";
             }
             return $params;
+         } else if ($item->getType() == 'TicketTask') {
+
+            $config = PluginBehaviorsConfig::getInstance();
+            if ($config->getField('is_tickettaskcategory_mandatory')) {
+               echo "<div class='alert alert-warning'>";
+
+               echo "<div class='d-flex'>";
+
+               echo "<div class='me-2'>";
+               echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
+               echo "</div>";
+
+               echo "<div>";
+               echo "<h4 class='alert-title'>" . __("Task category is mandatory in a task",
+                                                    'behaviors') . "</h4>";
+               echo "</div>";
+
+               echo "</div>";
+
+               echo "</div>";
+            }
          }
       }
    }
