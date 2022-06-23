@@ -76,10 +76,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
       global $DB;
 
       $table = 'glpi_plugin_behaviors_configs';
+      $default_charset   = DBConnection::getDefaultCharset();
+      $default_collation = DBConnection::getDefaultCollation();
+      $default_key_sign  = DBConnection::getDefaultPrimaryKeySignOption();
       if (!$DB->tableExists($table)) { //not installed
-         $default_charset   = DBConnection::getDefaultCharset();
-         $default_collation = DBConnection::getDefaultCollation();
-         $default_key_sign  = DBConnection::getDefaultPrimaryKeySignOption();
 
          $query = "CREATE TABLE `". $table."`(
                      `id` int $default_key_sign NOT NULL,
