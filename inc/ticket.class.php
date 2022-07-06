@@ -584,6 +584,7 @@ class PluginBehaviorsTicket {
       }
 
       if ($config->getField('ticketsolved_updatetech')
+          && $ticket->canUpdate()
           && isset($ticket->input['status'])
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                             Ticket::getClosedStatusArray()))) {
@@ -654,7 +655,7 @@ class PluginBehaviorsTicket {
 
 
    static function afterUpdate(Ticket $ticket) {
-      toolbox::logdebug("aftyer update ticket", $ticket);
+
       $config = PluginBehaviorsConfig::getInstance();
 
       if ($config->getField('add_notif')
