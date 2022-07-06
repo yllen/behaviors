@@ -299,17 +299,24 @@ class PluginBehaviorsTicket {
           && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
 
          if ($config->getField('is_requester_mandatory')
-             && (!isset($ticket->input['_users_id_requester'])
-             || ((is_array($ticket->input['_users_id_requester'])
-                  && empty($ticket->input['_users_id_requester']))
-                 || (!is_array($ticket->input['_users_id_requester'])
-                     && !$ticket->input['_users_id_requester']))
-             && (!isset($ticket->input['_users_id_requester_notif']['alternative_email'])
-                 || empty($ticket->input['_users_id_requester_notif']['alternative_email'])))) {
-            Session::addMessageAfterRedirect(__('Requester is mandatory', 'behaviors'), true, ERROR);
-            $ticket->input = [];
-            return true;
+             && isset($ticket->input['_actors']) && count($ticket->input['_actors'])) {
 
+            $error = true;
+            $requesters = $ticket->input['_actors']['requester'];
+            if (count($requesters)) {
+               foreach ($requesters as $id => $requester) {
+                  if (($requester['itemtype'] == 'User')
+                      && (!empty($requester['items_id'])
+                          || !empty($requester['alternative_email']))) {
+                     $error = false;
+                  }
+               }
+            }
+            if ($error) {
+               Session::addMessageAfterRedirect(__('Requester is mandatory', 'behaviors'), true,
+                                                ERROR);
+               $ticket->input = [];
+            }
          }
       }
       if ($config->getField('use_requester_item_group')
