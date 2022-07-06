@@ -82,11 +82,12 @@ class PluginBehaviorsCommon extends CommonGLPI {
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
       $config = PluginBehaviorsConfig::getInstance();
+
       if (array_key_exists($item->getType(), self::$clone_types)
           && $item->canUpdate()
-          && $config->getField('clone')
-          && (isset($_SESSION['glpi_activeprofile']['interface'])
-              && ($_SESSION['glpi_activeprofile']['interface'] != 'helpedk'))) {
+          && ($config->getField('clone') > 0)
+          && (isset($_SESSION['glpiactiveprofile']['interface'])
+              && ($_SESSION['glpiactiveprofile']['interface'] != 'helpdesk'))) {
          return sprintf(__('%1$s (%2$s)'), __('Clone', 'behaviors'),
                         __('Behaviours', 'behaviors'));
       }
@@ -128,7 +129,7 @@ class PluginBehaviorsCommon extends CommonGLPI {
 
       echo "<tr class='tab_bg_1'><td class='center'>";
       echo Html::submit(__('Clone', 'behaviors'), ['name' => '_clone',
-                                   'class' => 'btn btn-primary']);
+                                                   'class' => 'btn btn-primary']);
       echo "</th></tr>";
 
       echo "</table></div>";
