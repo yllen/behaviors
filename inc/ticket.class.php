@@ -731,6 +731,7 @@ class PluginBehaviorsTicket {
 
             if ($config->getField('use_assign_user_group') > 0
                 && isset($_POST['_actors'])) {
+               $actors = json_decode($_POST['_actors'], true);
                if (isset($actors['assign'])) {
                   $assigneds = $actors['assign'];
                   // Select first group of this user
