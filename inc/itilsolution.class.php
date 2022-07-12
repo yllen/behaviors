@@ -346,24 +346,31 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
+            $config = PluginBehaviorsConfig::getInstance();
+
+            echo "<div class='alert alert-warning'>";
+
+            echo "<div class='d-flex'>";
+
+            echo "<div class='me-2'>";
+            echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
+            echo "</div>";
+
+            echo "<div>";
+
             if (is_array($warnings) && count($warnings)) {
-               echo "<div class='alert alert-warning'>";
-
-               echo "<div class='d-flex'>";
-
-               echo "<div class='me-2'>";
-               echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
-               echo "</div>";
-
-               echo "<div>";
                echo "<h4 class='alert-title'>" . __('You cannot resolve the ticket', 'behaviors') . "</h4>";
                echo "<div class='text-muted'>" . implode('</div><div>', $warnings) . "</div>";
-               echo "</div>";
-
-               echo "</div>";
-
-               echo "</div>";
             }
+
+            if ($config->getField('is_ticketsolutiontype_mandatory')) {
+               echo "<h4 class='alert-title'>" . __('Type of solution is mandatory', 'behaviors') . "</h4>";
+               }
+            echo "</div>";
+
+            echo "</div>";
+
+            echo "</div>";
             return $params;
          }
       }
