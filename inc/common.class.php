@@ -211,4 +211,192 @@ toolbox::logdebug("param", $param);
                       Log::HISTORY_LOG_SIMPLE_MESSAGE);
       }
    }
+   
+   /**
+    * show warning message
+    *
+    * @param $params
+    *
+    * @return string
+    **/
+   static function checkWarnings($params) {
+      global $DB;
+
+      $warnings = [];
+      $obj = $params['options']['item'];
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+         // Check is the connected user is a tech
+         if (!is_numeric(Session::getLoginUserID(false))
+            || (!Session::haveRight('ticket', UPDATE)
+                && !Session::haveRight('problem', UPDATE)
+                && !Session::haveRight('change', UPDATE))) {
+            return false; // No check
+         }
+
+         // Want to solve/close the ticket
+         $dur = (isset($obj->fields['actiontime']) ? $obj->fields['actiontime'] : 0);
+         $cat = (isset($obj->fields['itilcategories_id']) ? $obj->fields['itilcategories_id'] : 0);
+         $loc = (isset($obj->fields['locations_id']) ? $obj->fields['locations_id'] : 0);
+
+      if ($obj->getType() == 'Ticket') {
+         $mandatory_solution = false;
+         if ($config->getField('is_ticketrealtime_mandatory')) {
+            // for moreTicket plugin
+            $plugin = new Plugin();
+            if ($plugin->isActivated('moreticket')) {
+               $configmoreticket = new PluginMoreticketConfig();
+               $mandatory_solution = $configmoreticket->isMandatorysolution();
+            }
+
+            if (($dur == 0) && ($mandatory_solution == false)) {
+               $warnings[] = __("Duration is mandatory before ticket is solved/closed", 'behaviors');
+            }
+
+         }
+         if ($config->getField('is_ticketcategory_mandatory')) {
+            if ($cat == 0) {
+               $warnings[] = __("Category is mandatory before ticket is solved/closed", 'behaviors');
+            }
+         }
+
+         if ($config->getField('is_tickettech_mandatory')) {
+            if (($obj->countUsers(CommonITILActor::ASSIGN) == 0)
+                && !$config->getField('ticketsolved_updatetech')) {
+
+               $warnings[] = __("Technician assigned is mandatory before ticket is solved/closed",
+                                'behaviors');
+            }
+         }
+
+         if ($config->getField('is_tickettechgroup_mandatory')) {
+            if (($obj->countGroups(CommonITILActor::ASSIGN) == 0)) {
+
+               $warnings[] = __("Group of technicians assigned is mandatory before ticket is solved/closed",
+                                'behaviors');
+            }
+         }
+
+         if ($config->getField('is_ticketlocation_mandatory')) {
+            if ($loc == 0) {
+               $warnings[] = __("Location is mandatory before ticket is solved/closed", 'behaviors');
+            }
+         }
+
+         if ($config->getField('is_tickettasktodo')) {
+            foreach ($DB->request('glpi_tickettasks',
+                                 ['tickets_id' => $obj->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $warnings[] = __("You cannot solve/close a ticket with task do to", 'behaviors');
+                  break;
+               }
+            }
+         }
+      }
+
+      if ($obj->getType() == 'Problem') {
+         if ($config->getField('is_problemtasktodo')) {
+            foreach ($DB->request('glpi_problemtasks',
+                                 ['problems_id' => $obj->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $warnings[] = __("You cannot solve/close a problem with task do to", 'behaviors');
+                  break;
+               }
+            }
+         }
+      }
+
+      if ($obj->getType() == 'Change') {
+         if ($config->getField('is_changetasktodo')) {
+            foreach ($DB->request('glpi_changetasks',
+                                 ['changes_id' => $obj->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  $warnings[] = __("You cannot solve/close a change with task do to", 'behaviors');
+                  break;
+               }
+            }
+         }
+      }
+      return $warnings;
+   }
+
+
+   /**
+    * Displaying message solution
+    *
+    * @param $params
+   **/
+   static function messageWarningTicket($params) {
+
+      if (isset($params['item'])) {
+         $item = $params['item'];
+         if ($item->getType() == 'ITILSolution') {
+            $warnings = self::checkWarnings($params);
+            if (is_array($warnings) && count($warnings)) {
+               echo "<div class='alert alert-warning'>";
+
+               echo "<div class='d-flex'>";
+
+               echo "<div class='me-2'>";
+               echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
+               echo "</div>";
+
+               echo "<div>";
+               echo "<h4 class='alert-title'>" . __('You cannot resolve the ticket', 'behaviors') . "</h4>";
+               echo "<div class='text-muted'>" . implode('</div><div>', $warnings) . "</div>";
+               echo "</div>";
+
+               echo "</div>";
+
+               echo "</div>";
+            }
+            return $params;
+         } else if ($item->getType() == 'TicketTask') {
+
+            $config = PluginBehaviorsConfig::getInstance();
+            if ($config->getField('is_tickettaskcategory_mandatory')) {
+               echo "<div class='alert alert-warning'>";
+
+               echo "<div class='d-flex'>";
+
+               echo "<div class='me-2'>";
+               echo "<i class='fa fa-exclamation-triangle fa-2x'></i>";
+               echo "</div>";
+
+               echo "<div>";
+               echo "<h4 class='alert-title'>" . __("Task category is mandatory in a task",
+                                                    'behaviors') . "</h4>";
+               echo "</div>";
+
+               echo "</div>";
+
+               echo "</div>";
+            }
+         }
+      }
+   }
+
+
+   /**
+    * Displaying Add solution button or not
+    *
+    * @param $params
+    *
+    * @return array
+   **/
+   static function deleteAddSolutionButton($params) {
+
+      if (isset($params['item'])) {
+         $item = $params['item'];
+         if ($item->getType() == 'ITILSolution') {
+            $warnings = self::checkWarnings($params);
+            if (is_array($warnings) && count($warnings)) {
+               echo Html::scriptBlock("$(document).ready(function(){
+                        $('.itilsolution').children().find(':submit').hide();
+                     });");
+            }
+         }
+      }
+   }
 }
