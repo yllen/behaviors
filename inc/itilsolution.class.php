@@ -365,7 +365,8 @@ class PluginBehaviorsITILSolution {
 
             if ($config->getField('is_ticketsolutiontype_mandatory')) {
                echo "<h4 class='alert-title'>" . __('Type of solution is mandatory', 'behaviors') . "</h4>";
-               }
+            unset($warnings);
+            }
             echo "</div>";
 
             echo "</div>";
