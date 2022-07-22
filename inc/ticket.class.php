@@ -945,6 +945,4 @@ class PluginBehaviorsTicket {
         $target->addToRecipientsList($data);
       }
    }
-
-
 }
