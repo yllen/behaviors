@@ -148,7 +148,7 @@ class PluginBehaviorsCommon extends CommonGLPI {
 
 
    static function cloneItem(Array $param) {
-toolbox::logdebug("param", $param);
+
       $dbu = new DbUtils();
       // Sanity check
       if (!isset($param['itemtype']) || !isset($param['id']) || !isset($param['name'])
@@ -327,7 +327,7 @@ toolbox::logdebug("param", $param);
     *
     * @param $params
    **/
-   static function messageWarningTicket($params) {
+   static function messageWarning($params) {
 
       if (isset($params['item'])) {
          $item = $params['item'];
