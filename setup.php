@@ -104,7 +104,7 @@ function plugin_version_behaviors() {
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://forge.glpi-project.org/projects/behaviors',
-           'minGlpiVersion' => '10.0.0',
+           'minGlpiVersion' => '10.0.2',
            'requirements'   => ['glpi' => ['min' => '10.0.0',
                                            'max' => '10.1.0']]];
 }
