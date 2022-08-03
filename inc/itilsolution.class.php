@@ -124,8 +124,8 @@ class PluginBehaviorsITILSolution {
           && ($soluce->input['itemtype'] == 'Problem')) {
 
          if ($config->getField('is_problemsolutiontype_mandatory')
-             && ($soluce->input['solutiontypes_id']
-                 && ($soluce->input['solutiontypes_id'] == 0))) {
+             && (empty($soluce->input['solutiontypes_id'])
+                 || ($soluce->input['solutiontypes_id'] == 0))) {
             $soluce->input = false;
             Session::addMessageAfterRedirect(__("Type of solution is mandatory before problem is solved/closed",
                                                 'behaviors'), true, ERROR);
