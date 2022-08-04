@@ -61,4 +61,41 @@ class PluginBehaviorsChange {
       }
    }
 
+   static function beforeUpdate(Change $change) {
+      global $DB;
+
+      if (!is_array($change->input) || !count($change->input)) {
+         // Already cancel by another plugin
+         return false;
+      }
+
+      $config = PluginBehaviorsConfig::getInstance();
+
+      // Check is the connected user is a tech
+      if (!is_numeric(Session::getLoginUserID(false))
+          || !Session::haveRight('change', UPDATE)) {
+         return false; // No check
+      }
+
+      if (isset($change->input['status'])
+          && in_array($change->input['status'], array_merge(Change::getSolvedStatusArray(),
+                                                             Change::getclosedStatusArray()))) {
+
+         $soluce = $DB->request('glpi_itilsolutions',
+                                ['itemtype'   => 'Change',
+                                 'items_id'   => $change->input['id']]);
+
+         if ($config->getField('is_changetasktodo')) {
+            foreach($DB->request('glpi_changetasks',
+                                 ['changes_id' => $change->getField('id')]) as $task) {
+               if ($task['state'] == 1) {
+                  Session::addMessageAfterRedirect(__("You cannot solve/close a change with task do to",
+                                                   'behaviors'), true, ERROR);
+                  unset($change->input['status']);
+               }
+            }
+         }
+      }
+   }
+ 
 }
