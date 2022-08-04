@@ -61,6 +61,7 @@ function plugin_init_behaviors() {
    $PLUGIN_HOOKS['pre_item_update']['behaviors'] =
       ['Problem'            => ['PluginBehaviorsProblem',           'beforeUpdate'],
        'Ticket'             => ['PluginBehaviorsTicket',            'beforeUpdate'],
+       'Change'             => ['PluginBehaviorsChange',            'beforeUpdate'],
        'ITILSolution'       => ['PluginBehaviorsITILSolution',      'beforeUpdate'],
        'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeUpdate']];
 
