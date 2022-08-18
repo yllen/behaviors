@@ -527,6 +527,10 @@ class PluginBehaviorsConfig extends CommonDBTM {
       $condition = "";
       list($itemtype, $condition) = $item;
 
+      if (isCommandLine()) {
+         return [$itemtype, $condition];
+      }
+
       $dbu = new DbUtils();
 
       $config = PluginBehaviorsConfig::getInstance();
