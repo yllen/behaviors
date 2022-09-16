@@ -63,7 +63,9 @@ function plugin_init_behaviors() {
        'Ticket'             => ['PluginBehaviorsTicket',            'beforeUpdate'],
        'Change'             => ['PluginBehaviorsChange',            'beforeUpdate'],
        'ITILSolution'       => ['PluginBehaviorsITILSolution',      'beforeUpdate'],
-       'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeUpdate']];
+       'TicketTask'         => ['PluginBehaviorsTickettask',        'beforeUpdate'],
+       'ChangeTask'         => ['PluginBehaviorsChangetask',        'beforeUpdate'],
+       'ProblemTask'        => ['PluginBehaviorsProblemtask',       'beforeUpdate']];
 
    $PLUGIN_HOOKS['pre_item_purge']['behaviors'] =
       ['Computer'           => ['PluginBehaviorsComputer',          'beforePurge']];

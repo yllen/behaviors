@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id:  yllen $
  -------------------------------------------------------------------------
 
  LICENSE
@@ -79,7 +78,7 @@ class PluginBehaviorsChange {
 
       if (isset($change->input['status'])
           && in_array($change->input['status'], array_merge(Change::getSolvedStatusArray(),
-                                                             Change::getclosedStatusArray()))) {
+                                                            Change::getclosedStatusArray()))) {
 
          $soluce = $DB->request('glpi_itilsolutions',
                                 ['itemtype'   => 'Change',
