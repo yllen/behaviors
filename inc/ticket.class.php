@@ -294,8 +294,7 @@ class PluginBehaviorsTicket {
          }
       }
 
-      if (!isset($ticket->input['_auto_import'])
-          && isset($_SESSION['glpiactiveprofile']['interface'])
+      if (isset($_SESSION['glpiactiveprofile']['interface'])
           && ($_SESSION['glpiactiveprofile']['interface'] == 'central')) {
 
          if ($config->getField('is_requester_mandatory')
