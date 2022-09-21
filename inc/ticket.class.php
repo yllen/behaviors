@@ -360,15 +360,6 @@ class PluginBehaviorsTicket {
          }
       }
 
-      // No Auto set Import for external source -> Duplicate from Ticket->prepareInputForAdd()
-      if (!isset($ticket->input['_auto_import'])) {
-         if (!isset($ticket->input['_users_id_requester'])) {
-            if ($uid = Session::getLoginUserID()) {
-               $ticket->input['_users_id_requester'] = $uid;
-            }
-         }
-      }
-
       if ($config->getField('use_requester_user_group') > 0
           && isset($ticket->input['_actors'])) {
          $actors = $ticket->input['_actors'];
