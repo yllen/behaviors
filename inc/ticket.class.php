@@ -138,7 +138,7 @@ class PluginBehaviorsTicket {
       $result = $DB->request($last);
 
       $querylast = '';
-       if ($data = $result->next()) {
+       if ($data = $result->current()) {
          $object = new $target->obj->userlinkclass();
          if ($object->getFromDB($data['lastid'])) {
             $querylast = " AND `$userlinktable`.`users_id` = '".$object->fields['users_id']."'";
@@ -219,7 +219,7 @@ class PluginBehaviorsTicket {
                 'WHERE'  => [$grouplinktable.'.'.$fkfield => $target->obj->fields["id"],
                              $grouplinktable.'.type'      => $type]];
 
-      if ($data = $result->next()) {
+      if ($data = $result->current()) {
          $object    = new $target->obj->grouplinkclass();
          if ($object->getFromDB($data['lastid'])) {
             $query['WHERE']['groups_id'] = $object->fields['groups_id'];
@@ -247,7 +247,7 @@ class PluginBehaviorsTicket {
                   'WHERE'  => [$supplierlinktable.'.'.$fkfield => $target->obj->fields["id"]]];
 
          $result = $DB->request($last);
-         $data = $result->next();
+         $data = $result->current();
 
          $query = ['SELECT'    => 'glpi_suppliers.email AS email',
                    'DISTINCT'  => true,
