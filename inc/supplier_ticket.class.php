@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id: supplier_ticket.class.php  yllen $
  -------------------------------------------------------------------------
 
  LICENSE

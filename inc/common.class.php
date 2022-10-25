@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id$
  -------------------------------------------------------------------------
 
  LICENSE
@@ -212,7 +211,7 @@ class PluginBehaviorsCommon extends CommonGLPI {
                       Log::HISTORY_LOG_SIMPLE_MESSAGE);
       }
    }
-   
+
    /**
     * show warning message
     *
