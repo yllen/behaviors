@@ -359,8 +359,8 @@ class PluginBehaviorsTicket {
       }
 
       if ($config->getField('use_requester_user_group') > 0
-          && isset($ticket->input['_actors'])) {
-         $actors = $ticket->input['_actors'];
+          && (isset($ticket->input['_actors']) || isset($ticket->input['_users_id_requester']))) {
+         $actors = ($ticket->input['_actors'] ?? []);
 
          //for simplified interface
          if (!isset($actors['requester']) && isset($ticket->input['_users_id_requester'])) {
