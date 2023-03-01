@@ -503,17 +503,26 @@ class PluginBehaviorsTicket {
           && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
                                                             Ticket::getClosedStatusArray()))) {
 
-         if ($config->getField('is_ticketsolutiontype_mandatory')
-             && !isset($ticket->input['solutiontypes_id'])) {
-            unset($ticket->input['status']);
-            Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
-                                                'behaviors'), true, ERROR);
-         }
-         if ($config->getField('is_ticketsolution_mandatory')
-             && !isset($ticket->input['solutioncontent'])) {
-            unset($ticket->input['status']);
-            Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
-                                                'behaviors'), true, ERROR);
+         $sql = ['SELECT' => ['MAX' => 'id AS max',
+                              'solutiontypes_id', 'content'],
+                 'FROM'   => 'glpi_itilsolutions',
+                 'WHERE'  => ['items_id' => $ticket->getID(),
+                              'itemtype' => 'Ticket']];
+         
+         foreach ($DB->request($sql) as $data) {
+             
+            if ($config->getField('is_ticketsolutiontype_mandatory')
+                && ($data['solutiontypes_id'] == 0)) {
+               unset($ticket->input['status']);
+               Session::addMessageAfterRedirect(__("Type of solution is mandatory before ticket is solved/closed",
+                                                   'behaviors'), true, ERROR);
+            }
+            if ($config->getField('is_ticketsolution_mandatory')
+                && empty($data['content'])) {
+               unset($ticket->input['status']);
+               Session::addMessageAfterRedirect(__("Description of solution is mandatory before ticket is solved/closed",
+                                                   'behaviors'), true, ERROR);
+            }
          }
 
          $dur     = (isset($ticket->input['actiontime'])
