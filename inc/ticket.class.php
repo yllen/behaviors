@@ -358,11 +358,13 @@ class PluginBehaviorsTicket {
          }
       }
 
-      if ($config->getField('use_requester_user_group') > 0
-          && (isset($ticket->input['_actors']) || isset($ticket->input['_users_id_requester']))) {
-         $actors = ($ticket->input['_actors'] ?? []);
-
-         //for simplified interface
+      if ($config->getField('use_requester_user_group') > 0) {
+          
+         if (isset($ticket->input['_actors'])) {
+              $actors = ($ticket->input['_actors'] ?? []);
+         }
+         
+         //for simplified interface or mailgate
          if (!isset($actors['requester']) && isset($ticket->input['_users_id_requester'])) {
             $actors['requester'][] = ['itemtype'          => 'User',
                                       'items_id'          => $ticket->input['_users_id_requester'],
