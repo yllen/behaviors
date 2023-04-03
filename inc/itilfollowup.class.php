@@ -39,11 +39,41 @@ class PluginBehaviorsITILFollowup {
       $config = PluginBehaviorsConfig::getInstance();
       if ($ticket->getFromDB($fup->input['items_id'])
          && $fup->input['itemtype'] == 'Ticket') {
+         
+         // mailgate situation
+         if (isset($fup->input['_mailgate']) && $fup->input['_mailgate']) {
+            
+            $ticket_user = new Ticket_User();
+            $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                           'type'       => CommonITILActor::ASSIGN]);
 
-         if ($config->getField('addfup_updatetech')
+            if ($ticket_user->fields['users_id'] <> $fup->input['users_id']) {
+               $group_ticket      = new Group_Ticket();
+               $group_ticket->getFromDBByCrit(['tickets_id' => $ticket->getID(),
+                                               'type'       => CommonITILActor::ASSIGN]);
+
+               $usergroup = Group_User::getGroupUsers($group_ticket->fields['groups_id']);
+               $users = [];
+               foreach ($usergroup as $user) {
+                  $users[$user['id']] = $user['id'];
+               }
+
+               if (!in_array( $fup->input['users_id'], $users)) {
+                  $ticket_user = new Ticket_User();
+                  $ticket_user->add(['tickets_id' => $ticket->getID(),
+                                     'users_id'   => $fup->input['users_id'],
+                                     'type'       => CommonITILActor::ASSIGN]);
+               }
+            }
+         }
+
+         // regular situation
+         else if ($config->getField('addfup_updatetech')
              && Session::haveRight('ticket', UPDATE)) {
+            echo "regular situation<br>";
+            echo implode(", ", $fup);
 
-            $ticket_user      = new Ticket_User();
+            $ticket_user = new Ticket_User();
             $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                            'type'       => CommonITILActor::ASSIGN]);
 
@@ -68,7 +98,5 @@ class PluginBehaviorsITILFollowup {
          }
       }
    }
-
-
 
 }
