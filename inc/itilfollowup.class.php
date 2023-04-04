@@ -41,7 +41,7 @@ class PluginBehaviorsITILFollowup {
          && $fup->input['itemtype'] == 'Ticket') {
          
          // mailgate situation
-         if ($config->getField('addfup_updatetech' 
+         if ($config->getField('addfup_updatetech')
              && isset($fup->input['_mailgate']) && $fup->input['_mailgate']) {
             
             $ticket_user = new Ticket_User();
@@ -52,7 +52,7 @@ class PluginBehaviorsITILFollowup {
             $ticket_requester->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                            'type'       => CommonITILActor::REQUESTER]);
 
-            # only run if user id is set AND no user has been assigned yet
+            # only run if user id is set AND no user has been assigned yet && user is not the requester
             if (isset($fup->input['users_id']) 
                 && !isset($ticket_user->fields['users_id'])
                 && $ticket_requester->fields['users_id'] <> $fup->input['users_id']) {
