@@ -419,6 +419,61 @@ class PluginBehaviorsTicket {
          }
          $ticket->input['_actors'] = $actors;
       }
+      
+      if ($config->getField('use_assign_user_group') > 0) {
+          
+          if (isset($ticket->input['_actors'])) {
+              $actors = ($ticket->input['_actors'] ?? []);
+          }
+          
+          if (isset($actors['assign'])) {
+              $assigns = $actors['assign'];
+              // Select first group of this user
+              $ko   = 0;
+              $grp  = 0;
+              $grps = [];
+              foreach ($assigns as $assign) {
+                  if ($config->getField('use_assign_user_group') == 1) {
+                      // First group
+                      if ($assign['itemtype'] == 'User') {
+                          $grp = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
+                                                                         $assign['items_id'],
+                                                                         true);
+                      }
+                      if ($grp > 0 && $assign['itemtype'] == 'Group'
+                          && $assign['items_id'] == $grp) {
+                              $ko++;
+                          }
+                          if ($grp > 0 && $ko == 0) {
+                              $actors['assign'][] = ['itemtype'          => 'Group',
+                                                     'items_id'          => $grp,
+                                                     'use_notification'  => "1",
+                                                     'alternative_email' => ""];
+                          }
+                  } else {
+                      // All groups
+                      if ($assign['itemtype'] == 'User') {
+                          $grps = PluginBehaviorsUser::getTechnicianGroup($ticket->input['entities_id'],
+                                                                          $assign['items_id'],
+                                                                          false);
+                      }
+                      if ($assign['itemtype'] == 'Group'
+                          && in_array($assign['items_id'], $grps)) {
+                              unset($grps[$assign['items_id']]);
+                          }
+                          if (count($grps) > 0) {
+                              foreach ($grps as $grp) {
+                                  $actors['assign'][] = ['itemtype'          => 'Group',
+                                                         'items_id'          => $grp,
+                                                         'use_notification'  => "1",
+                                                         'alternative_email' => ""];
+                              }
+                          }
+                  }
+              }
+          }
+          $ticket->input['_actors'] = $actors;
+      }
       if ($config->getField('ticketsolved_updatetech')
           && (isset($ticket->input['status'])
               && in_array($ticket->input['status'], array_merge(Ticket::getSolvedStatusArray(),
