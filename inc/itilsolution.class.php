@@ -267,7 +267,7 @@ class PluginBehaviorsITILSolution {
 
          if ($config->getField('is_tickettech_mandatory')) {
             if (($obj->countUsers(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['users_id'])
+                && !isset($ticket->input["_itil_assign"]['users_id'])
                 && !$config->getField('ticketsolved_updatetech')) {
 
                $warnings[] = __("Technician assigned is mandatory before ticket is solved/closed",
@@ -277,7 +277,7 @@ class PluginBehaviorsITILSolution {
 
          if ($config->getField('is_tickettechgroup_mandatory')) {
             if (($obj->countGroups(CommonITILActor::ASSIGN) == 0)
-                && !isset($input["_itil_assign"]['groups_id'])) {
+                && !isset($ticket->input["_itil_assign"]['groups_id'])) {
 
                $warnings[] = __("Group of technicians assigned is mandatory before ticket is solved/closed",
                                 'behaviors');
@@ -339,7 +339,7 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
+            if (is_array($warnings) && count($warnings)) {
                echo "<div class='warning' style='display: flow-root;'>";
                echo "<i class='fa fa-exclamation-triangle fa-5x'></i>";
                echo "<ul><li>" . implode('</li><li>', $warnings) . "</li></ul>";
@@ -364,7 +364,7 @@ class PluginBehaviorsITILSolution {
          $item = $params['item'];
          if ($item->getType() == 'ITILSolution') {
             $warnings = self::checkWarnings($params);
-            if (count($warnings)) {
+            if (is_array($warnings) && count($warnings)) {
                $params['options']['canedit'] = false;
                return $params;
             }
