@@ -21,7 +21,7 @@
 
  @package   behaviors
  @author    Remi Collet, Nelly Mahu-Lasson
- @copyright Copyright (c) 2010-2022 Behaviors plugin team
+ @copyright Copyright (c) 2010-2023 Behaviors plugin team
  @license   AGPL License 3.0 or (at your option) any later version
             http://www.gnu.org/licenses/agpl-3.0-standalone.html
  @link      https://forge.glpi-project.org/projects/behaviors
@@ -103,15 +103,14 @@ function plugin_init_behaviors() {
 function plugin_version_behaviors() {
 
    return ['name'           => __('Behaviours', 'behaviors'),
-           'version'        => '2.7.2',
+           'version'        => '2.7.3',
            'license'        => 'AGPLv3+',
            'author'         => 'Remi Collet, Nelly Mahu-Lasson',
            'homepage'       => 'https://github.com/yllen/behaviors',
-           'minGlpiVersion' => '10.0.2',
-           'requirements'   => ['glpi' => ['min' => '10.0.0',
+           'minGlpiVersion' => '10.0.5',
+           'requirements'   => ['glpi' => ['min' => '10.0.5',
                                            'max' => '10.1.0']]];
 }
-
 
 // Check configuration process for plugin : need to return true if succeeded
 // Can display a message only if failure and $verbose is true
