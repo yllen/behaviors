@@ -32,6 +32,12 @@
    </authors>
    <versions>
        <version>
+          <num>2.7.3</num>
+          <compatibility>~10.0.5</compatibility>
+          <download_url>https://github.com/yllen/behaviors/releases/download/v2.7.3/glpi-behaviors-2.7.3.tar.gz</download_url>
+   </version>
+   <versions>
+       <version>
           <num>2.7.2</num>
           <compatibility>~10.0.3</compatibility>
           <download_url>https://github.com/yllen/behaviors/releases/download/v2.7.2/glpi-behaviors-2.7.2.tar.gz</download_url>
