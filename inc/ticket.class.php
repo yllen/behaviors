@@ -721,7 +721,7 @@ class PluginBehaviorsTicket {
 
          if (strstr($_SERVER['PHP_SELF'], "/front/ticket.form.php")
              && isset($_POST['id'])
-             && ($_POST['id'] == 0)) {
+             && (!isset($_POST['id']) || ($_POST['id'] == 0))) {
 
             $config = PluginBehaviorsConfig::getInstance();
 
