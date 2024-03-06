@@ -47,7 +47,8 @@ class PluginBehaviorsITILFollowup {
             $ticket_user->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                            'type'       => CommonITILActor::ASSIGN]);
 
-            if ($ticket_user->fields['users_id'] <> Session::getLoginUserID()) {
+            if (isset($ticket_user->fields['users_id'])
+                && ($ticket_user->fields['users_id'] <> Session::getLoginUserID())) {
                $group_ticket      = new Group_Ticket();
                $group_ticket->getFromDBByCrit(['tickets_id' => $ticket->getID(),
                                                'type'       => CommonITILActor::ASSIGN]);
